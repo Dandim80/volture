@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Volture luce e gas | Supporto agenzie immobiliari</title>
+<style>
+:root{--navy:#102a43;--blue:#1479c9;--light:#f4f8fc;--line:#d8e2ec;--ok:#087f5b;--danger:#b42318}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#102a43;background:var(--light)}header{background:var(--navy);color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;letter-spacing:.3px}.tag{font-size:.85rem;color:#c8e2fa}main{max-width:1080px;margin:10px auto;padding:0 10px}.hero{background:linear-gradient(135deg,#102a43,#164e7a);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px}.hero h1{margin:0 0 4px;font-size:clamp(1.24rem,2.6vw,1.7rem)}.hero p{margin:0;line-height:1.28;color:#e6f2ff;font-size:.88rem;max-width:none}.card{background:#fff;border-radius:12px;padding:12px 12px 14px;box-shadow:0 2px 10px #102a430d}h2{font-size:.95rem;margin:12px 0 7px;border-bottom:1px solid var(--line);padding-bottom:5px}h2:first-child{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}.full{grid-column:1/-1}label{font-weight:650;font-size:.84rem;display:block;margin-bottom:3px}label span.req{color:var(--danger)}input,select,textarea{width:100%;border:1px solid #aebdca;border-radius:7px;padding:7px 8px;font:inherit;color:inherit;background:#fff}input:focus,select:focus,textarea:focus{outline:3px solid #b8dcf7;border-color:var(--blue)}textarea{min-height:54px;resize:vertical}.hint{font-size:.73rem;color:#52687b;line-height:1.2;margin:2px 0 0}
+.service{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fbfdff;margin-bottom:8px}
+.service.disabled{opacity:.55}
+.service-head{display:flex;gap:7px;align-items:center;font-weight:750;font-size:.93rem;margin-bottom:6px}
+.service-head input{width:auto}
+.opblock{display:none;margin-top:10px}
+.opblock.active{display:block}
+.radiorow{display:grid;gap:5px;margin-bottom:6px}
+.radiocard{border:1px solid var(--line);border-radius:8px;padding:7px 8px;display:flex;gap:7px;align-items:flex-start;background:#fff;cursor:pointer}
+.radiocard input{width:auto;margin-top:3px}
+.radiocard .rtitle{font-weight:650;font-size:.84rem}
+.radiocard .rdesc{font-size:.71rem;color:#52687b;margin-top:1px;line-height:1.15}
+.radiocard:has(input:checked){border-color:var(--blue);background:#f0f8ff}
+.subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:6px}
+.filebox{border:1px dashed #6e9cc4;background:#f6fbff;border-radius:8px;padding:8px 9px}
+.filebox input{border:0;padding:5px 0;background:transparent}
+.choice{border:1px solid var(--line);border-radius:8px;padding:8px 9px;background:#fbfdff}
+.notice{background:#fff7e6;border-left:4px solid #f4a700;padding:8px 9px;border-radius:4px;font-size:.76rem;line-height:1.22;margin:8px 0}
+.privacy{background:#f4f8fc;border-radius:8px;padding:8px 9px;font-size:.75rem;line-height:1.22}
+.privacy a{color:#075fa8}
+button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:10px 14px;font:700 .92rem inherit;cursor:pointer;margin-top:10px;width:100%}
+button:hover{background:#0c659f}
+button:disabled{opacity:.65;cursor:wait}
+#status{display:none;margin-top:16px;padding:12px;border-radius:8px;font-weight:600}
+.success{display:block!important;background:#e6f7f0;color:#065f46}
+.error{display:block!important;background:#fff0ee;color:#9b1c14}
+@media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px}.brand{font-size:.92rem;line-height:1.15}.brand span{display:block;font-size:.76rem;margin-top:2px}.tag{display:none}}
+</style>
+</head>
+<body><header><div class="brand">DDM Soluzioni <span style="font-weight:600;font-size:.92rem;opacity:.92">· 334.6395727</span></div><div class="tag">Servizio volture e subentri per agenzie immobiliari</div></header>
+<main><section class="hero"><h1>Volture e Subentri facili</h1><p>Inserisci la richiesta del cliente: riceveremo subito dati e allegati necessari per avviare la pratica.</p></section>
+<section class="card"><form id="volturaForm" novalidate>
+
+<h2>Referente agenzia</h2>
+<div class="grid">
+<div><label>Nome agenzia <span class="req">*</span></label><input name="agenzia" required autocomplete="organization"></div>
+<div><label>Referente</label><input name="referente" autocomplete="name"><p class="hint">Facoltativo.</p></div>
+<div><label>Email agenzia <span class="req">*</span></label><input type="email" name="emailAgenzia" required autocomplete="email"></div>
+<div><label>Telefono</label><input type="tel" name="telefonoAgenzia" autocomplete="tel"><p class="hint">Facoltativo.</p></div>
+</div>
+
+<h2>Cliente e immobile</h2>
+<div class="grid">
+<div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" required autocomplete="name"></div>
+<div><label>Codice fiscale <span class="req">*</span></label><input name="codiceFiscale" required maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
+<div><label>Telefono cliente <span class="req">*</span></label><input type="tel" name="telefonoCliente" required></div>
+<div><label>Email cliente <span class="req">*</span></label><input type="email" name="emailCliente" required></div>
+<div class="full"><label>Indirizzo fornitura <span class="req">*</span></label><input name="indirizzo" required placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia"></div>
+<div><label>Data rogito / ingresso</label><input type="date" name="dataIngresso"></div>
+</div>
+
+<h2>Forniture richieste</h2>
+<p class="hint" style="margin:0 0 14px">Puoi scegliere una sola fornitura oppure entrambe. Se luce e gas hanno situazioni diverse, seleziona l'operazione corretta per ciascuna.</p>
+
+<div class="service" id="serviceLuce">
+<div class="service-head"><input type="checkbox" id="luce" name="servizi" value="Luce"><label style="margin:0" for="luce">Luce</label></div>
+<div class="opblock" id="opLuce">
+<div class="radiorow" role="radiogroup" aria-label="Tipo operazione luce">
+<label class="radiocard"><input type="radio" name="tipoLuce" value="Subentro"><span><span class="rtitle">Riattivazione contatore già disattivato in precedenza (subentro)</span><span class="rdesc">Il contatore risulta chiuso: serve una nuova attivazione della fornitura.</span></span></label>
+<label class="radiocard"><input type="radio" name="tipoLuce" value="Voltura"><span><span class="rtitle">Voltura (contatore attualmente ancora attivo)</span><span class="rdesc">La fornitura è ancora accesa: si cambia solo l'intestatario.</span></span></label>
+</div>
+<div class="subgrid">
+<div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
+<div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">PDF, JPG o PNG; max 4 MB.</p></div></div>
+</div></div></div>
+
+<div class="service" id="serviceGas">
+<div class="service-head"><input type="checkbox" id="gas" name="servizi" value="Gas"><label style="margin:0" for="gas">Gas</label></div>
+<div class="opblock" id="opGas">
+<div class="radiorow" role="radiogroup" aria-label="Tipo operazione gas">
+<label class="radiocard"><input type="radio" name="tipoGas" value="Subentro"><span><span class="rtitle">Riattivazione contatore già disattivato in precedenza (subentro)</span><span class="rdesc">Il contatore risulta chiuso: serve una nuova attivazione della fornitura.</span></span></label>
+<label class="radiocard"><input type="radio" name="tipoGas" value="Voltura"><span><span class="rtitle">Voltura (contatore attualmente ancora attivo)</span><span class="rdesc">La fornitura è ancora accesa: si cambia solo l'intestatario.</span></span></label>
+</div>
+<div class="subgrid">
+<div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
+<div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">PDF, JPG o PNG; max 4 MB.</p></div></div>
+</div></div></div>
+
+<h2>Documenti</h2>
+<div class="grid">
+<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
+
+<div class="full"><label>Note</label><textarea name="note" placeholder="Es. orario preferito per contattare il cliente, potenza richiesta, particolarità della pratica..."></textarea></div>
+</div>
+
+<div class="choice" style="margin-top:18px;border-color:#e7b65d;background:#fffaf0"><label style="font-weight:500;margin:0;display:flex;gap:9px;align-items:flex-start"><input type="checkbox" id="invioEccezionale" style="width:auto;margin-top:4px"> <span><strong>Invio eccezionale con dati/documenti da integrare</strong><br><small>Usa solo se non è possibile recuperare subito tutte le informazioni. La richiesta verrà inviata comunque e la mail riporterà automaticamente l’elenco di ciò che manca.</small></span></label></div><div id="mancantiPreview" class="hint" style="display:none;margin:10px 0 0;padding:10px 12px;background:#fff7e6;border-radius:8px"></div>
+
+<div class="notice"><strong>Controllo dati:</strong> per ogni fornitura selezionata occorre indicare il tipo di operazione (subentro o voltura); in caso di voltura va indicato anche il fornitore attualmente attivo. Per ogni fornitura serve inoltre il relativo POD/PDR oppure la bolletta corrispondente. Documento d'identità e codice fiscale inserito nel form sono obbligatori.</div>
+
+<div class="privacy"><label><input type="checkbox" id="privacy" required> Dichiaro di aver consegnato al cliente l'<a href="https://TUO-DOMINIO.it/privacy" target="_blank">informativa privacy</a> e di avere titolo per trasmettere questi dati al fine esclusivo di gestire la richiesta. <span class="req">*</span></label></div>
+
+<button type="submit" id="submitBtn">Invia richiesta di voltura</button>
+<div id="status" role="alert"></div>
+</form></section></main>
+<script>
+const ENDPOINT='https://script.google.com/macros/s/AKfycbzl3oodfxIIAnQ3zJZCryF9pNJWbBc_DFodXLr2-tmkgVR37_Aa7V9-C1cemMlKdyv3/exec';
+const MAX_FILE=4*1024*1024, MAX_TOTAL=7*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
+const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
+function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
+function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
+function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera 4 MB.');return file}
+function toAttachment(file,label){return new Promise((resolve,reject)=>{if(!file)return resolve(null);const r=new FileReader();r.onerror=()=>reject(Error('Impossibile leggere '+label));r.onload=()=>resolve({label,name:file.name,type:file.type,data:r.result.split(',')[1]});r.readAsDataURL(file)})}
+
+function toggleService(checkboxId,opBlockId,serviceBoxId){
+  const on=$(checkboxId).checked;
+  $(opBlockId).classList.toggle('active',on);
+  $(serviceBoxId).classList.toggle('disabled',!on);
+}
+$('luce').addEventListener('change',()=>toggleService('luce','opLuce','serviceLuce'));
+$('gas').addEventListener('change',()=>toggleService('gas','opGas','serviceGas'));
+
+function bindOperatorLogic(radioName,boxId){
+  document.querySelectorAll('input[name="'+radioName+'"]').forEach(r=>r.addEventListener('change',()=>{
+    const selected=document.querySelector('input[name="'+radioName+'"]:checked');
+    $(boxId).style.display=selected && selected.value==='Voltura'?'block':'none';
+  }));
+}
+bindOperatorLogic('tipoLuce','operatoreLuceBox');
+bindOperatorLogic('tipoGas','operatoreGasBox');
+
+function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),cfEl=document.querySelector('input[name="codiceFiscale"]'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr'),bolL=$('bollettaLuce'),bolG=$('bollettaGas');if(!doc||!doc.files[0])m.push('Documento d’identità del cliente');if(!cfEl||!clean(cfEl.value))m.push('Codice fiscale del cliente');if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&(!bolL||!bolL.files||!bolL.files[0]))m.push('POD oppure bolletta luce');}if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&(!bolG||!bolG.files||!bolG.files[0]))m.push('PDR oppure bolletta gas');}return m;}
+function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
+$('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
+
+$('volturaForm').addEventListener('submit',async e=>{
+e.preventDefault(); const f=e.currentTarget;
+try{
+  if(ENDPOINT.startsWith('INCOLLA'))throw Error('Configurazione non completata: inserisci l’URL del Web App Apps Script nel file index.html.');
+  if(!f.checkValidity()){f.reportValidity();return}
+  const luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked;
+  const invioEl=$('invioEccezionale');
+  const forzato=!!invioEl&&invioEl.checked;
+  const cfEl=document.querySelector('input[name="codiceFiscale"]');
+  const podEl=$('pod'), pdrEl=$('pdr'), opLEl=$('operatoreLuce'), opGEl=$('operatoreGas');
+  const codiceFiscale=clean(cfEl?.value).toUpperCase();
+  if(!luce&&!gas)throw Error('Seleziona almeno una fornitura: luce o gas.');
+  const mancanti=elencoMancanti();
+  if(!forzato && mancanti.length)throw Error('Per inviare normalmente completa: '+mancanti.join('; ')+'. Se è un caso estremo, spunta il flag di invio eccezionale.');
+
+  let tipoLuce='',tipoGas='',opLuce='',opGas='';
+  const pod=clean(podEl?.value).toUpperCase(), pdr=clean(pdrEl?.value);
+
+  if(luce){
+    const rl=document.querySelector('input[name="tipoLuce"]:checked');
+    if(!rl&&!forzato)throw Error('Indica se per la luce si tratta di subentro o voltura.');
+    tipoLuce=rl?rl.value:'';
+    if(tipoLuce==='Voltura'){
+      opLuce = clean(opLEl?.value);
+      if(!opLuce&&!forzato)throw Error('Indica il fornitore attualmente attivo per la luce.');
+    }
+    if(!pod&&(!$('bollettaLuce')||!$('bollettaLuce').files||!$('bollettaLuce').files[0])&&!forzato)throw Error('Per la luce indica il POD oppure allega la bolletta luce.');
+    if(pod&&!/^IT[A-Z0-9]{12,23}$/.test(pod)&&!forzato)throw Error('Il POD sembra non valido: deve iniziare con IT.');
+  }
+  if(gas){
+    const rg=document.querySelector('input[name="tipoGas"]:checked');
+    if(!rg&&!forzato)throw Error('Indica se per il gas si tratta di subentro o voltura.');
+    tipoGas=rg?rg.value:'';
+    if(tipoGas==='Voltura'){
+      opGas = clean(opGEl?.value);
+      if(!opGas&&!forzato)throw Error('Indica il fornitore attualmente attivo per il gas.');
+    }
+    if(!pdr&&(!$('bollettaGas')||!$('bollettaGas').files||!$('bollettaGas').files[0])&&!forzato)throw Error('Per il gas indica il PDR oppure allega la bolletta gas.');
+    if(pdr&&!/^\d{14}$/.test(pdr)&&!forzato)throw Error('Il PDR deve contenere 14 cifre.');
+  }
+
+  const selected=[['documento',$('documento')?.files?.[0],'Documento identità'],['bollettaLuce',$('bollettaLuce')?.files?.[0],'Bolletta luce'],['bollettaGas',$('bollettaGas')?.files?.[0],'Bolletta gas']];
+  let total=0; selected.forEach(([,x,l])=>{const z=fileCheck(x,l);if(z)total+=z.size});
+  if(total>MAX_TOTAL)throw Error('Gli allegati insieme superano 7 MB. Riduci la dimensione dei file.');
+
+  $('submitBtn').disabled=true;$('submitBtn').textContent='Invio in corso...';
+  const fields=Object.fromEntries(new FormData(f).entries());
+  fields.pod=pod; fields.pdr=pdr;
+  fields.servizi=[...(luce?['Luce']:[]),...(gas?['Gas']:[])].join(', ') ;
+  fields.tipoLuce=tipoLuce; fields.tipoGas=tipoGas; fields.operatoreLuce=opLuce; fields.operatoreGas=opGas; fields.codiceFiscale=codiceFiscale; fields.invioEccezionale=forzato?'SÌ':'No'; fields.elementiMancanti=mancanti.join(' | ');
+  const attachments=(await Promise.all(selected.map(([,x,l])=>toAttachment(x,l)))).filter(Boolean);
+  const payload={token:'unaChiaveLungaPrivataEs9284Volture',fields,attachments};
+  await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+  f.reset(); if($('opLuce')) $('opLuce').classList.remove('active'); if($('opGas')) $('opGas').classList.remove('active'); aggiornaMancanti();
+  $('serviceLuce').classList.add('disabled'); $('serviceGas').classList.add('disabled');
+  $('operatoreLuceBox').style.display='none'; $('operatoreGasBox').style.display='none';
+  good('Richiesta inviata. Controlla la ricezione delle email configurate.');
+}catch(x){err(x.message)}finally{$('submitBtn').disabled=false;$('submitBtn').textContent='Invia richiesta di voltura'}
+});
+</script></body></html>
