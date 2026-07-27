@@ -30,10 +30,10 @@ button:disabled{opacity:.65;cursor:wait}
 #status{display:none;margin-top:16px;padding:12px;border-radius:8px;font-weight:600}
 .success{display:block!important;background:#e6f7f0;color:#065f46}
 .error{display:block!important;background:#fff0ee;color:#9b1c14}
-@media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px}.brand{font-size:.92rem;line-height:1.15}.brand span{display:block;font-size:.76rem;margin-top:2px}.tag{display:none}}
+@media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px}.brand{font-size:.9rem;line-height:1.1;white-space:nowrap;display:flex;align-items:center;gap:6px;flex-wrap:nowrap}.brand span{display:inline;font-size:.76rem;margin-top:0;white-space:nowrap}.tag{display:none}}
 </style>
 </head>
-<body><header><div class="brand">DDM Soluzioni <span style="font-weight:600;font-size:.92rem;opacity:.92">· 334.6395727</span></div><div class="tag">Servizio volture e subentri per agenzie immobiliari</div></header>
+<body><header><div class="brand">DDM Soluzioni <span style="font-weight:600;font-size:.92rem;opacity:.92;white-space:nowrap">· 334.6395727</span></div><div class="tag">Servizio volture e subentri per agenzie immobiliari</div></header>
 <main><section class="hero"><h1>Volture e Subentri facili</h1><p>Inserisci la richiesta del cliente: riceveremo subito dati e allegati necessari per avviare la pratica.</p></section>
 <section class="card"><form id="volturaForm" novalidate>
 
@@ -68,7 +68,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" multiple multiple capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple multiple capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Su cellulare, per fare più foto, aggiungile una alla volta: resteranno tutte in elenco. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
 </div></div></div>
 
 <div class="service" id="serviceGas">
@@ -81,12 +81,12 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" multiple multiple capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple multiple capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Su cellulare, per fare più foto, aggiungile una alla volta: resteranno tutte in elenco. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
 </div></div></div>
 
 <h2>Documenti</h2>
 <div class="grid">
-<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" multiple multiple capture="environment" capture="environment"><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
+<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple multiple capture="environment" capture="environment"><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
 
 <div class="full"><label>Note</label><textarea name="note" placeholder="Es. orario preferito per contattare il cliente, potenza richiesta, particolarità della pratica..."></textarea></div>
 </div>
