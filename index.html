@@ -68,7 +68,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
 </div></div></div>
 
 <div class="service" id="serviceGas">
@@ -81,7 +81,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
 </div></div></div>
 
 <h2>Documenti</h2>
@@ -104,6 +104,11 @@ button:disabled{opacity:.65;cursor:wait}
 const ENDPOINT='https://script.google.com/macros/s/AKfycbzl3oodfxIIAnQ3zJZCryF9pNJWbBc_DFodXLr2-tmkgVR37_Aa7V9-C1cemMlKdyv3/exec';
 const MAX_FILE=4*1024*1024, MAXTOTAL=7*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
 const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
+const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[]};
+function syncInputFiles(id){const el=$(id);if(!el)return;try{const dt=new DataTransfer();pickedFiles[id].forEach(f=>dt.items.add(f));el.files=dt.files;}catch(_){}}
+function fileSig(f){return [f.name,f.size,f.lastModified,f.type].join('::');}
+function mergePickedFiles(id,newFiles){const seen=new Set(pickedFiles[id].map(fileSig));for(const f of Array.from(newFiles||[])){const sig=fileSig(f);if(!seen.has(sig)){pickedFiles[id].push(f);seen.add(sig);}}syncInputFiles(id);updateCounts();}
+function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];['documento','bollettaLuce','bollettaGas'].forEach(syncInputFiles);updateCounts();}
 function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera 4 MB.');return file}
@@ -126,16 +131,16 @@ function bindOperatorLogic(radioName,boxId){
 bindOperatorLogic('tipoLuce','operatoreLuceBox');
 bindOperatorLogic('tipoGas','operatoreGasBox');
 
-function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),cfEl=document.querySelector('input[name="codiceFiscale"]'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr'),bolL=$('bollettaLuce'),bolG=$('bollettaGas');if(!doc||!doc.files[0])m.push('Documento d’identità del cliente');if(!cfEl||!clean(cfEl.value))m.push('Codice fiscale del cliente');if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&(!bolL||!bolL.files||!bolL.files[0]))m.push('POD oppure bolletta luce');}if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&(!bolG||!bolG.files||!bolG.files[0]))m.push('PDR oppure bolletta gas');}return m;}
+function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),cfEl=document.querySelector('input[name="codiceFiscale"]'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr'),bolL=$('bollettaLuce'),bolG=$('bollettaGas');if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');if(!cfEl||!clean(cfEl.value))m.push('Codice fiscale del cliente');if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}return m;}
 function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
 $('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
-function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas']];for(const [id,cid,label] of map){const el=$(id),c=$(cid);if(c)c.textContent=el&&el.files&&el.files.length?label+': '+el.files.length+' file selezionati':label+': nessun file';}}
-document.querySelectorAll('input[type="file"]').forEach(x=>x.addEventListener('change',updateCounts));
+function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':label+': nessun file';}}
+['documento','bollettaLuce','bollettaGas'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
 updateCounts();
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas'];const attachments=[];for(const id of ids){const el=$(id);const files=Array.from(el?.files||[]);for(let i=0;i<files.length;i++){const file=files[i];const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
+async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
 $('volturaForm').addEventListener('submit',async e=>{
 e.preventDefault(); const f=e.currentTarget;
 try{
@@ -162,7 +167,7 @@ try{
       opLuce=clean(opLEl?.value);
       if(!opLuce && !forzato) throw Error('Indica il fornitore attualmente attivo per la luce.');
     }
-    if(!pod && (!$('bollettaLuce') || !$('bollettaLuce').files || !$('bollettaLuce').files.length) && !forzato) throw Error('Per la luce indica il POD oppure allega la bolletta luce.');
+    if(!pod && !pickedFiles.bollettaLuce.length && !forzato) throw Error('Per la luce indica il POD oppure allega la bolletta luce.');
     if(pod && !/^IT[A-Z0-9]{12,23}$/.test(pod) && !forzato) throw Error('Il POD sembra non valido: deve iniziare con IT.');
   }
 
@@ -174,7 +179,7 @@ try{
       opGas=clean(opGEl?.value);
       if(!opGas && !forzato) throw Error('Indica il fornitore attualmente attivo per il gas.');
     }
-    if(!pdr && (!$('bollettaGas') || !$('bollettaGas').files || !$('bollettaGas').files.length) && !forzato) throw Error('Per il gas indica il PDR oppure allega la bolletta gas.');
+    if(!pdr && !pickedFiles.bollettaGas.length && !forzato) throw Error('Per il gas indica il PDR oppure allega la bolletta gas.');
     if(pdr && !/^\d{14}$/.test(pdr) && !forzato) throw Error('Il PDR deve contenere 14 cifre.');
   }
 
@@ -201,6 +206,7 @@ try{
   await fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
 
   f.reset();
+  clearPickedFiles();
   if($('opLuce')) $('opLuce').classList.remove('active');
   if($('opGas')) $('opGas').classList.remove('active');
   aggiornaMancanti();
