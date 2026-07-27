@@ -68,7 +68,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">PDF, JPG o PNG; max 4 MB.</p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
 </div></div></div>
 
 <div class="service" id="serviceGas">
@@ -81,12 +81,12 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">PDF, JPG o PNG; max 4 MB.</p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" capture="environment" capture="environment"><p class="hint">PDF, JPG o PNG; max 4 MB. Da cellulare puoi scattare foto direttamente con la fotocamera.</p></div></div>
 </div></div></div>
 
 <h2>Documenti</h2>
 <div class="grid">
-<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
+<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" capture="environment" capture="environment" capture="environment"><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
 
 <div class="full"><label>Note</label><textarea name="note" placeholder="Es. orario preferito per contattare il cliente, potenza richiesta, particolarità della pratica..."></textarea></div>
 </div>
