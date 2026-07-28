@@ -23,7 +23,7 @@
 .choice{border:1px solid var(--line);border-radius:8px;padding:8px 9px;background:#fbfdff}
 .notice{background:#fff7e6;border-left:4px solid #f4a700;padding:8px 9px;border-radius:4px;font-size:.76rem;line-height:1.22;margin:8px 0}
 .privacy{background:#f4f8fc;border-radius:8px;padding:8px 9px;font-size:.75rem;line-height:1.22}
-.privacy a{color:#075fa8}
+.privacy a{color:#075fa8}.inline-choice{display:grid;gap:6px}.inline-choice .radiocard{padding:7px 8px}.mini-note{font-size:.72rem;color:#52687b;line-height:1.2;margin-top:3px}.attach-toggle{display:inline-flex;align-items:center;gap:6px;border:1px solid #bfd4e6;background:#eef7ff;color:#0b4f7d;padding:6px 9px;border-radius:8px;font:700 .78rem inherit;cursor:pointer;margin:6px 0 4px}.attach-toggle:hover{background:#e2f1ff}.attach-optional{display:none}.attach-optional.show{display:block}.attach-row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.attach-row .hint{margin:0}
 button{background:var(--blue);color:#fff;border:0;border-radius:8px;padding:10px 14px;font:700 .92rem inherit;cursor:pointer;margin-top:10px;width:100%}
 button:hover{background:#0c659f}
 button:disabled{opacity:.65;cursor:wait}
@@ -47,18 +47,24 @@ button:disabled{opacity:.65;cursor:wait}
 
 <h2>Cliente e immobile</h2>
 <div class="grid">
-<div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" required autocomplete="name"></div>
-<div><label>Codice fiscale <span class="req">*</span></label><input name="codiceFiscale" required maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
-<div><label>Telefono cliente <span class="req">*</span></label><input type="tel" name="telefonoCliente" required></div>
-<div><label>Email cliente <span class="req">*</span></label><input type="email" name="emailCliente" required></div>
-<div class="full"><label>Indirizzo fornitura <span class="req">*</span></label><input name="indirizzo" required placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia"></div>
-<div><label>Data rogito / ingresso</label><input type="date" name="dataIngresso"></div>
+  <div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" autocomplete="name"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Telefono cliente <span class="req">*</span></label><input type="tel" name="telefonoCliente" autocomplete="tel"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Email cliente <span class="req">*</span></label><input type="email" name="emailCliente" autocomplete="email"><p class="hint">Obbligatoria.</p></div>
+  <div><label>Codice fiscale cliente <span class="req">*</span></label><input name="codiceFiscale" maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
+  <div class="full"><label>Indirizzo immobile / fornitura <span class="req">*</span></label><input name="indirizzo" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia"></div>
+  <div class="full choice">
+    <label style="margin-bottom:6px">Titolo di possesso immobile <span class="req">*</span></label>
+    <div class="inline-choice" role="radiogroup" aria-label="Titolo di possesso immobile">
+      <label class="radiocard"><input type="radio" name="titoloImmobile" value="Locazione" required><span><span class="rtitle">Entra in locazione</span></span></label>
+      <label class="radiocard"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
+    </div>
+  </div>
+  <div><label>Data inizio possesso / rogito</label><input type="date" name="dataIngresso"></div>
 </div>
-
 <h2>Forniture richieste</h2>
 <p class="hint" style="margin:0 0 14px">Puoi scegliere una sola fornitura oppure entrambe. Se luce e gas hanno situazioni diverse, seleziona l'operazione corretta per ciascuna.</p>
 
-<div class="service" id="serviceLuce">
+<div class="service disabled" id="serviceLuce">
 <div class="service-head"><input type="checkbox" id="luce" name="servizi" value="Luce"><label style="margin:0" for="luce">Luce</label></div>
 <div class="opblock" id="opLuce">
 <div class="radiorow" role="radiogroup" aria-label="Tipo operazione luce">
@@ -68,10 +74,10 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaLuce"></p></div></div>
 </div></div></div>
 
-<div class="service" id="serviceGas">
+<div class="service disabled" id="serviceGas">
 <div class="service-head"><input type="checkbox" id="gas" name="servizi" value="Gas"><label style="margin:0" for="gas">Gas</label></div>
 <div class="opblock" id="opGas">
 <div class="radiorow" role="radiogroup" aria-label="Tipo operazione gas">
@@ -81,10 +87,49 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p></div></div>
 </div></div></div>
 
+<h2>Residenza e pagamento</h2>
+<div class="grid">
+  <div class="full choice">
+    <label style="margin-bottom:6px">Il cliente metterà la residenza presso questo indirizzo? <span class="req">*</span></label>
+    <div class="inline-choice" role="radiogroup" aria-label="Residenza presso indirizzo fornitura">
+      <label class="radiocard"><input type="radio" name="residenzaFornitura" value="Sì" required><span><span class="rtitle">Sì, metterà la residenza qui</span></span></label>
+      <label class="radiocard"><input type="radio" name="residenzaFornitura" value="No"><span><span class="rtitle">No, non metterà la residenza qui</span></span></label>
+    </div>
+  </div>
+  <div class="full choice" id="residenzaAltBox" style="display:none">
+    <label style="margin-bottom:6px">Se la residenza non viene spostata qui</label>
+    <div class="inline-choice" role="radiogroup" aria-label="Residenza diversa">
+      <label class="radiocard"><input type="radio" name="residenzaModalita" value="Come da carta identità allegata"><span><span class="rtitle">Rimane quella indicata su carta d’identità</span></span></label>
+      <label class="radiocard"><input type="radio" name="residenzaModalita" value="Inserita manualmente"><span><span class="rtitle">La indico qui sotto</span></span></label>
+    </div>
+    <div id="residenzaManualeBox" style="display:none;margin-top:8px">
+      <label>Indirizzo di residenza</label>
+      <input name="residenzaDiversa" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia">
+      <p class="hint">Compila solo se la residenza non coincide con quella sulla carta d’identità allegata.</p>
+    </div>
+  </div>
+  <div class="full choice">
+    <label style="margin-bottom:6px">Metodo di pagamento desiderato <span class="req">*</span></label>
+    <div class="inline-choice" role="radiogroup" aria-label="Metodo pagamento">
+      <label class="radiocard"><input type="radio" name="metodoPagamento" value="IBAN" required><span><span class="rtitle">Addebito su IBAN</span><span class="rdesc">Più rapido e senza deposito cauzionale legato al bollettino.</span></span></label>
+      <label class="radiocard"><input type="radio" name="metodoPagamento" value="Bollettino"><span><span class="rtitle">Bollettino</span><span class="rdesc">Può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.</span></span></label>
+    </div>
+  </div>
+  <div class="full choice" id="ibanChoiceBox" style="display:none">
+    <label>IBAN del cliente</label>
+    <div class="attach-row" style="margin:6px 0 4px">
+      <input name="iban" id="iban" maxlength="27" placeholder="IT00X0000000000000000000000" style="text-transform:uppercase;flex:1;min-width:240px">
+      <button type="button" class="attach-toggle" data-target="ibanDocWrap">Aggiungi foto/PDF IBAN</button>
+    </div>
+    <p class="hint">Puoi scriverlo qui oppure allegare foto/PDF dove l’IBAN è ben visibile.</p>
+    <div class="filebox attach-optional" id="ibanDocWrap"><input type="file" id="ibanDoc" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Facoltativo. Multi-foto e multi-file; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntIbanDoc"></p></div>
+  </div>
+</div>
 <h2>Documenti</h2>
+<p class="hint" style="margin:0 0 8px">Qui puoi allegare anche foto della proposta o di altri documenti utili. Ora puoi aggiungere foto o PDF integrativi direttamente nelle sezioni anagrafica, indirizzo e IBAN per velocizzare la compilazione, senza dover scegliere una modalità unica.</p>
 <div class="grid">
 <div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
 
@@ -104,11 +149,11 @@ button:disabled{opacity:.65;cursor:wait}
 const ENDPOINT='https://script.google.com/macros/s/AKfycbzl3oodfxIIAnQ3zJZCryF9pNJWbBc_DFodXLr2-tmkgVR37_Aa7V9-C1cemMlKdyv3/exec';
 const MAX_FILE=4*1024*1024, MAXTOTAL=7*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
 const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
-const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[]};
+const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],ibanDoc:[]};
 function syncInputFiles(id){const el=$(id);if(!el)return;try{const dt=new DataTransfer();pickedFiles[id].forEach(f=>dt.items.add(f));el.files=dt.files;}catch(_){}}
 function fileSig(f){return [f.name,f.size,f.lastModified,f.type].join('::');}
 function mergePickedFiles(id,newFiles){const seen=new Set(pickedFiles[id].map(fileSig));for(const f of Array.from(newFiles||[])){const sig=fileSig(f);if(!seen.has(sig)){pickedFiles[id].push(f);seen.add(sig);}}syncInputFiles(id);updateCounts();}
-function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];['documento','bollettaLuce','bollettaGas'].forEach(syncInputFiles);updateCounts();}
+function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];pickedFiles.ibanDoc=[];['documento','bollettaLuce','bollettaGas','ibanDoc'].forEach(syncInputFiles);updateCounts();}
 function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera 4 MB.');return file}
@@ -131,16 +176,47 @@ function bindOperatorLogic(radioName,boxId){
 bindOperatorLogic('tipoLuce','operatoreLuceBox');
 bindOperatorLogic('tipoGas','operatoreGasBox');
 
-function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),cfEl=document.querySelector('input[name="codiceFiscale"]'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr'),bolL=$('bollettaLuce'),bolG=$('bollettaGas');if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');if(!cfEl||!clean(cfEl.value))m.push('Codice fiscale del cliente');if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}return m;}
+function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr');
+if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');
+if(!document.querySelector('input[name="cliente"]')||!clean(document.querySelector('input[name="cliente"]').value))m.push('Nome e cognome cliente');
+if(!document.querySelector('input[name="telefonoCliente"]')||!clean(document.querySelector('input[name="telefonoCliente"]').value))m.push('Telefono cliente');
+if(!document.querySelector('input[name="emailCliente"]')||!clean(document.querySelector('input[name="emailCliente"]').value))m.push('Email cliente');
+if(!document.querySelector('input[name="codiceFiscale"]')||!clean(document.querySelector('input[name="codiceFiscale"]').value))m.push('Codice fiscale cliente');
+if(!document.querySelector('input[name="indirizzo"]')||!clean(document.querySelector('input[name="indirizzo"]').value))m.push('Indirizzo immobile / fornitura');
+if(!document.querySelector('input[name="titoloImmobile"]:checked'))m.push('Titolo di possesso immobile');
+if(!document.querySelector('input[name="residenzaFornitura"]:checked'))m.push('Indicazione residenza');
+if(!document.querySelector('input[name="metodoPagamento"]:checked'))m.push('Metodo di pagamento');
+if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}
+if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}
+return m;}
 function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
 $('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
-function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':label+': nessun file';}}
-['documento','bollettaLuce','bollettaGas'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
+function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['ibanDoc','cntIbanDoc','IBAN da allegato']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
+['documento','bollettaLuce','bollettaGas','ibanDoc'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
 updateCounts();
+
+document.querySelectorAll('.attach-toggle').forEach(btn=>btn.addEventListener('click',()=>{const box=$(btn.dataset.target);if(!box)return;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Nascondi foto/PDF':'Aggiungi foto/PDF';}));
+
+function bindRadioToggle(name, callback){document.querySelectorAll(`input[name="${name}"]`).forEach(r=>r.addEventListener('change',callback));}
+function updateExtraFields(){
+  const resSel=document.querySelector('input[name="residenzaFornitura"]:checked')?.value||'';
+  const resMod=document.querySelector('input[name="residenzaModalita"]:checked')?.value||'';
+  const pay=document.querySelector('input[name="metodoPagamento"]:checked')?.value||'';
+  if($('residenzaAltBox')) $('residenzaAltBox').style.display = resSel==='No' ? 'block' : 'none';
+  if($('residenzaManualeBox')) $('residenzaManualeBox').style.display = (resSel==='No' && resMod==='Inserita manualmente') ? 'block' : 'none';
+  if($('ibanChoiceBox')) $('ibanChoiceBox').style.display = pay==='IBAN' ? 'block' : 'none';
+}
+bindRadioToggle('residenzaFornitura',updateExtraFields);
+bindRadioToggle('residenzaModalita',updateExtraFields);
+bindRadioToggle('metodoPagamento',updateExtraFields);
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[name="residenzaFornitura"],input[name="residenzaModalita"],input[name="metodoPagamento"]')) updateExtraFields();
+});
+updateExtraFields();
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
+async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas','ibanDoc'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
 $('volturaForm').addEventListener('submit',async e=>{
 e.preventDefault(); const f=e.currentTarget;
 try{
@@ -149,12 +225,25 @@ try{
   const luce=!!$('luce')&&$('luce').checked, gas=!!$('gas')&&$('gas').checked;
   const invioEl=$('invioEccezionale');
   const forzato=!!invioEl&&invioEl.checked;
-  const cfEl=document.querySelector('input[name="codiceFiscale"]');
   const podEl=$('pod'), pdrEl=$('pdr'), opLEl=$('operatoreLuce'), opGEl=$('operatoreGas');
-  const codiceFiscale=clean(cfEl?.value).toUpperCase();
   if(!luce&&!gas) throw Error('Seleziona almeno una fornitura: luce o gas.');
   const mancanti=elencoMancanti();
   if(!forzato && mancanti.length) throw Error('Per inviare normalmente completa: '+mancanti.join('; ')+'. Se è un caso estremo, spunta il flag di invio eccezionale.');
+  const resSel=document.querySelector('input[name="residenzaFornitura"]:checked')?.value||'';
+  const resMod=document.querySelector('input[name="residenzaModalita"]:checked')?.value||'';
+  const resTxt=clean($('residenzaManualeBox')?.querySelector('input')?.value);
+  const paySel=document.querySelector('input[name="metodoPagamento"]:checked')?.value||'';
+  const iban=clean($('iban')?.value).toUpperCase();
+  if(!clean(document.querySelector('input[name="cliente"]')?.value) && !forzato) throw Error('Inserisci il nome e cognome del cliente.');
+  if(!clean(document.querySelector('input[name="telefonoCliente"]')?.value) && !forzato) throw Error('Inserisci il telefono del cliente.');
+  if(!clean(document.querySelector('input[name="emailCliente"]')?.value) && !forzato) throw Error('Inserisci l’email del cliente.');
+  if(!clean(document.querySelector('input[name="indirizzo"]')?.value) && !forzato) throw Error('Inserisci l’indirizzo di fornitura.');
+  if(!resSel) throw Error('Indica se il cliente metterà la residenza presso l’indirizzo di fornitura.');
+  if(resSel==='No' && !resMod && !forzato) throw Error('Se la residenza è diversa, indica se va presa dalla carta d’identità oppure inserita manualmente.');
+  if(resSel==='No' && resMod==='Inserita manualmente' && !resTxt && !forzato) throw Error('Inserisci l’indirizzo di residenza diverso dalla fornitura.');
+  if(!paySel) throw Error('Seleziona il metodo di pagamento desiderato.');
+  if(paySel==='IBAN' && !iban && !pickedFiles.ibanDoc.length && !forzato) throw Error('Inserisci l’IBAN oppure allega una foto/PDF dove sia visibile.');
+  if(iban && !/^IT[0-9A-Z]{25}$/.test(iban) && !forzato) throw Error('L’IBAN deve avere 27 caratteri e iniziare con IT.');
 
   let tipoLuce='', tipoGas='', opLuce='', opGas='';
   const pod=clean(podEl?.value).toUpperCase(), pdr=clean(pdrEl?.value);
@@ -198,7 +287,13 @@ try{
   fields.tipoGas=tipoGas;
   fields.operatoreLuce=opLuce;
   fields.operatoreGas=opGas;
-  fields.codiceFiscale=codiceFiscale;
+  fields.ibanDaAllegato=pickedFiles.ibanDoc.length?'SÌ':'No';
+  fields.residenzaFornitura=resSel;
+  fields.residenzaModalita=resMod;
+  fields.residenzaDiversa=resTxt;
+  fields.metodoPagamento=paySel;
+  fields.ibanModalita=paySel==='IBAN'?(iban?'Inserito nel form':'Da documento allegato o foto'):'';
+  fields.iban=iban;
   fields.invioEccezionale=forzato?'SÌ':'No';
   fields.elementiMancanti=mancanti.join(' | ');
   fields.filesRaccolti=String(attachments.length);
@@ -207,6 +302,8 @@ try{
 
   f.reset();
   clearPickedFiles();
+  document.querySelectorAll('.attach-optional').forEach(el=>el.classList.remove('show'));
+  document.querySelectorAll('.attach-toggle').forEach(btn=>btn.textContent='Aggiungi foto/PDF');
   if($('opLuce')) $('opLuce').classList.remove('active');
   if($('opGas')) $('opGas').classList.remove('active');
   aggiornaMancanti();
