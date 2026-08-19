@@ -78,7 +78,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia, Magis (ex Aim Agsm)..."><p class="hint">Obbligatorio solo se scegli Voltura.</p><p class="hint magis-note">Se il fornitore attuale è Magis (ex Aim Agsm) e il cliente resta su Magis, la vecchia bolletta luce è obbligatoria.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaLuce"></p><p class="hint" id="magisLuceHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 12 MB. Puoi allegare più file per ogni sezione. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo nitido); puoi fare più foto per coprire le diverse pagine. Una nuova foto si aggiunge alle precedenti, senza sostituirle; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaLuce"></p><p class="hint" id="magisLuceHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
 </div></div></div>
 
 <div class="service disabled" id="serviceGas">
@@ -91,7 +91,7 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="subgrid">
 <div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia, Magis (ex Aim Agsm)..."><p class="hint">Obbligatorio solo se scegli Voltura.</p><p class="hint magis-note">Se il fornitore attuale è Magis (ex Aim Agsm) e il cliente resta su Magis, la vecchia bolletta gas è obbligatoria.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p><p class="hint" id="magisGasHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 12 MB. Puoi allegare più file per ogni sezione. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo nitido); puoi fare più foto per coprire le diverse pagine. Una nuova foto si aggiunge alle precedenti, senza sostituirle; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p><p class="hint" id="magisGasHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
 </div></div></div>
 
 <h2>Residenza e pagamento</h2>
@@ -128,13 +128,13 @@ button:disabled{opacity:.65;cursor:wait}
       <button type="button" class="attach-toggle" data-target="ibanDocWrap">Aggiungi foto/PDF IBAN</button>
     </div>
     <p class="hint">Puoi scriverlo qui oppure allegare foto/PDF dove l’IBAN è ben visibile.</p>
-    <div class="filebox attach-optional" id="ibanDocWrap"><input type="file" id="ibanDoc" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Facoltativo. Multi-foto e multi-file; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntIbanDoc"></p></div>
+    <div class="filebox attach-optional" id="ibanDocWrap"><input type="file" id="ibanDoc" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Facoltativo. PDF, JPG o PNG; max 12 MB. Se fai la foto dal cellulare: inquadra l’IBAN a pagina intera e scatta con cura (buona luce, cifre nitide); puoi allegare più foto per coprire le diverse pagine. Una nuova foto si aggiunge alle precedenti; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntIbanDoc"></p></div>
   </div>
 </div>
 <h2>Documenti</h2>
 <p class="hint" style="margin:0 0 8px">Qui puoi allegare anche foto della proposta o di altri documenti utili. Ora puoi aggiungere foto o PDF integrativi direttamente nelle sezioni anagrafica, indirizzo e IBAN per velocizzare la compilazione, senza dover scegliere una modalità unica.</p>
 <div class="grid">
-<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Fronte/retro in un PDF oppure immagine; max 4 MB.</p></div></div>
+<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Fronte/retro in un PDF oppure immagine; max 12 MB. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo leggibile); puoi fare più foto per fronte e retro. Una nuova foto si aggiunge alle precedenti; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
 
 <div class="full"><label>Note</label><textarea name="note" placeholder="Es. orario preferito per contattare il cliente, potenza richiesta, particolarità della pratica..."></textarea></div>
 </div>
@@ -157,7 +157,7 @@ button:disabled{opacity:.65;cursor:wait}
 </div>
 <script>
 const ENDPOINT='https://script.google.com/macros/s/AKfycbyF87mkVDHh0jJI1LM5TEdXgtYYZLyGnqv4YPqsbGmAu73LSka0O7zD2MypuPrJuIqI/exec';
-const MAX_FILE=4*1024*1024, MAXTOTAL=7*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
+const MAX_FILE=12*1024*1024, MAXTOTAL=20*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
 const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
 const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],ibanDoc:[]};
 function syncInputFiles(id){const el=$(id);if(!el)return;try{const dt=new DataTransfer();pickedFiles[id].forEach(f=>dt.items.add(f));el.files=dt.files;}catch(_){}}
@@ -166,7 +166,7 @@ function mergePickedFiles(id,newFiles){const seen=new Set(pickedFiles[id].map(fi
 function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];pickedFiles.ibanDoc=[];['documento','bollettaLuce','bollettaGas','ibanDoc'].forEach(syncInputFiles);updateCounts();}
 function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
-function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera 4 MB.');return file}
+function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera '+(MAX_FILE/1048576)+' MB.');return file}
 function toAttachment(file,label){return new Promise((resolve,reject)=>{if(!file)return resolve(null);const r=new FileReader();r.onerror=()=>reject(Error('Impossibile leggere '+label));r.onload=()=>resolve({label,name:file.name,type:file.type,data:r.result.split(',')[1]});r.readAsDataURL(file)})}
 
 function toggleService(checkboxId,opBlockId,serviceBoxId){
@@ -303,7 +303,7 @@ try{
   $('submitBtn').textContent='Preparazione allegati...';
   const attachments=await collectAttachments();
   const total=attachments.reduce((s,a)=>s+Math.ceil((a.data.length*3)/4),0);
-  if(total>MAXTOTAL) throw Error('Gli allegati compressi superano 7 MB. Riduci il numero di file oppure usa PDF più leggeri.');
+  if(total>MAXTOTAL) throw Error('Gli allegati superano '+(MAXTOTAL/1048576)+' MB totali: riduci il numero di file oppure allega PDF più leggeri.');
 
   $('submitBtn').textContent='Invio in corso...';
   const fields=Object.fromEntries(new FormData(f).entries());
