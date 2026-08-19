@@ -4,7 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Volture luce e gas | Supporto agenzie immobiliari</title>
 <style>
-:root{--navy:#102a43;--blue:#1479c9;--light:#f4f8fc;--line:#d8e2ec;--ok:#087f5b;--danger:#b42318}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#102a43;background:var(--light)}header{background:var(--navy);color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;letter-spacing:.3px}.tag{font-size:.85rem;color:#c8e2fa}main{max-width:1080px;margin:10px auto;padding:0 10px}.hero{background:linear-gradient(135deg,#102a43,#164e7a);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px}.hero h1{margin:0 0 4px;font-size:clamp(1.24rem,2.6vw,1.7rem)}.hero p{margin:0;line-height:1.28;color:#e6f2ff;font-size:.88rem;max-width:none}.card{background:#fff;border-radius:12px;padding:12px 12px 14px;box-shadow:0 2px 10px #102a430d}h2{font-size:.95rem;margin:12px 0 7px;border-bottom:1px solid var(--line);padding-bottom:5px}h2:first-child{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}.full{grid-column:1/-1}label{font-weight:650;font-size:.84rem;display:block;margin-bottom:3px}label span.req{color:var(--danger)}input,select,textarea{width:100%;border:1px solid #aebdca;border-radius:7px;padding:7px 8px;font:inherit;color:inherit;background:#fff}input:focus,select:focus,textarea:focus{outline:3px solid #b8dcf7;border-color:var(--blue)}textarea{min-height:54px;resize:vertical}.hint{font-size:.73rem;color:#52687b;line-height:1.2;margin:2px 0 0}
+:root{--navy:#102a43;--blue:#1479c9;--light:#f4f8fc;--line:#d8e2ec;--ok:#087f5b;--danger:#b42318}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#102a43;background:var(--light)}header{background:var(--navy);color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;letter-spacing:.3px}.tag{font-size:.85rem;color:#c8e2fa}main{max-width:1080px;margin:10px auto;padding:0 10px}.hero{background:linear-gradient(135deg,#102a43,#164e7a);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px}.hero h1{margin:0 0 4px;font-size:clamp(1.24rem,2.6vw,1.7rem)}.hero p{margin:0;line-height:1.28;color:#e6f2ff;font-size:.88rem;max-width:none}.card{background:#fff;border-radius:12px;padding:12px 12px 14px;box-shadow:0 2px 10px #102a430d}h2{font-size:.95rem;margin:12px 0 7px;border-bottom:1px solid var(--line);padding-bottom:5px}h2:first-child{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}.full{grid-column:1/-1}label{font-weight:650;font-size:.84rem;display:block;margin-bottom:3px}label span.req{color:var(--danger)}input,select,textarea{width:100%;border:1px solid #aebdca;border-radius:7px;padding:7px 8px;font:inherit;color:inherit;background:#fff}input:focus,select:focus,textarea:focus{outline:3px solid #b8dcf7;border-color:var(--blue)}textarea{min-height:54px;resize:vertical}.hint{font-size:.73rem;color:#52687b;line-height:1.2;margin:2px 0 0}.magis-note{color:#b42318;font-weight:600}.modal-overlay{position:fixed;inset:0;background:rgba(16,42,67,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.modal-overlay.show{display:flex}.modal-box{background:#fff;border-radius:12px;padding:18px;max-width:430px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.25)}.modal-box h3{margin:0 0 8px;font-size:1.05rem;color:#b42318}.modal-box p{margin:0 0 14px;font-size:.86rem;line-height:1.4}.modal-box button{margin-top:0}
 .service{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fbfdff;margin-bottom:8px}
 .service.disabled{opacity:.55}
 .service-head{display:flex;gap:7px;align-items:center;font-weight:750;font-size:.93rem;margin-bottom:6px}
@@ -51,7 +51,11 @@ button:disabled{opacity:.65;cursor:wait}
   <div><label>Telefono cliente <span class="req">*</span></label><input type="tel" name="telefonoCliente" autocomplete="tel"><p class="hint">Obbligatorio.</p></div>
   <div><label>Email cliente <span class="req">*</span></label><input type="email" name="emailCliente" autocomplete="email"><p class="hint">Obbligatoria.</p></div>
   <div><label>Codice fiscale cliente <span class="req">*</span></label><input name="codiceFiscale" maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
-  <div class="full"><label>Indirizzo immobile / fornitura <span class="req">*</span></label><input name="indirizzo" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia"></div>
+  <div class="full"><label>Via / Piazza / Viale / Vicolo <span class="req">*</span></label><input name="via" id="via" placeholder="Es. VIA GIOTTO" style="text-transform:uppercase" autocomplete="address-line1"><p class="hint">Tipo di strada (Via, Piazza, Viale...) e denominazione dell'indirizzo.</p></div>
+  <div><label>Civico <span class="req">*</span></label><input name="civico" id="civico" autocomplete="address-line2"></div>
+  <div><label>Comune <span class="req">*</span></label><input name="comune" id="comune" autocomplete="address-level2"></div>
+  <div><label>Provincia <span class="req">*</span></label><input name="provincia" id="provincia" maxlength="2" placeholder="Es. MI" style="text-transform:uppercase" autocomplete="address-level1"><p class="hint">Sigla a 2 lettere.</p></div>
+  <div><label>CAP <span class="req">*</span></label><input name="cap" id="cap" inputmode="numeric" maxlength="5" placeholder="Es. 20056" autocomplete="postal-code"><p class="hint">5 cifre.</p></div>
   <div class="full choice">
     <label style="margin-bottom:6px">Titolo di possesso immobile <span class="req">*</span></label>
     <div class="inline-choice" role="radiogroup" aria-label="Titolo di possesso immobile">
@@ -72,9 +76,9 @@ button:disabled{opacity:.65;cursor:wait}
 <label class="radiocard"><input type="radio" name="tipoLuce" value="Voltura"><span><span class="rtitle">Voltura (contatore attualmente ancora attivo)</span><span class="rdesc">La fornitura è ancora accesa: si cambia solo l'intestatario.</span></span></label>
 </div>
 <div class="subgrid">
-<div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
+<div class="full" id="operatoreLuceBox" style="display:none"><label>Fornitore attualmente attivo per la luce <span class="req">*</span></label><input type="text" id="operatoreLuce" placeholder="Es. Enel Energia, Edison, Sorgenia, Magis (ex Aim Agsm)..."><p class="hint">Obbligatorio solo se scegli Voltura.</p><p class="hint magis-note">Se il fornitore attuale è Magis (ex Aim Agsm) e il cliente resta su Magis, la vecchia bolletta luce è obbligatoria.</p></div>
 <div><label>POD luce</label><input name="pod" id="pod" placeholder="IT..." maxlength="25" style="text-transform:uppercase"><p class="hint">Se manca, allega obbligatoriamente bolletta luce.</p></div>
-<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaLuce"></p></div></div>
+<div><label>Bolletta luce</label><div class="filebox"><input type="file" id="bollettaLuce" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaLuce"></p><p class="hint" id="magisLuceHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
 </div></div></div>
 
 <div class="service disabled" id="serviceGas">
@@ -85,9 +89,9 @@ button:disabled{opacity:.65;cursor:wait}
 <label class="radiocard"><input type="radio" name="tipoGas" value="Voltura"><span><span class="rtitle">Voltura (contatore attualmente ancora attivo)</span><span class="rdesc">La fornitura è ancora accesa: si cambia solo l'intestatario.</span></span></label>
 </div>
 <div class="subgrid">
-<div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia..."><p class="hint">Obbligatorio solo se scegli Voltura.</p></div>
+<div class="full" id="operatoreGasBox" style="display:none"><label>Fornitore attualmente attivo per il gas <span class="req">*</span></label><input type="text" id="operatoreGas" placeholder="Es. Enel Energia, Edison, Sorgenia, Magis (ex Aim Agsm)..."><p class="hint">Obbligatorio solo se scegli Voltura.</p><p class="hint magis-note">Se il fornitore attuale è Magis (ex Aim Agsm) e il cliente resta su Magis, la vecchia bolletta gas è obbligatoria.</p></div>
 <div><label>PDR gas</label><input name="pdr" id="pdr" inputmode="numeric" placeholder="14 cifre" maxlength="14"><p class="hint">Se manca, allega obbligatoriamente bolletta gas.</p></div>
-<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p></div></div>
+<div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 4 MB. Puoi allegare più file per ogni sezione. Se da cellulare scatti una nuova foto, questa si aggiunge alle precedenti invece di sostituirle. Da cellulare puoi aggiungere più foto una dopo l’altra oppure selezionarle dalla galleria; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p><p class="hint" id="magisGasHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
 </div></div></div>
 
 <h2>Residenza e pagamento</h2>
@@ -108,7 +112,6 @@ button:disabled{opacity:.65;cursor:wait}
     <div id="residenzaManualeBox" style="display:none;margin-top:8px">
       <label>Indirizzo di residenza</label>
       <input name="residenzaDiversa" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia">
-      <p class="hint">Compila solo se la residenza non coincide con quella sulla carta d’identità allegata.</p>
     </div>
   </div>
   <div class="full choice">
@@ -138,13 +141,20 @@ button:disabled{opacity:.65;cursor:wait}
 
 <div class="choice" style="margin-top:18px;border-color:#e7b65d;background:#fffaf0"><label style="font-weight:500;margin:0;display:flex;gap:9px;align-items:flex-start"><input type="checkbox" id="invioEccezionale" style="width:auto;margin-top:4px"> <span><strong>Invio eccezionale con dati/documenti da integrare</strong><br><small>Usa solo se non è possibile recuperare subito tutte le informazioni. La richiesta verrà inviata comunque e la mail riporterà automaticamente l’elenco di ciò che manca.</small></span></label></div><div id="mancantiPreview" class="hint" style="display:none;margin:10px 0 0;padding:10px 12px;background:#fff7e6;border-radius:8px"></div>
 
-<div class="notice"><strong>Controllo dati:</strong> per ogni fornitura selezionata occorre indicare il tipo di operazione (subentro o voltura); in caso di voltura va indicato anche il fornitore attualmente attivo. Per ogni fornitura serve inoltre il relativo POD/PDR oppure la bolletta corrispondente. Documento d'identità e codice fiscale inserito nel form sono obbligatori.</div>
+<div class="notice"><strong>Controllo dati:</strong> per ogni fornitura selezionata occorre indicare il tipo di operazione (subentro o voltura); in caso di voltura va indicato anche il fornitore attualmente attivo. Per ogni fornitura serve inoltre il relativo POD/PDR oppure la bolletta corrispondente. In caso di voltura con permanenza su Magis (ex Aim Agsm) la vecchia bolletta della fornitura interessata è obbligatoria. Documento d'identità e codice fiscale inserito nel form sono obbligatori.</div>
 
 <div class="privacy"><label><input type="checkbox" id="privacy" required> Dichiaro di aver consegnato al cliente l'<a href="https://TUO-DOMINIO.it/privacy" target="_blank">informativa privacy</a> e di avere titolo per trasmettere questi dati al fine esclusivo di gestire la richiesta. <span class="req">*</span></label></div>
 
 <button type="submit" id="submitBtn">Invia richiesta di voltura</button>
 <div id="status" role="alert"></div>
 </form></section></main>
+<div class="modal-overlay" id="depositoModal" role="dialog" aria-modal="true" aria-labelledby="depositoTitolo">
+  <div class="modal-box">
+    <h3 id="depositoTitolo">Deposito cauzionale</h3>
+    <p>Informa il cliente che, scegliendo il bollettino come metodo di pagamento, può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l'IBAN.</p>
+    <button type="button" id="depositoOk">OK, ho informato il cliente</button>
+  </div>
+</div>
 <script>
 const ENDPOINT='https://script.google.com/macros/s/AKfycbyF87mkVDHh0jJI1LM5TEdXgtYYZLyGnqv4YPqsbGmAu73LSka0O7zD2MypuPrJuIqI/exec';
 const MAX_FILE=4*1024*1024, MAXTOTAL=7*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
@@ -175,6 +185,11 @@ function bindOperatorLogic(radioName,boxId){
 }
 bindOperatorLogic('tipoLuce','operatoreLuceBox');
 bindOperatorLogic('tipoGas','operatoreGasBox');
+function magisLuceV(){const vL=$('operatoreLuce');return !!vL&&/\b(magis|agsm|aim)\b/i.test(clean(vL.value));}
+function magisGasV(){const vG=$('operatoreGas');return !!vG&&/\b(magis|agsm|aim)\b/i.test(clean(vG.value));}
+function updateMagisHints(){const hL=$('magisLuceHint'),hG=$('magisGasHint');if(hL)hL.style.display=magisLuceV()?'block':'none';if(hG)hG.style.display=magisGasV()?'block':'none';}
+document.addEventListener('input',e=>{if(e.target.id==='operatoreLuce'||e.target.id==='operatoreGas')updateMagisHints();});
+updateMagisHints();
 
 function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr');
 if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');
@@ -182,12 +197,16 @@ if(!document.querySelector('input[name="cliente"]')||!clean(document.querySelect
 if(!document.querySelector('input[name="telefonoCliente"]')||!clean(document.querySelector('input[name="telefonoCliente"]').value))m.push('Telefono cliente');
 if(!document.querySelector('input[name="emailCliente"]')||!clean(document.querySelector('input[name="emailCliente"]').value))m.push('Email cliente');
 if(!document.querySelector('input[name="codiceFiscale"]')||!clean(document.querySelector('input[name="codiceFiscale"]').value))m.push('Codice fiscale cliente');
-if(!document.querySelector('input[name="indirizzo"]')||!clean(document.querySelector('input[name="indirizzo"]').value))m.push('Indirizzo immobile / fornitura');
+if(!document.querySelector('input[name="via"]')||!clean(document.querySelector('input[name="via"]').value))m.push('Via immobile / fornitura');
+if(!document.querySelector('input[name="civico"]')||!clean(document.querySelector('input[name="civico"]').value))m.push('Civico');
+if(!document.querySelector('input[name="comune"]')||!clean(document.querySelector('input[name="comune"]').value))m.push('Comune');
+if(!document.querySelector('input[name="provincia"]')||!clean(document.querySelector('input[name="provincia"]').value))m.push('Provincia');
+if(!document.querySelector('input[name="cap"]')||!clean(document.querySelector('input[name="cap"]').value))m.push('CAP');
 if(!document.querySelector('input[name="titoloImmobile"]:checked'))m.push('Titolo di possesso immobile');
 if(!document.querySelector('input[name="residenzaFornitura"]:checked'))m.push('Indicazione residenza');
 if(!document.querySelector('input[name="metodoPagamento"]:checked'))m.push('Metodo di pagamento');
-if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}
-if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}
+if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if(t&&t.value==='Voltura'&&magisLuceV()&&!pickedFiles.bollettaLuce.length)m.push('Bolletta luce (obbligatoria per permanenza su Magis)');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}
+if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if(t&&t.value==='Voltura'&&magisGasV()&&!pickedFiles.bollettaGas.length)m.push('Bolletta gas (obbligatoria per permanenza su Magis)');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}
 return m;}
 function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
 $('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
@@ -213,6 +232,11 @@ document.addEventListener('change',e=>{
   if(e.target.matches('input[name="residenzaFornitura"],input[name="residenzaModalita"],input[name="metodoPagamento"]')) updateExtraFields();
 });
 updateExtraFields();
+function showDepositoModal(){const m=$('depositoModal');if(m)m.classList.add('show');}
+document.addEventListener('change',e=>{
+  if(e.target.matches('input[name="metodoPagamento"]:checked')&&e.target.value==='Bollettino')showDepositoModal();
+});
+(function(){const m=$('depositoModal');if(!m)return;const close=()=>m.classList.remove('show');const ok=$('depositoOk');if(ok)ok.addEventListener('click',close);m.addEventListener('click',e=>{if(e.target===m)close();});document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});})();
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
@@ -237,7 +261,8 @@ try{
   if(!clean(document.querySelector('input[name="cliente"]')?.value) && !forzato) throw Error('Inserisci il nome e cognome del cliente.');
   if(!clean(document.querySelector('input[name="telefonoCliente"]')?.value) && !forzato) throw Error('Inserisci il telefono del cliente.');
   if(!clean(document.querySelector('input[name="emailCliente"]')?.value) && !forzato) throw Error('Inserisci l’email del cliente.');
-  if(!clean(document.querySelector('input[name="indirizzo"]')?.value) && !forzato) throw Error('Inserisci l’indirizzo di fornitura.');
+  if((!clean($('via')?.value)||!clean($('civico')?.value)||!clean($('comune')?.value)||!clean($('provincia')?.value)||!clean($('cap')?.value))&&!forzato) throw Error('Completa tutti i campi dell’indirizzo: via, civico, comune, provincia e CAP.');
+  if($('cap')&&clean($('cap').value)&&!/^\d{5}$/.test(clean($('cap').value))&&!forzato) throw Error('Il CAP deve contenere 5 cifre.');
   if(!resSel) throw Error('Indica se il cliente metterà la residenza presso l’indirizzo di fornitura.');
   if(resSel==='No' && !resMod && !forzato) throw Error('Se la residenza è diversa, indica se va presa dalla carta d’identità oppure inserita manualmente.');
   if(resSel==='No' && resMod==='Inserita manualmente' && !resTxt && !forzato) throw Error('Inserisci l’indirizzo di residenza diverso dalla fornitura.');
@@ -255,6 +280,7 @@ try{
     if(tipoLuce==='Voltura'){
       opLuce=clean(opLEl?.value);
       if(!opLuce && !forzato) throw Error('Indica il fornitore attualmente attivo per la luce.');
+      if(magisLuceV() && !pickedFiles.bollettaLuce.length && !forzato) throw Error('Permanenza su Magis (ex Aim Agsm): allega obbligatoriamente la vecchia bolletta luce.');
     }
     if(!pod && !pickedFiles.bollettaLuce.length && !forzato) throw Error('Per la luce indica il POD oppure allega la bolletta luce.');
     if(pod && !/^IT[A-Z0-9]{12,23}$/.test(pod) && !forzato) throw Error('Il POD sembra non valido: deve iniziare con IT.');
@@ -267,6 +293,7 @@ try{
     if(tipoGas==='Voltura'){
       opGas=clean(opGEl?.value);
       if(!opGas && !forzato) throw Error('Indica il fornitore attualmente attivo per il gas.');
+      if(magisGasV() && !pickedFiles.bollettaGas.length && !forzato) throw Error('Permanenza su Magis (ex Aim Agsm): allega obbligatoriamente la vecchia bolletta gas.');
     }
     if(!pdr && !pickedFiles.bollettaGas.length && !forzato) throw Error('Per il gas indica il PDR oppure allega la bolletta gas.');
     if(pdr && !/^\d{14}$/.test(pdr) && !forzato) throw Error('Il PDR deve contenere 14 cifre.');
@@ -282,6 +309,12 @@ try{
   const fields=Object.fromEntries(new FormData(f).entries());
   fields.pod=pod;
   fields.pdr=pdr;
+  fields.via=clean($('via')?.value).toUpperCase();
+  fields.civico=clean($('civico')?.value);
+  fields.comune=clean($('comune')?.value);
+  fields.provincia=clean($('provincia')?.value).toUpperCase();
+  fields.cap=clean($('cap')?.value);
+  fields.indirizzo=[fields.via+' '+fields.civico, fields.cap, fields.comune].filter(Boolean).join(' ')+(fields.provincia?' ('+fields.provincia+')':'');
   fields.servizi=[...(luce?['Luce']:[]),...(gas?['Gas']:[])].join(', ');
   fields.tipoLuce=tipoLuce;
   fields.tipoGas=tipoGas;
@@ -312,6 +345,7 @@ try{
   $('serviceGas').classList.add('disabled');
   $('operatoreLuceBox').style.display='none';
   $('operatoreGasBox').style.display='none';
+  updateMagisHints();
   good('Richiesta inviata. Controlla la ricezione delle email configurate.');
 }catch(x){
   err(x.message);
