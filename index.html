@@ -47,10 +47,41 @@ button:disabled{opacity:.65;cursor:wait}
 
 <h2>Cliente e immobile</h2>
 <div class="grid">
+  <div class="full choice">
+    <label style="margin-bottom:6px">Tipologia cliente</label>
+    <div class="inline-choice" role="radiogroup" aria-label="Tipologia cliente">
+      <label class="radiocard"><input type="radio" name="tipoCliente" value="Domestico" checked><span><span class="rtitle">Cliente privato</span></span></label>
+      <label class="radiocard"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
+    </div>
+    <p class="hint">Seleziona "Azienda / Partita IVA" per modificare i campi anagrafici in quelli aziendali.</p>
+  </div>
+  <div class="full" id="bloccoDomestico"><div class="grid">
   <div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" autocomplete="name"><p class="hint">Obbligatorio.</p></div>
   <div><label>Telefono cliente <span class="req">*</span></label><input type="tel" name="telefonoCliente" autocomplete="tel"><p class="hint">Obbligatorio.</p></div>
   <div><label>Email cliente <span class="req">*</span></label><input type="email" name="emailCliente" autocomplete="email"><p class="hint">Obbligatoria.</p></div>
   <div><label>Codice fiscale cliente <span class="req">*</span></label><input name="codiceFiscale" maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
+  </div></div>
+  <div class="full" id="bloccoBusiness" style="display:none"><div class="grid">
+  <div class="full"><label>Nome azienda <span class="req">*</span></label><input name="aziendaCliente" id="aziendaCliente" placeholder="Ragione sociale" autocomplete="organization"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Partita IVA <span class="req">*</span></label><input name="piva" id="piva" inputmode="numeric" maxlength="11" placeholder="11 cifre"><p class="hint">11 cifre.</p></div>
+  <div class="full"><label>Sede legale <span class="req">*</span></label><input name="sedeLegale" id="sedeLegale" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia"><p class="hint">Obbligatoria.</p></div>
+  <div><label>Nome e cognome legale rappresentante <span class="req">*</span></label><input name="rappresentante" id="rappresentante" autocomplete="name"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Codice fiscale legale rappresentante <span class="req">*</span></label><input name="cfRappresentante" id="cfRappresentante" maxlength="16" style="text-transform:uppercase"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Telefono referente <span class="req">*</span></label><input type="tel" name="telefonoReferente" id="telefonoReferente" autocomplete="tel"><p class="hint">Obbligatorio.</p></div>
+  <div><label>Email amministrazione <span class="req">*</span></label><input type="email" name="emailAmministrazione" id="emailAmministrazione" autocomplete="email"><p class="hint">Obbligatoria.</p></div>
+  <div class="full"><label>PEC aziendale <span class="req">*</span></label><input type="email" name="pecAziendale" id="pecAziendale" placeholder="nome@pec.it"><p class="hint">Obbligatoria (fatturazione elettronica).</p></div>
+  <div class="full"><label>Codice SDI <span class="req">*</span></label><input name="codiceSdi" id="codiceSdi" maxlength="7" placeholder="7 caratteri es. ABCDEFG" style="text-transform:uppercase"><p class="hint">Codice per la fatturazione elettronica.</p></div>
+  <div><label>Potenza attuale contatore luce</label><input name="potenzaAttuale" id="potenzaAttuale" inputmode="decimal" placeholder="Es. 3,3 kW"><p class="hint">In kW, se nota. Facoltativa.</p></div>
+  <div><label>Potenza richiesta</label><input name="potenzaRichiesta" id="potenzaRichiesta" inputmode="decimal" placeholder="Es. 6 kW"><p class="hint">Solo se serve aumentarla/ridurla (con eventuale onere).</p></div>
+  <div class="full choice">
+    <label style="margin-bottom:6px">Tensione contatore <span class="req">*</span></label>
+    <div class="inline-choice" role="radiogroup" aria-label="Tensione contatore">
+      <label class="radiocard"><input type="radio" name="tensione" value="220"><span><span class="rtitle">220 V</span></span></label>
+      <label class="radiocard"><input type="radio" name="tensione" value="380"><span><span class="rtitle">380 V</span></span></label>
+    </div>
+    <p class="hint">Dato tecnico del contatore luce.</p>
+  </div>
+  </div></div>
   <div class="full"><label>Via / Piazza / Viale / Vicolo <span class="req">*</span></label><input name="via" id="via" placeholder="Es. VIA GIOTTO" style="text-transform:uppercase" autocomplete="address-line1"><p class="hint">Tipo di strada (Via, Piazza, Viale...) e denominazione dell'indirizzo.</p></div>
   <div><label>Civico <span class="req">*</span></label><input name="civico" id="civico" autocomplete="address-line2"></div>
   <div><label>Comune <span class="req">*</span></label><input name="comune" id="comune" autocomplete="address-level2"></div>
@@ -94,8 +125,9 @@ button:disabled{opacity:.65;cursor:wait}
 <div><label>Bolletta gas</label><div class="filebox"><input type="file" id="bollettaGas" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">PDF, JPG o PNG; max 12 MB. Puoi allegare più file per ogni sezione. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo nitido); puoi fare più foto per coprire le diverse pagine. Una nuova foto si aggiunge alle precedenti, senza sostituirle; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntBollettaGas"></p><p class="hint" id="magisGasHint" style="display:none;color:#b42318;font-weight:600">Permanenza su Magis: la vecchia bolletta è obbligatoria.</p></div></div>
 </div></div></div>
 
-<h2>Residenza e pagamento</h2>
+<h2 id="titoloResidenza">Residenza e pagamento</h2>
 <div class="grid">
+  <div class="full" id="bloccoResidenzaDom">
   <div class="full choice">
     <label style="margin-bottom:6px">Il cliente metterà la residenza presso questo indirizzo? <span class="req">*</span></label>
     <div class="inline-choice" role="radiogroup" aria-label="Residenza presso indirizzo fornitura">
@@ -114,11 +146,12 @@ button:disabled{opacity:.65;cursor:wait}
       <input name="residenzaDiversa" placeholder="Via/Piazza, numero civico, CAP, Comune, Provincia">
     </div>
   </div>
+  </div>
   <div class="full choice">
     <label style="margin-bottom:6px">Metodo di pagamento desiderato <span class="req">*</span></label>
     <div class="inline-choice" role="radiogroup" aria-label="Metodo pagamento">
       <label class="radiocard"><input type="radio" name="metodoPagamento" value="IBAN" required><span><span class="rtitle">Addebito su IBAN</span><span class="rdesc">Più rapido e senza deposito cauzionale legato al bollettino.</span></span></label>
-      <label class="radiocard"><input type="radio" name="metodoPagamento" value="Bollettino"><span><span class="rtitle">Bollettino</span><span class="rdesc">Può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.</span></span></label>
+      <label class="radiocard"><input type="radio" name="metodoPagamento" value="Bollettino"><span><span class="rtitle">Bollettino</span><span class="rdesc" id="bollDesc">Può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.</span></span></label>
     </div>
   </div>
   <div class="full choice" id="ibanChoiceBox" style="display:none">
@@ -134,7 +167,9 @@ button:disabled{opacity:.65;cursor:wait}
 <h2>Documenti</h2>
 <p class="hint" style="margin:0 0 8px">Qui puoi allegare anche foto della proposta o di altri documenti utili. Ora puoi aggiungere foto o PDF integrativi direttamente nelle sezioni anagrafica, indirizzo e IBAN per velocizzare la compilazione, senza dover scegliere una modalità unica.</p>
 <div class="grid">
-<div><label>Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Fronte/retro in un PDF oppure immagine; max 12 MB. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo leggibile); puoi fare più foto per fronte e retro. Una nuova foto si aggiunge alle precedenti; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+<div><label id="docLabel">Documento d'identità cliente <span class="req">*</span></label><div class="filebox"><input type="file" id="documento" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Fronte/retro in un PDF oppure immagine; max 12 MB. Se fai le foto dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo leggibile); puoi fare più foto per fronte e retro. Una nuova foto si aggiunge alle precedenti; le immagini vengono compresse automaticamente prima dell’invio.</p></div></div>
+
+<div class="full" id="visuraBox" style="display:none"><label>Visura camerale ordinaria <span class="req">*</span></label><div class="filebox"><input type="file" id="visura" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" multiple><p class="hint">Obbligatoria per clienti azienda / Partita IVA. PDF, JPG o PNG; max 12 MB. Se la fotografi dal cellulare: inquadra il documento a pagina intera e scatta con cura (buona luce, testo leggibile); puoi allegare più foto/pagine. Una nuova foto si aggiunge alle precedenti; le immagini vengono compresse automaticamente prima dell’invio.</p><p class="hint" id="cntVisura"></p></div></div>
 
 <div class="full"><label>Note</label><textarea name="note" placeholder="Es. orario preferito per contattare il cliente, potenza richiesta, particolarità della pratica..."></textarea></div>
 </div>
@@ -151,19 +186,19 @@ button:disabled{opacity:.65;cursor:wait}
 <div class="modal-overlay" id="depositoModal" role="dialog" aria-modal="true" aria-labelledby="depositoTitolo">
   <div class="modal-box">
     <h3 id="depositoTitolo">Deposito cauzionale</h3>
-    <p>Informa il cliente che, scegliendo il bollettino come metodo di pagamento, può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l'IBAN.</p>
+    <p id="depositoTesto">Informa il cliente che, scegliendo il bollettino come metodo di pagamento, può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l'IBAN.</p>
     <button type="button" id="depositoOk">OK, ho informato il cliente</button>
   </div>
 </div>
 <script>
-const ENDPOINT='https://script.google.com/macros/s/AKfycbyF87mkVDHh0jJI1LM5TEdXgtYYZLyGnqv4YPqsbGmAu73LSka0O7zD2MypuPrJuIqI/exec';
+const ENDPOINT='https://script.google.com/macros/s/AKfycbwF29fIbK4QBTklWomKLd4TH4V3PXsj1jbufIWimO7CRyxIAPW5L1Q5gy9J32mFLbCM/exec';
 const MAX_FILE=12*1024*1024, MAXTOTAL=20*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
 const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
-const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],ibanDoc:[]};
+const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],ibanDoc:[],visura:[]};
 function syncInputFiles(id){const el=$(id);if(!el)return;try{const dt=new DataTransfer();pickedFiles[id].forEach(f=>dt.items.add(f));el.files=dt.files;}catch(_){}}
 function fileSig(f){return [f.name,f.size,f.lastModified,f.type].join('::');}
 function mergePickedFiles(id,newFiles){const seen=new Set(pickedFiles[id].map(fileSig));for(const f of Array.from(newFiles||[])){const sig=fileSig(f);if(!seen.has(sig)){pickedFiles[id].push(f);seen.add(sig);}}syncInputFiles(id);updateCounts();}
-function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];pickedFiles.ibanDoc=[];['documento','bollettaLuce','bollettaGas','ibanDoc'].forEach(syncInputFiles);updateCounts();}
+function clearPickedFiles(){pickedFiles.documento=[];pickedFiles.bollettaLuce=[];pickedFiles.bollettaGas=[];pickedFiles.ibanDoc=[];pickedFiles.visura=[];['documento','bollettaLuce','bollettaGas','ibanDoc','visura'].forEach(syncInputFiles);updateCounts();}
 function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
 function fileCheck(file,label){if(!file)return null;if(!allowed.includes(file.type))throw Error(label+': usa solo PDF, JPG o PNG.');if(file.size>MAX_FILE)throw Error(label+': supera '+(MAX_FILE/1048576)+' MB.');return file}
@@ -192,26 +227,42 @@ document.addEventListener('input',e=>{if(e.target.id==='operatoreLuce'||e.target
 updateMagisHints();
 
 function elencoMancanti(){const m=[],luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,doc=$('documento'),opL=$('operatoreLuce'),opG=$('operatoreGas'),podEl=$('pod'),pdrEl=$('pdr');
-if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');
-if(!document.querySelector('input[name="cliente"]')||!clean(document.querySelector('input[name="cliente"]').value))m.push('Nome e cognome cliente');
-if(!document.querySelector('input[name="telefonoCliente"]')||!clean(document.querySelector('input[name="telefonoCliente"]').value))m.push('Telefono cliente');
-if(!document.querySelector('input[name="emailCliente"]')||!clean(document.querySelector('input[name="emailCliente"]').value))m.push('Email cliente');
-if(!document.querySelector('input[name="codiceFiscale"]')||!clean(document.querySelector('input[name="codiceFiscale"]').value))m.push('Codice fiscale cliente');
+ const biz=businessOn();
+if(biz){
+  if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del legale rappresentante');
+  if(!pickedFiles.visura.length)m.push('Visura camerale ordinaria');
+  if(!document.querySelector('input[name="aziendaCliente"]')||!clean(document.querySelector('input[name="aziendaCliente"]').value))m.push('Nome azienda');
+  if(!document.querySelector('input[name="piva"]')||!clean(document.querySelector('input[name="piva"]').value))m.push('Partita IVA');
+  if(!document.querySelector('input[name="sedeLegale"]')||!clean(document.querySelector('input[name="sedeLegale"]').value))m.push('Sede legale');
+  if(!document.querySelector('input[name="rappresentante"]')||!clean(document.querySelector('input[name="rappresentante"]').value))m.push('Legale rappresentante');
+  if(!document.querySelector('input[name="cfRappresentante"]')||!clean(document.querySelector('input[name="cfRappresentante"]').value))m.push('Codice fiscale legale rappresentante');
+  if(!document.querySelector('input[name="telefonoReferente"]')||!clean(document.querySelector('input[name="telefonoReferente"]').value))m.push('Telefono referente');
+  if(!document.querySelector('input[name="emailAmministrazione"]')||!clean(document.querySelector('input[name="emailAmministrazione"]').value))m.push('Email amministrazione');
+  if(!document.querySelector('input[name="pecAziendale"]')||!clean(document.querySelector('input[name="pecAziendale"]').value))m.push('PEC aziendale');
+  if(!document.querySelector('input[name="codiceSdi"]')||!clean(document.querySelector('input[name="codiceSdi"]').value))m.push('Codice SDI');
+  if(!document.querySelector('input[name="tensione"]:checked'))m.push('Tensione contatore');
+}else{
+  if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');
+  if(!document.querySelector('input[name="cliente"]')||!clean(document.querySelector('input[name="cliente"]').value))m.push('Nome e cognome cliente');
+  if(!document.querySelector('input[name="telefonoCliente"]')||!clean(document.querySelector('input[name="telefonoCliente"]').value))m.push('Telefono cliente');
+  if(!document.querySelector('input[name="emailCliente"]')||!clean(document.querySelector('input[name="emailCliente"]').value))m.push('Email cliente');
+  if(!document.querySelector('input[name="codiceFiscale"]')||!clean(document.querySelector('input[name="codiceFiscale"]').value))m.push('Codice fiscale cliente');
+  if(!document.querySelector('input[name="residenzaFornitura"]:checked'))m.push('Indicazione residenza');
+}
 if(!document.querySelector('input[name="via"]')||!clean(document.querySelector('input[name="via"]').value))m.push('Via immobile / fornitura');
 if(!document.querySelector('input[name="civico"]')||!clean(document.querySelector('input[name="civico"]').value))m.push('Civico');
 if(!document.querySelector('input[name="comune"]')||!clean(document.querySelector('input[name="comune"]').value))m.push('Comune');
 if(!document.querySelector('input[name="provincia"]')||!clean(document.querySelector('input[name="provincia"]').value))m.push('Provincia');
 if(!document.querySelector('input[name="cap"]')||!clean(document.querySelector('input[name="cap"]').value))m.push('CAP');
 if(!document.querySelector('input[name="titoloImmobile"]:checked'))m.push('Titolo di possesso immobile');
-if(!document.querySelector('input[name="residenzaFornitura"]:checked'))m.push('Indicazione residenza');
 if(!document.querySelector('input[name="metodoPagamento"]:checked'))m.push('Metodo di pagamento');
 if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if(t&&t.value==='Voltura'&&magisLuceV()&&!pickedFiles.bollettaLuce.length)m.push('Bolletta luce (obbligatoria per permanenza su Magis)');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}
 if(gas){const t=document.querySelector('input[name="tipoGas"]:checked');if(!t)m.push('Tipo operazione gas');if(t&&t.value==='Voltura'&&(!opG||!clean(opG.value)))m.push('Fornitore attualmente attivo per il gas');if(t&&t.value==='Voltura'&&magisGasV()&&!pickedFiles.bollettaGas.length)m.push('Bolletta gas (obbligatoria per permanenza su Magis)');if((!pdrEl||!clean(pdrEl.value))&&!pickedFiles.bollettaGas.length)m.push('PDR oppure bolletta gas');}
 return m;}
 function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
 $('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
-function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['ibanDoc','cntIbanDoc','IBAN da allegato']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
-['documento','bollettaLuce','bollettaGas','ibanDoc'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
+function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['ibanDoc','cntIbanDoc','IBAN da allegato'],['visura','cntVisura','Visura camerale']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
+['documento','bollettaLuce','bollettaGas','ibanDoc','visura'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
 updateCounts();
 
 document.querySelectorAll('.attach-toggle').forEach(btn=>btn.addEventListener('click',()=>{const box=$(btn.dataset.target);if(!box)return;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Nascondi foto/PDF':'Aggiungi foto/PDF';}));
@@ -232,7 +283,26 @@ document.addEventListener('change',e=>{
   if(e.target.matches('input[name="residenzaFornitura"],input[name="residenzaModalita"],input[name="metodoPagamento"]')) updateExtraFields();
 });
 updateExtraFields();
-function showDepositoModal(){const m=$('depositoModal');if(m)m.classList.add('show');}
+function businessOn(){return (document.querySelector('input[name="tipoCliente"]:checked')||{}).value==='Business';}
+function updateBusinessMode(){
+  const biz=businessOn();
+  const d=$('bloccoDomestico'),b=$('bloccoBusiness'),r=$('bloccoResidenzaDom'),v=$('visuraBox'),t=$('titoloResidenza');
+  if(d)d.style.display=biz?'none':'block';
+  if(b)b.style.display=biz?'block':'none';
+  if(r)r.style.display=biz?'none':'block';
+  if(v)v.style.display=biz?'block':'none';
+  if(t)t.textContent=biz?'Pagamento':'Residenza e pagamento';
+  document.querySelectorAll('input[name="residenzaFornitura"]').forEach(r=>{if(r.required===biz)r.required=!biz;});
+  const dl=$('docLabel');
+  if(dl)dl.innerHTML=biz?'Documento d’identità del legale rappresentante <span class="req">*</span>':'Documento d’identità cliente <span class="req">*</span>';
+  const bd=$('bollDesc');
+  if(bd)bd.textContent=biz?'Deposito cauzionale più elevato per P.IVA; fortemente sconsigliato: può far andare in KO la pratica per credito negativo.':'Può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.';
+  updateExtraFields();
+  if(typeof aggiornaMancanti==='function') aggiornaMancanti();
+}
+bindRadioToggle('tipoCliente',updateBusinessMode);
+updateBusinessMode();
+function showDepositoModal(){const m=$('depositoModal');if(!m)return;const t=$('depositoTesto');if(t)t.textContent=businessOn()?'Per la P.IVA il deposito cauzionale può essere sensibilmente più alto: il bollettino è fortemente sconsigliato e può far andare in KO la pratica per credito negativo. Consigliamo di scegliere l’addebito su IBAN.':'Informa il cliente che, scegliendo il bollettino come metodo di pagamento, può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.';m.classList.add('show');}
 document.addEventListener('change',e=>{
   if(e.target.matches('input[name="metodoPagamento"]:checked')&&e.target.value==='Bollettino')showDepositoModal();
 });
@@ -240,7 +310,7 @@ document.addEventListener('change',e=>{
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas','ibanDoc'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
+async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas','ibanDoc','visura'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
 $('volturaForm').addEventListener('submit',async e=>{
 e.preventDefault(); const f=e.currentTarget;
 try{
@@ -250,6 +320,7 @@ try{
   const invioEl=$('invioEccezionale');
   const forzato=!!invioEl&&invioEl.checked;
   const podEl=$('pod'), pdrEl=$('pdr'), opLEl=$('operatoreLuce'), opGEl=$('operatoreGas');
+  const biz=businessOn();
   if(!luce&&!gas) throw Error('Seleziona almeno una fornitura: luce o gas.');
   const mancanti=elencoMancanti();
   if(!forzato && mancanti.length) throw Error('Per inviare normalmente completa: '+mancanti.join('; ')+'. Se è un caso estremo, spunta il flag di invio eccezionale.');
@@ -258,14 +329,33 @@ try{
   const resTxt=clean($('residenzaManualeBox')?.querySelector('input')?.value);
   const paySel=document.querySelector('input[name="metodoPagamento"]:checked')?.value||'';
   const iban=clean($('iban')?.value).toUpperCase();
-  if(!clean(document.querySelector('input[name="cliente"]')?.value) && !forzato) throw Error('Inserisci il nome e cognome del cliente.');
-  if(!clean(document.querySelector('input[name="telefonoCliente"]')?.value) && !forzato) throw Error('Inserisci il telefono del cliente.');
-  if(!clean(document.querySelector('input[name="emailCliente"]')?.value) && !forzato) throw Error('Inserisci l’email del cliente.');
+  if(biz){
+    if(!clean($('aziendaCliente')?.value) && !forzato) throw Error('Inserisci il nome dell’azienda.');
+    if(!$('piva')||!clean($('piva').value)){if(!forzato)throw Error('Inserisci la Partita IVA.');}
+    if(clean($('piva')?.value)&&!/^\d{11}$/.test(clean($('piva').value))&&!forzato) throw Error('La Partita IVA deve contenere 11 cifre.');
+    if(!clean($('sedeLegale')?.value) && !forzato) throw Error('Inserisci la sede legale dell’azienda.');
+    if(!clean($('rappresentante')?.value) && !forzato) throw Error('Inserisci nome e cognome del legale rappresentante.');
+    if(!clean($('cfRappresentante')?.value) && !forzato) throw Error('Inserisci il codice fiscale del legale rappresentante.');
+    if(!clean($('telefonoReferente')?.value) && !forzato) throw Error('Inserisci il telefono del referente.');
+    if(!clean($('emailAmministrazione')?.value) && !forzato) throw Error('Inserisci l’email dell’amministrazione.');
+    if(!clean($('pecAziendale')?.value) && !forzato) throw Error('Inserisci la PEC aziendale.');
+    const sdi=clean($('codiceSdi')?.value);
+    if(!sdi && !forzato) throw Error('Inserisci il codice SDI per la fatturazione elettronica.');
+    if(sdi && !/^[0-9A-Z]{7}$/i.test(sdi) && !forzato) throw Error('Il codice SDI deve contenere 7 caratteri alfanumerici.');
+    if(!document.querySelector('input[name="tensione"]:checked') && !forzato) throw Error('Indica la tensione del contatore (220 V o 380 V).');
+    if(!pickedFiles.visura.length && !forzato) throw Error('Allega la visura camerale ordinaria.');
+  }else{
+    if(!clean(document.querySelector('input[name="cliente"]')?.value) && !forzato) throw Error('Inserisci il nome e cognome del cliente.');
+    if(!clean(document.querySelector('input[name="telefonoCliente"]')?.value) && !forzato) throw Error('Inserisci il telefono del cliente.');
+    if(!clean(document.querySelector('input[name="emailCliente"]')?.value) && !forzato) throw Error('Inserisci l’email del cliente.');
+  }
   if((!clean($('via')?.value)||!clean($('civico')?.value)||!clean($('comune')?.value)||!clean($('provincia')?.value)||!clean($('cap')?.value))&&!forzato) throw Error('Completa tutti i campi dell’indirizzo: via, civico, comune, provincia e CAP.');
   if($('cap')&&clean($('cap').value)&&!/^\d{5}$/.test(clean($('cap').value))&&!forzato) throw Error('Il CAP deve contenere 5 cifre.');
-  if(!resSel) throw Error('Indica se il cliente metterà la residenza presso l’indirizzo di fornitura.');
-  if(resSel==='No' && !resMod && !forzato) throw Error('Se la residenza è diversa, indica se va presa dalla carta d’identità oppure inserita manualmente.');
-  if(resSel==='No' && resMod==='Inserita manualmente' && !resTxt && !forzato) throw Error('Inserisci l’indirizzo di residenza diverso dalla fornitura.');
+  if(!biz){
+    if(!resSel) throw Error('Indica se il cliente metterà la residenza presso l’indirizzo di fornitura.');
+    if(resSel==='No' && !resMod && !forzato) throw Error('Se la residenza è diversa, indica se va presa dalla carta d’identità oppure inserita manualmente.');
+    if(resSel==='No' && resMod==='Inserita manualmente' && !resTxt && !forzato) throw Error('Inserisci l’indirizzo di residenza diverso dalla fornitura.');
+  }
   if(!paySel) throw Error('Seleziona il metodo di pagamento desiderato.');
   if(paySel==='IBAN' && !iban && !pickedFiles.ibanDoc.length && !forzato) throw Error('Inserisci l’IBAN oppure allega una foto/PDF dove sia visibile.');
   if(iban && !/^IT[0-9A-Z]{25}$/.test(iban) && !forzato) throw Error('L’IBAN deve avere 27 caratteri e iniziare con IT.');
@@ -327,6 +417,31 @@ try{
   fields.metodoPagamento=paySel;
   fields.ibanModalita=paySel==='IBAN'?(iban?'Inserito nel form':'Da documento allegato o foto'):'';
   fields.iban=iban;
+  if(biz){
+    fields.tipoCliente='Business';
+    fields.aziendaCliente=clean($('aziendaCliente')?.value);
+    fields.piva=clean($('piva')?.value);
+    fields.sedeLegale=clean($('sedeLegale')?.value);
+    fields.rappresentante=clean($('rappresentante')?.value);
+    fields.cfRappresentante=clean($('cfRappresentante')?.value).toUpperCase();
+    fields.telefonoReferente=clean($('telefonoReferente')?.value);
+    fields.emailAmministrazione=clean($('emailAmministrazione')?.value);
+    fields.pecAziendale=clean($('pecAziendale')?.value);
+    fields.codiceSdi=clean($('codiceSdi')?.value).toUpperCase();
+    fields.tensione=(document.querySelector('input[name="tensione"]:checked')||{}).value||'';
+    fields.potenzaAttuale=clean($('potenzaAttuale')?.value);
+    fields.potenzaRichiesta=clean($('potenzaRichiesta')?.value);
+    fields.cliente=fields.aziendaCliente;
+    fields.codiceFiscale=fields.cfRappresentante;
+    fields.telefonoCliente=fields.telefonoReferente;
+    fields.emailCliente=fields.emailAmministrazione;
+    fields.residenzaFornitura='';
+    fields.residenzaModalita='';
+    fields.residenzaDiversa='';
+  }else{
+    fields.tipoCliente='Domestico';
+  }
+  fields.visuraDaAllegato=pickedFiles.visura.length?'SÌ':'No';
   fields.invioEccezionale=forzato?'SÌ':'No';
   fields.elementiMancanti=mancanti.join(' | ');
   fields.filesRaccolti=String(attachments.length);
