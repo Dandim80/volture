@@ -30,12 +30,87 @@ button:disabled{opacity:.65;cursor:wait}
 #status{display:none;margin-top:16px;padding:12px;border-radius:8px;font-weight:600}
 .success{display:block!important;background:#e6f7f0;color:#065f46}
 .error{display:block!important;background:#fff0ee;color:#9b1c14}
+.guide-toggle{margin:0 0 10px;width:auto;background:#eef7ff;color:#0b4f7d;border:1px solid #bfd4e6;font-size:.8rem;padding:7px 12px}
+.guide-toggle:hover{background:#e2f1ff}
+.guide{background:#fbfdff;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.guide-intro{font-size:.78rem;color:#52687b;margin:0 0 8px}
+.guide details{border:1px solid var(--line);border-radius:8px;background:#fff;padding:6px 10px;margin-bottom:6px}
+.guide summary{cursor:pointer;font-weight:750;font-size:.8rem;color:var(--navy)}
+.guide details p{font-size:.76rem;color:#33465c;line-height:1.35;margin:6px 0 2px}
+.guide details ul{margin:4px 0 2px;padding-left:16px;font-size:.76rem;color:#33465c;line-height:1.35}
+.guide .tag-biz{color:#b42318;font-weight:700}
+.guide .tag-dom{color:#087f5b;font-weight:700}
 @media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px;flex-direction:column;align-items:flex-start;gap:3px}.brand{font-size:.9rem;line-height:1.2;white-space:nowrap}.brand span{display:inline;font-size:.84rem;margin-top:0}.tag{display:block;font-size:.73rem;line-height:1.2;color:#c8e2fa;white-space:normal}}
 </style>
 </head>
 <body><header><div class="brand">DDM Soluzioni <span style="font-weight:600;font-size:.92rem;opacity:.92">· 334.6395727</span></div><div class="tag">Servizio volture e subentri per agenzie immobiliari</div></header>
 <main><section class="hero"><h1>Volture e Subentri facili</h1><p>Inserisci la richiesta del cliente: riceveremo subito dati e allegati necessari per avviare la pratica.</p></section>
 <section class="card"><form id="volturaForm" novalidate>
+
+<button type="button" class="guide-toggle" id="guideToggle">Mostra guida compilazione (demo)</button>
+<div class="guide" id="guideBox" style="display:none">
+  <p class="guide-intro">Questa demo spiega, sezione per sezione, cosa inserire per <span class="tag-dom">clienti privati</span> e per <span class="tag-biz">aziende / Partita IVA</span>. Finché consulti la guida non invii nulla.</p>
+
+  <details open><summary>1 · Referente agenzia</summary>
+    <ul>
+      <li><span class="tag-dom">Nome agenzia</span> (obbligatorio): il nome della tua agenzia.</li>
+      <li>Referente (facoltativo): chi segue la pratica in agenzia.</li>
+      <li><span class="tag-dom">Email agenzia</span> (obbligatoria): su questa arriverà la conferma della richiesta.</li>
+      <li>Telefono (facoltativo): un numero di contatto dell'agenzia.</li>
+    </ul>
+  </details>
+
+  <details><summary>2 · Tipologia cliente (privato oppure azienda)</summary>
+    <p><span class="tag-dom">Cliente privato</span>: persona fisica. Compila nome e cognome, telefono, email e codice fiscale del cliente. La sezione residenza resta attiva.</p>
+    <p><span class="tag-biz">Azienda / Partita IVA</span>: seleziona questa opzione e i campi diventano aziendali (i dati privati e la residenza si nascondono). Compila: nome azienda, Partita IVA (11 cifre), sede legale, legale rappresentante con codice fiscale, telefono referente, email amministrazione, PEC aziendale (obbligatoria) e codice SDI (7 caratteri, per la fatturazione elettronica).</p>
+  </details>
+
+  <details><summary>3 · Indirizzo di fornitura</summary>
+    <p>Tutti obbligatori: via/piazza, numero civico, comune, provincia (sigla a 2 lettere, es. MI) e CAP (5 cifre). L'indirizzo completo viene ricostruito in automatico per la pratica.</p>
+  </details>
+
+  <details><summary>4 · Titolo di possesso immobile</summary>
+    <ul>
+      <li><span class="tag-dom">Entra in locazione</span>: il nuovo intestatario è inquilino.</li>
+      <li><span class="tag-dom">Ha acquistato l'immobile</span>: il nuovo intestatario è proprietario.</li>
+    </ul>
+    <p>Obbligatorio per tutti.</p>
+  </details>
+
+  <details><summary>5 · Servizi: luce e/o gas</summary>
+    <ul>
+      <li>Spunta solo i servizi richiesti (luce, gas o entrambi).</li>
+      <li>Per ciascuno scegli: <span class="tag-dom">Subentro</span> (contatore già chiuso, serve una nuova attivazione) oppure <span class="tag-dom">Voltura</span> (contatore ancora attivo, cambia solo l'intestatario).</li>
+      <li>Se scegli Voltura indica il <span class="tag-dom">fornitore attualmente attivo</span> (obbligatorio). Attenzione: se il fornitore è <span class="tag-biz">Magis (ex Aim Agsm)</span> e il cliente resta su Magis, la vecchia bolletta è obbligatoria.</li>
+      <li>POD (luce) / PDR (gas): se non li conosci, allega la bolletta (obbligatorio in quel caso).</li>
+    </ul>
+  </details>
+
+  <details><summary>6 · Potenza e tensione (Business)</summary>
+    <p><span class="tag-biz">Potenza attuale contatore luce</span> (obbligatoria, in kW): si copia in automatico sul campo potenza richiesta, che resta comunque modificabile se serve una potenza diversa (es. aumento con eventuali oneri).</p>
+    <p><span class="tag-biz">Tensione</span>: suggerimento automatico 220 V fino a 6,6 kW, 380 V oltre. A 6,6 kW può essere 220 o 380: verifica se possibile sulla bolletta attuale e chiedi sempre al cliente. Se non risponde al momento dell'invio, manda la pratica con "invio eccezionale" e chiarisci dopo.</p>
+  </details>
+
+  <details><summary>7 · Residenza e pagamento</summary>
+    <p><span class="tag-dom">Solo privato</span>: indicare se il cliente metterà la residenza presso l'indirizzo di fornitura; se no, scegliere "come da carta d'identità" oppure inserire l'indirizzo diverso.</p>
+    <p>Metodo di pagamento: <span class="tag-dom">IBAN</span> (consigliato) oppure <span class="tag-dom">Bollettino</span> (deposito cauzionale ~50 € per fornitura per i privati; per la <span class="tag-biz">P.IVA</span> il deposito è più alto e il bollettino è sconsigliato: rischio KO della pratica per credito negativo).</p>
+  </details>
+
+  <details><summary>8 · Documenti</summary>
+    <ul>
+      <li>Documento d'identità (fronte/retro): del cliente, oppure del legale rappresentante per le aziende. Obbligatorio.</li>
+      <li>Bolletta luce/gas: obbligatoria nei casi segnalati (permanenza Magis, oppure POD/PDR non noto).</li>
+      <li><span class="tag-biz">Visura camerale ordinaria</span>: obbligatoria per aziende / Partita IVA.</li>
+      <li>IBAN: puoi scriverlo nel form oppure allegare una foto/PDF dove sia ben visibile.</li>
+      <li>Foto: inquadra a pagina intera, con buona luce e testo nitido; puoi aggiungere più foto; le immagini vengono compresse automaticamente prima dell'invio.</li>
+    </ul>
+  </details>
+
+  <details><summary>9 · Note e invio</summary>
+    <p>Note: inserisci particolarità, orari preferiti per contattare il cliente, potenza da chiarire, ecc.</p>
+    <p>Invio normale: richiede tutti i dati e gli allegati obbligatori. <span class="tag-biz">Invio eccezionale</span>: spedisce comunque e la mail segnala gli elementi mancanti da integrare (usa se manca qualcosa, es. tensione da chiarire col cliente).</p>
+  </details>
+</div>
 
 <h2>Referente agenzia</h2>
 <div class="grid">
@@ -71,15 +146,15 @@ button:disabled{opacity:.65;cursor:wait}
   <div><label>Email amministrazione <span class="req">*</span></label><input type="email" name="emailAmministrazione" id="emailAmministrazione" autocomplete="email"><p class="hint">Obbligatoria.</p></div>
   <div class="full"><label>PEC aziendale <span class="req">*</span></label><input type="email" name="pecAziendale" id="pecAziendale" placeholder="nome@pec.it"><p class="hint">Obbligatoria (fatturazione elettronica).</p></div>
   <div class="full"><label>Codice SDI <span class="req">*</span></label><input name="codiceSdi" id="codiceSdi" maxlength="7" placeholder="7 caratteri es. ABCDEFG" style="text-transform:uppercase"><p class="hint">Codice per la fatturazione elettronica.</p></div>
-  <div><label>Potenza attuale contatore luce</label><input name="potenzaAttuale" id="potenzaAttuale" inputmode="decimal" placeholder="Es. 3,3 kW"><p class="hint">In kW, se nota. Facoltativa.</p></div>
-  <div><label>Potenza richiesta</label><input name="potenzaRichiesta" id="potenzaRichiesta" inputmode="decimal" placeholder="Es. 6 kW"><p class="hint">Solo se serve aumentarla/ridurla (con eventuale onere).</p></div>
+  <div><label>Potenza attuale contatore luce <span class="req">*</span></label><input name="potenzaAttuale" id="potenzaAttuale" inputmode="decimal" placeholder="Es. 3,3 kW"><p class="hint">Obbligatoria (kW).</p></div>
+  <div><label>Potenza richiesta</label><input name="potenzaRichiesta" id="potenzaRichiesta" inputmode="decimal"><p class="hint">Si compila in automatico con la potenza attuale. Indica una potenza richiesta diversa solo se necessario o richiesto (con eventuale onere).</p></div>
   <div class="full choice">
     <label style="margin-bottom:6px">Tensione contatore <span class="req">*</span></label>
     <div class="inline-choice" role="radiogroup" aria-label="Tensione contatore">
       <label class="radiocard"><input type="radio" name="tensione" value="220"><span><span class="rtitle">220 V</span></span></label>
       <label class="radiocard"><input type="radio" name="tensione" value="380"><span><span class="rtitle">380 V</span></span></label>
     </div>
-    <p class="hint">Dato tecnico del contatore luce.</p>
+    <p class="hint" style="color:#b42318;font-weight:600">Suggerimento automatico: fino a 6,6 kW 220 V, oltre 380 V. A 6,6 kW può essere 220 o 380: verifica se possibile sulla bolletta attuale e chiedi sempre al cliente per togliere ogni dubbio su cosa serve. Se al momento dell'invio non ha ancora risposto, puoi inviare comunque la pratica con "invio eccezionale" e chiarire dopo se serve 220 o 380. In casi particolari puoi scegliere diversamente; il cambio contatore può comportare oneri.</p>
   </div>
   </div></div>
   <div class="full"><label>Via / Piazza / Viale / Vicolo <span class="req">*</span></label><input name="via" id="via" placeholder="Es. VIA GIOTTO" style="text-transform:uppercase" autocomplete="address-line1"><p class="hint">Tipo di strada (Via, Piazza, Viale...) e denominazione dell'indirizzo.</p></div>
@@ -241,6 +316,7 @@ if(biz){
   if(!document.querySelector('input[name="pecAziendale"]')||!clean(document.querySelector('input[name="pecAziendale"]').value))m.push('PEC aziendale');
   if(!document.querySelector('input[name="codiceSdi"]')||!clean(document.querySelector('input[name="codiceSdi"]').value))m.push('Codice SDI');
   if(!document.querySelector('input[name="tensione"]:checked'))m.push('Tensione contatore');
+  if(!document.querySelector('input[name="potenzaAttuale"]')||!clean(document.querySelector('input[name="potenzaAttuale"]').value))m.push('Potenza attuale contatore luce');
 }else{
   if(!doc||!pickedFiles.documento.length)m.push('Documento d’identità del cliente');
   if(!document.querySelector('input[name="cliente"]')||!clean(document.querySelector('input[name="cliente"]').value))m.push('Nome e cognome cliente');
@@ -302,11 +378,27 @@ function updateBusinessMode(){
 }
 bindRadioToggle('tipoCliente',updateBusinessMode);
 updateBusinessMode();
+let tensioneManuale=false, potenzaRichiestaManuale=false;
+function suggerisciTensione(){
+  if(tensioneManuale)return;
+  const raw=clean($('potenzaRichiesta')?.value)||clean($('potenzaAttuale')?.value);
+  const v=parseFloat(String(raw).replace(',','.'));
+  if(isNaN(v))return;
+  const target=v>6.6?'380':'220';
+  const r=document.querySelector('input[name="tensione"][value="'+target+'"]');
+  if(r&&!r.checked)r.checked=true;
+}
+document.querySelectorAll('input[name="tensione"]').forEach(r=>r.addEventListener('change',()=>{tensioneManuale=true;}));
+const pAtt=$('potenzaAttuale'), pRic=$('potenzaRichiesta');
+if(pRic)pRic.addEventListener('input',()=>{potenzaRichiestaManuale=true;suggerisciTensione();});
+if(pAtt)pAtt.addEventListener('input',()=>{if(pRic&&!potenzaRichiestaManuale)pRic.value=pAtt.value;suggerisciTensione();});
+suggerisciTensione();
 function showDepositoModal(){const m=$('depositoModal');if(!m)return;const t=$('depositoTesto');if(t)t.textContent=businessOn()?'Per la P.IVA il deposito cauzionale può essere sensibilmente più alto: il bollettino è fortemente sconsigliato e può far andare in KO la pratica per credito negativo. Consigliamo di scegliere l’addebito su IBAN.':'Informa il cliente che, scegliendo il bollettino come metodo di pagamento, può essere richiesto un deposito cauzionale di circa 50 € per ogni fornitura, restituito a fine contratto o quando verrà inserito l’IBAN.';m.classList.add('show');}
 document.addEventListener('change',e=>{
   if(e.target.matches('input[name="metodoPagamento"]:checked')&&e.target.value==='Bollettino')showDepositoModal();
 });
 (function(){const m=$('depositoModal');if(!m)return;const close=()=>m.classList.remove('show');const ok=$('depositoOk');if(ok)ok.addEventListener('click',close);m.addEventListener('click',e=>{if(e.target===m)close();});document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});})();
+(function(){const t=$('guideToggle'),g=$('guideBox');if(!t||!g)return;const open=()=>{g.style.display='block';t.textContent='Nascondi guida compilazione';};const close=()=>{g.style.display='none';t.textContent='Mostra guida compilazione (demo)';};t.addEventListener('click',()=>{g.style.display==='block'?close():open();});})();
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
@@ -343,6 +435,7 @@ try{
     if(!sdi && !forzato) throw Error('Inserisci il codice SDI per la fatturazione elettronica.');
     if(sdi && !/^[0-9A-Z]{7}$/i.test(sdi) && !forzato) throw Error('Il codice SDI deve contenere 7 caratteri alfanumerici.');
     if(!document.querySelector('input[name="tensione"]:checked') && !forzato) throw Error('Indica la tensione del contatore (220 V o 380 V).');
+    if(!clean($('potenzaAttuale')?.value) && !forzato) throw Error('Inserisci la potenza attuale del contatore luce.');
     if(!pickedFiles.visura.length && !forzato) throw Error('Allega la visura camerale ordinaria.');
   }else{
     if(!clean(document.querySelector('input[name="cliente"]')?.value) && !forzato) throw Error('Inserisci il nome e cognome del cliente.');
@@ -361,7 +454,7 @@ try{
   if(iban && !/^IT[0-9A-Z]{25}$/.test(iban) && !forzato) throw Error('L’IBAN deve avere 27 caratteri e iniziare con IT.');
 
   let tipoLuce='', tipoGas='', opLuce='', opGas='';
-  const pod=clean(podEl?.value).toUpperCase(), pdr=clean(pdrEl?.value);
+  const pod=clean(podEl?.value).toUpperCase().replace(/[\s-]+/g,''), pdr=clean(pdrEl?.value).replace(/[\s-]+/g,'');
 
   if(luce){
     const rl=document.querySelector('input[name="tipoLuce"]:checked');
