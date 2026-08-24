@@ -4,6 +4,7 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Volture luce e gas | Supporto agenzie immobiliari</title>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--navy:#102a43;--blue:#1479c9;--light:#f4f8fc;--line:#d8e2ec;--ok:#087f5b;--danger:#b42318}*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:#102a43;background:var(--light)}header{background:var(--navy);color:#fff;padding:10px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{font-weight:800;letter-spacing:.3px;font-size:1.02rem;line-height:1.2}.tag{font-size:.82rem;color:#c8e2fa;line-height:1.25;margin-top:1px}.header-right{margin-left:auto}.phone{display:inline-flex;align-items:center;gap:7px;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);padding:6px 12px;border-radius:999px;text-decoration:none;font-weight:700;font-size:.88rem;white-space:nowrap}.phone:hover{background:rgba(255,255,255,.22)}.phone svg{width:15px;height:15px;fill:currentColor;flex:none}main{max-width:1080px;margin:10px auto;padding:0 10px}.hero{background:linear-gradient(135deg,#102a43,#164e7a);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px}.hero h1{margin:0 0 4px;font-size:clamp(1.24rem,2.6vw,1.7rem)}.hero p{margin:0;line-height:1.28;color:#e6f2ff;font-size:.88rem;max-width:none}.card{background:#fff;border-radius:12px;padding:12px 12px 14px;box-shadow:0 2px 10px #102a430d}h2{font-size:.95rem;margin:12px 0 7px;border-bottom:1px solid var(--line);padding-bottom:5px}h2:first-child{margin-top:0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}.full{grid-column:1/-1}label{font-weight:650;font-size:.84rem;display:block;margin-bottom:3px}label span.req{color:var(--danger)}input,select,textarea{width:100%;border:1px solid #aebdca;border-radius:7px;padding:7px 8px;font:inherit;color:inherit;background:#fff}input:focus,select:focus,textarea:focus{outline:3px solid #b8dcf7;border-color:var(--blue)}textarea{min-height:54px;resize:vertical}.hint{font-size:.73rem;color:#52687b;line-height:1.2;margin:2px 0 0}.magis-note{color:#b42318;font-weight:600}.modal-overlay{position:fixed;inset:0;background:rgba(16,42,67,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.modal-overlay.show{display:flex}.modal-box{background:#fff;border-radius:12px;padding:18px;max-width:430px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.25)}.modal-box h3{margin:0 0 8px;font-size:1.05rem;color:#b42318}.modal-box p{margin:0 0 14px;font-size:.86rem;line-height:1.4}.modal-overlay{position:fixed;inset:0;background:rgba(16,42,67,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}.modal-overlay.show{display:flex}.modal-box{background:#fff;border-radius:12px;padding:18px;max-width:430px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.25)}.modal-box h3{margin:0 0 8px;font-size:1.05rem;color:#b42318}.modal-box p{margin:0 0 14px;font-size:.86rem;line-height:1.4}.modal-box button{margin-top:0}
 .service{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fbfdff;margin-bottom:8px}
@@ -70,6 +71,11 @@ h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px
       <label class="radiocard"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
     </div>
     <p class="hint">Seleziona "Azienda / Partita IVA" per modificare i campi anagrafici in quelli aziendali.</p>
+  </div>
+  <div class="full" id="contrattoBox">
+    <label>Contratto di locazione digitale (PDF) <span style="font-weight:400;font-size:.73rem;color:#52687b">— facoltativo</span></label>
+    <div class="filebox"><input type="file" id="contrattoPdf" accept=".pdf,application/pdf"><p class="hint"><strong>Non serve il contratto firmato</strong>: basta il file digitale preparato in agenzia. Serve solo a <strong>precompilare automaticamente i dati</strong> (cliente o azienda, proprietario, indirizzo immobile, catastali, data inizio). <strong>Il contratto digitale viene riconosciuto subito: è la scelta preferibile.</strong> Se invece carichi una scansione, ti proporremo un link per trasformarla in PDF con testo in 30 secondi e ricaricarla. <strong>Verifica sempre i dati proposti.</strong> Il file resta allegato alla pratica.</p><p class="hint" id="cntContratto"></p></div>
+    <div id="contrattoEsito" class="hint" style="display:none;margin-top:6px;padding:8px 10px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:7px;line-height:1.5"></div>
   </div>
   <div class="full" id="bloccoDomestico"><div class="grid">
   <div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" id="cliente" autocomplete="name"><p class="hint">Obbligatorio.</p></div>
@@ -282,11 +288,11 @@ h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px
 const ENDPOINT='https://script.google.com/macros/s/AKfycbyAXz7a_r228m84jW5rYu2Rqm12ogF4QRm_oeScrcDIXNQZriwl10h56TKa1QHe3y3m/exec';
 const MAX_FILE=12*1024*1024, MAXTOTAL=20*1024*1024; const allowed=['application/pdf','image/jpeg','image/png'];
 const $=id=>document.getElementById(id); const clean=v=>String(v||'').trim();
-const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],bollettaAcqua:[],fotoContatoreAcqua:[],attoPossesso:[],ibanDoc:[],visura:[]};
+const pickedFiles={documento:[],bollettaLuce:[],bollettaGas:[],bollettaAcqua:[],fotoContatoreAcqua:[],attoPossesso:[],contrattoPdf:[],ibanDoc:[],visura:[]};
 function syncInputFiles(id){const el=$(id);if(!el)return;try{const dt=new DataTransfer();pickedFiles[id].forEach(f=>dt.items.add(f));el.files=dt.files;}catch(_){}}
 function fileSig(f){return [f.name,f.size,f.lastModified,f.type].join('::');}
 function mergePickedFiles(id,newFiles){const seen=new Set(pickedFiles[id].map(fileSig));for(const f of Array.from(newFiles||[])){const sig=fileSig(f);if(!seen.has(sig)){pickedFiles[id].push(f);seen.add(sig);}}syncInputFiles(id);updateCounts();}
-function clearPickedFiles(){['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','ibanDoc','visura'].forEach(id=>{pickedFiles[id]=[];syncInputFiles(id);});updateCounts();}
+function clearPickedFiles(){['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','contrattoPdf','ibanDoc','visura'].forEach(id=>{pickedFiles[id]=[];syncInputFiles(id);});updateCounts();}
 function err(msg){const s=$('status');s.className='error';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
  function good(msg){const s=$('status');s.className='success';s.textContent=msg;s.scrollIntoView({behavior:'smooth',block:'center'})}
  
@@ -395,8 +401,8 @@ const yy=parseInt(mm[2],10),mi=MESI.indexOf(mm[3]);let g=parseInt(mm[4],10);if(g
 const nowYY=new Date().getFullYear()%100,cc=yy>nowYY?1900:2000;
 const dt=new Date(cc+yy,mi,g);if(dt.getFullYear()!==cc+yy||dt.getMonth()!==mi||dt.getDate()!==g)return;
 dn.value=(cc+yy)+'-'+String(mi+1).padStart(2,'0')+'-'+String(g).padStart(2,'0');});})();
-function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['bollettaAcqua','cntBollettaAcqua','Bolletta acqua'],['fotoContatoreAcqua','cntFotoContatoreAcqua','Foto contatore acqua'],['attoPossesso','cntAttoPossesso','Atto di possesso'],['ibanDoc','cntIbanDoc','IBAN da allegato'],['visura','cntVisura','Visura camerale']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
-['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','ibanDoc','visura'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
+function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['bollettaAcqua','cntBollettaAcqua','Bolletta acqua'],['contrattoPdf','cntContratto','Contratto locazione'],['fotoContatoreAcqua','cntFotoContatoreAcqua','Foto contatore acqua'],['attoPossesso','cntAttoPossesso','Atto di possesso'],['ibanDoc','cntIbanDoc','IBAN da allegato'],['visura','cntVisura','Visura camerale']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
+['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','contrattoPdf','ibanDoc','visura'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
 updateCounts();
 
 document.querySelectorAll('.attach-toggle').forEach(btn=>btn.addEventListener('click',()=>{const box=$(btn.dataset.target);if(!box)return;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Nascondi foto/PDF':'Aggiungi foto/PDF';}));
@@ -478,7 +484,7 @@ suggerisciTensione();
 
 async function compressImageFile(file,maxW=1400,maxH=1400,quality=0.62){if(!file||!file.type||!file.type.startsWith('image/'))return file;const bmp=await createImageBitmap(file);let ratio=Math.min(maxW/bmp.width,maxH/bmp.height,1),cw=Math.round(bmp.width*ratio),ch=Math.round(bmp.height*ratio);const c=document.createElement('canvas');c.width=cw;c.height=ch;const ctx=c.getContext('2d');ctx.drawImage(bmp,0,0,cw,ch);const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',quality));return new File([blob],file.name.replace(/\.[^.]+$/,'')+'.jpg',{type:'image/jpeg',lastModified:Date.now()});}
 function fileToBase64(file){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(String(r.result).split(',')[1]);r.onerror=rej;r.readAsDataURL(file);});}
-async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','ibanDoc','visura'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
+async function collectAttachments(){const ids=['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','contrattoPdf','ibanDoc','visura'];const attachments=[];for(const id of ids){for(const file of pickedFiles[id]){const out=await compressImageFile(file);attachments.push({name:out.name,data:await fileToBase64(out),type:out.type||'application/octet-stream'});}}return attachments;}
 const VIAQUA_ID={Voltura:'viacqua_voltura',Attivazione:'viacqua_attivazione'};
 function b64ToU8(b64){const bin=atob(b64);const u=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i);return u;}
 async function buildViacquaPdf(tipo){
@@ -676,6 +682,148 @@ async function buildViacquaPdf(tipo){
     setVal('note','Dati di prova generati automaticamente per il test.');
     good('Dati di prova inseriti: controlla e invia (documenti da allegare a mano).');
     window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
+(function(){
+  const inp=$('contrattoPdf');if(!inp)return;
+  function setV(id,v){const el=$(id);if(!el||!v)return;el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));}
+  function setRad(name,val){const r=document.querySelector('input[name="'+name+'"][value="'+val+'"]');if(r&&!r.disabled){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}}
+  function iso(d){const p=d.split('/');if(p.length!==3)return '';let y=p[2];if(y.length===2)y=(parseInt(y,10)>(new Date().getFullYear()%100)?19:20)+y;return y+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');}
+  const RE_PERSONA=/([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙàèéìòù']+(?:\s+[A-Za-zÀÈÉÌÒÙàèéìòù']+){1,4})\s+nat[oa](?:\s+a\s+|\s+il\s+)(?:[^,]*?\s+)?(?:il\s+)?([\d/]{4,10})\s*,\s*(?:codice fiscale|cod\.?\s*fisc\.?|c\.?\s?f\.?)\s*[:.]?\s*([A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z])/gi;
+  const RE_SOCNOME=/((?:[A-Za-zÀÈÉÌÒÙàèéìòù0-9'&.\-]+(?:\s+|[',])){1,7}(?:S\.?R\.?L\.?|S\.?P\.?A\.?|S\.?N\.?C\.?|S\.?a\.?S\.?|S\.?C\.?R\.?L\.?))\b/i;
+  const RE_PIVA=/(?:p\.?\s*i\.?v\.?a\.?|partita\s+iva|cod\.?\s*fisc\.?|codice fiscale)\s*[:.]?\s*((?:IT)?\d{11})\b/i;
+  const RE_MARK=/concede in locazione|concede in affitto|d[àa]\s+in\s+locazione|d[àa]\s+in\s+affitto|locazione a favore(?: di)|affitto a favore(?: di)|in favore di/i;
+  function entita(chunk){
+    let best=null;
+    let m;RE_PERSONA.lastIndex=0;
+    while((m=RE_PERSONA.exec(chunk))){
+      if(!best||m.index<best.idx)best={idx:m.index,tipo:'pf',nome:m[1].trim(),cf:m[3]};
+      if(RE_PERSONA.lastIndex===m.index)RE_PERSONA.lastIndex++;
+    }
+    const ms=chunk.match(RE_SOCNOME);
+    if(ms){
+      const idxSoc=chunk.indexOf(ms[1]);
+      const mp=chunk.slice(idxSoc,idxSoc+400).match(RE_PIVA)||chunk.match(RE_PIVA);
+      if(mp&&(!best||idxSoc<best.idx)){
+        let nomeSoc=ms[1].replace(/\s+/g,' ').trim();
+        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|soc\.?|società|sig\.?)\s+/i;
+        while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
+        best={idx:idxSoc,tipo:'soc',nome:nomeSoc,cf:mp[1].replace(/^IT/i,'')};
+      }
+    }
+    return best;
+  }
+  function tutteEntita(chunk){
+    const arr=[];
+    const reSoc=new RegExp(RE_SOCNOME.source,'gi');
+    let ms;
+    while((ms=reSoc.exec(chunk))){
+      const idx=ms.index;
+      const seg=chunk.slice(idx,idx+500);
+      const mp=seg.match(RE_PIVA)||seg.match(/\b(\d{11})\b/);
+      if(mp){
+        let nomeSoc=ms[1].replace(/\s+/g,' ').trim();
+        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|e|soc\.?|società|sig\.?)\s+/i;
+        while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
+        arr.push({idx,tipo:'soc',nome:nomeSoc,cf:mp[1].replace(/^IT/i,'')});
+      }
+    }
+    let mp2;RE_PERSONA.lastIndex=0;
+    while((mp2=RE_PERSONA.exec(chunk)))arr.push({idx:mp2.index,tipo:'pf',nome:mp2[1].trim(),cf:mp2[3]});
+    arr.sort((a,b)=>a.idx-b.idx);
+    return arr;
+  }
+  inp.addEventListener('change',async()=>{
+    const f=inp.files&&inp.files[0];if(!f)return;
+    mergePickedFiles('contrattoPdf',[f]);updateCounts();
+    const esito=$('contrattoEsito');
+    try{
+      if(typeof pdfjsLib==='undefined'){esito.style.display='block';esito.innerHTML='<strong style="color:#b42318">Lettore PDF non caricato: ricarica la pagina (Ctrl+F5).</strong>';return;}
+      esito.style.display='block';esito.textContent='Lettura del contratto...';
+      const buf=await f.arrayBuffer();
+      pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const doc=await pdfjsLib.getDocument({data:buf}).promise;
+      let txt='';
+      for(let i=1;i<=doc.numPages;i++){const pg=await doc.getPage(i);const tc=await pg.getTextContent();txt+=tc.items.map(x=>x.str).join(' ')+'\n';}
+      doc.destroy();
+      const t=txt.replace(/\s+/g,' ');
+      if(t.length<300){esito.innerHTML='<strong style="color:#b42318">PDF senza testo leggibile (scansione).</strong> Per farlo riconoscere: <strong>1.</strong> <a href="https://www.ilovepdf.com/it/ocr-pdf" target="_blank" rel="noopener" style="color:#0b4f7d;font-weight:700">apri iLovePDF OCR (clicca qui)</a> e carica il contratto → scarica il file con il testo riconosciuto → <strong>2. ricaricalo qui</strong> (sovrascrivi). Il file originale resta comunque allegato alla pratica.';return;}
+      let sm=t.match(RE_MARK),sp=sm?sm.index:-1,cond=null,loc=null,mi=null,mFog=null,mMap=null,mSub=null,mCat=null,mDal=null,ditta=null,tpl='';
+      if(/PARTE\s+LOCATRICE/i.test(t)&&/PARTE\s+CONDUTTRICE/i.test(t)){
+        tpl='Prestampato "uso diverso da abitazione"';
+        const iL=t.search(/PARTE\s+LOCATRICE/i),iC=t.search(/PARTE\s+CONDUTTRICE/i),iI=t.search(/DESCRIZIONE\s+DELL'IMMOBILE/i);
+        loc=entita(t.slice(iL,iC));
+        const chunkC=t.slice(iC,iI>0?iI:undefined);
+        cond=entita(chunkC);
+        const mdit=chunkC.match(/([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙ']+(?:\s+[A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙ']+){0,3})\s+titolare\s+(?:della|del)\s+(?:Ditta|ditta)\s+(?:individuale\s+)?([^,]+?)\s+nato/i);
+        if(mdit){ditta=mdit[2].trim();if(cond)cond.nome=mdit[1].trim();}
+        mi=t.slice(iI>0?iI:0).match(/in Comune di\s+([A-ZÀÈÉÌÒÙ][^(,]+?)(?:\s*\([^)]*\))?\s*,\s*(via|piazza|viale|corso|vicolo)\s+([^,]+?)\s*,?\s*n\.?\s*[c.]?\s*\.?\s*(\d+)/i);
+        mFog=t.match(/foglio\s+(\d{1,4})/i);mMap=t.match(/mappale\s+(\d{1,5})/i);mSub=t.match(/subaltern[oa]\s+(\d{1,4})/i);
+        mCat=t.match(/cat\.\s*([A-D])\s*\/\s*(\d)/i);
+        mDal=t.match(/(?:a partire dal|dal)\s+(\d{2}\/\d{2}\/\d{4})/i);
+      }else if(/di seguito\s+Locatore/i.test(t)&&/di seguito\s+Conduttore/i.test(t)){
+        tpl='Locazione commerciale ("di seguito Locatore/Conduttore")';
+        const ents=tutteEntita(t);
+        loc=ents.filter(x=>x.tipo==='soc')[0]||ents[0]||null;
+        cond=ents.filter(x=>x.tipo==='soc')[1]||ents[1]||null;
+        const mC3=t.match(/(?:sito nel|sita nel|sito in|sita in)\s+Comune di\s+([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙ' ]{2,30}?)(?:\s+in\s+|,|\s*\()/i);
+        const afterC=mC3?t.slice(t.indexOf(mC3[0])):t;
+        const mV3=afterC.match(/\b(?:in\s+)?(via|piazza|viale|corso)\s+([A-ZÀÈÉÌÒÙ][A-Za-z0-9' ]{2,40}?)(?:\s*,|\s+n\.|\s+n\.?\s*\d|\.)/i);
+        const mN3=mV3?afterC.slice(afterC.indexOf(mV3[0])).match(/\bn\.?\s*\.?\s*(\d+[\/]?[A-Za-z]?)/i):null;
+        if(mC3&&mV3)mi=[0,mC3[1],mV3[1],mV3[2],mN3?mN3[1]:''];
+        mFog=t.match(/(?:al\s+)?foglio\s+(\d{1,4})/i);mMap=t.match(/mappale\s+(\d{1,5})/i);mSub=t.match(/\bsub\s+(\d{1,4})\b/i);
+        mCat=t.match(/categoria\s*([A-D])\s*\/?\s*(\d)/i)||t.match(/cat\.\s*([A-D])\s*\/\s*(\d)/i);
+        mDal=t.match(/(?:dal|decorre dal|ha inizio dal)\s+(\d{2}\/\d{2}\/\d{4})/i);
+      }else{
+        cond=sp>=0?entita(t.slice(sp)):null;
+        loc=sp>0?entita(t.slice(0,sp)):(cond?null:null);
+        mi=t.match(/(?:unit[àa] immobiliare posta in|immobile sit[oa] in|immobile posto in|immobile ubicato in|ubicat[oa]? in|sit[oa]? in)\s+(.{2,60}?)\s+(via|piazza|viale|corso|vicolo|contrada|galleria)\s+([^,.]+?)\s+n\.?\s*°?\s*\.?\s*(\d+)/i);
+        mFog=t.match(/foglio\s*[:.]?\s*(\d{1,4})/i);mMap=t.match(/(?:m\s*\.\s*n\.?|mappale(?:\/particella)?|particella(?:\s+censuaria)?)\s*[:.]?\s*n?\.?\s*(\d{1,5})/i);
+        mSub=t.match(/\bsub(?:alterno)?\s*[:.]?\s*n?\.?\s*(\d{1,4})\b/i);
+        mCat=t.match(/cat(?:egoria)?\.?\s*[:/]?\s*([A-D])\s*\/\s*(\d)/i);
+        mDal=t.match(/(?:dal|ha inizio (?:dal|il)|decorre dal|inizio il)\s+(\d{2}\/\d{2}\/\d{2,4})/i);
+      }
+      const ok=[],no=[];
+      setRad('titoloImmobile','Locazione');
+      if(cond){
+        cond.nome=cond.nome.split(/\s+titolare\b/i)[0].trim();
+        if(ditta){
+          setRad('tipoCliente','Business');
+          setV('aziendaCliente',ditta);
+          ok.push('<strong>Cliente (conduttore):</strong> '+cond.nome+' — Ditta: '+ditta+' <span style="color:#b42318">(ditta individuale: completa P.IVA e dati azienda)</span>');
+        }else if(cond.tipo==='soc'){setRad('tipoCliente','Business');setV('aziendaCliente',cond.nome);setV('piva',cond.cf);ok.push('<strong>Cliente (conduttore):</strong> '+cond.nome+' (P.IVA '+cond.cf+')');}
+        else if(!businessOn()){setV('cliente',cond.nome);setV('codiceFiscale',cond.cf);ok.push('<strong>Cliente (conduttore):</strong> '+cond.nome);}
+        else ok.push('<strong>Conduttore:</strong> '+cond.nome);
+      }else no.push('cliente');
+      if(loc){
+        loc.nome=loc.nome.split(/\s+titolare\b/i)[0].trim();
+        setV('acqPropNome',loc.nome);setV('acqPropCF',loc.cf);
+        ok.push('<strong>Proprietario (locatore):</strong> '+loc.nome);
+      }else no.push('proprietario');
+      if(mi){
+        setV('comune',mi[1].trim().toUpperCase());
+        setV('via',(mi[2]+' '+mi[3]).toUpperCase());
+        setV('civico',mi[4]);
+        ok.push('<strong>Sede di fornitura:</strong> '+(mi[2]+' '+mi[3]).toUpperCase()+' '+mi[4]+', '+mi[1].trim());
+      }else no.push('indirizzo immobile');
+      if(mFog){
+        setV('acqFoglio',mFog[1]);setV('acqMappale',mMap?mMap[1]:'');
+        ok.push('<strong>Catastali:</strong> foglio '+mFog[1]+(mMap?', mappale '+mMap[1]:'')+(mSub?', sub '+mSub[1]:'')+(mCat?', cat. '+mCat[1]+'/'+mCat[2]:''));
+      }else no.push('dati catastali');
+      if(mSub)setV('acqSubalterno',mSub[1]);
+      if(mCat)setV('acqTipo',mCat[1]+'/'+mCat[2]);
+      if(mDal){
+        setV('dataIngresso',iso(mDal[1]));
+        ok.push('<strong>Inizio locazione:</strong> '+mDal[1]);
+      }else no.push('data inizio possesso');
+      esito.innerHTML=(tpl?'<strong>Prestampato riconosciuto:</strong> '+tpl+'<br>':'')+
+        (ok.length?'<strong style="color:#087f5b">Riconosciuti:</strong><br>'+ok.join('<br>')+'<br>':'')+
+        (no.length?'<strong style="color:#b42318">Non trovati (da completare a mano):</strong> '+no.join(', '):'')+
+        '<br><em>Verifica sempre i dati proposti.</em>';
+    }catch(x){
+      esito.style.display='block';
+      esito.innerHTML='<strong style="color:#b42318">Errore nella lettura del PDF: '+String(x&&x.message||x)+'</strong>';
+    }
   });
 })();
 $('volturaForm').addEventListener('submit',async e=>{
