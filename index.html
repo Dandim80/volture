@@ -37,6 +37,16 @@ button:disabled{opacity:.65;cursor:wait}
 @media(max-width:760px){.row-via,.row-3{grid-template-columns:1fr}}
 h2{display:flex;align-items:center;gap:8px}
 h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:800;flex:none}
+.guida{margin:0 0 12px;border:1px solid var(--line);border-radius:10px;background:#fbfdff;overflow:hidden}
+.guida summary{cursor:pointer;padding:10px 12px;font-weight:750;font-size:.86rem;color:var(--navy);background:#f0f6fc;list-style:none}
+.guida summary::before{content:"▸ ";color:var(--blue)}
+.guida[open] summary::before{content:"▾ "}
+.guida-body{padding:10px 12px;display:grid;gap:10px}
+.guida-sec h4{margin:0 0 4px;font-size:.8rem;color:var(--blue);text-transform:uppercase;letter-spacing:.3px}
+.guida-sec ul{margin:0;padding-left:18px;font-size:.8rem;line-height:1.5;color:#2a4358}
+.guida-sec li{margin:2px 0}
+.campo-mancante{border-color:#b42318!important;background:#fff5f5!important;box-shadow:0 0 0 2px rgba(180,35,24,.18)!important}
+input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.campo-mancante{border-radius:8px}
 .subhead{font-weight:800;font-size:.78rem;letter-spacing:.4px;color:#0b4f7d;background:#eef7ff;border-left:3px solid var(--blue);padding:6px 9px;border-radius:0 7px 7px 0;margin:6px 0 8px;text-transform:uppercase}
 .hintlist{margin:3px 0 0;padding-left:16px;font-size:.73rem;color:#52687b;line-height:1.4}
 .hintlist li{margin:2px 0}
@@ -53,6 +63,39 @@ h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px
 </header>
 <main><section class="hero"><h1>Volture e Subentri facili</h1><p>Inserisci la richiesta del cliente: riceveremo subito dati e allegati necessari per avviare la pratica.</p><div class="steps-hero"><span>1 · Cliente e immobile</span><span>2 · Scegli le forniture</span><span>3 · Allega documenti e invia</span></div></section>
 <section class="card"><form id="volturaForm" novalidate>
+<div id="bozzaBar" style="display:none;margin:0 0 12px;padding:10px 12px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:9px;font-size:.85rem"><strong>Bozza trovata</strong> (salvata il <span id="bozzaData"></span>) — i documenti allegati sono inclusi. <button type="button" id="bozzaRiprendi" style="margin:4px 6px 0 0">Riprendi la compilazione</button> <button type="button" id="bozzaIgnora" style="margin:4px 0 0;background:#fff;color:#52687b;border:1px solid #aebdca">Ricomincia da capo</button></div>
+<div style="margin:0 0 12px;padding:8px 12px;background:#ecfdf3;border:1px solid #b7ebc6;border-radius:9px;font-size:.8rem;color:#087f5b;font-weight:650">Salvataggio automatico attivo: tutto ciò che scrivi (allegati inclusi) resta salvato nel browser. Puoi chiudere la pagina e riprendere la compilazione quando vuoi.</div>
+<details class="guida">
+<summary>Guida rapida — tutte le funzioni pensate per chi compila (clicca per aprire/chiudere)</summary>
+<div class="guida-body">
+<div class="guida-sec"><h4>Salvataggio e ripresa</h4><ul>
+<li><strong>Salvataggio automatico</strong>: campi e allegati vengono salvati mentre compili. Chiudi il browser quando vuoi: riaprendo trovi il pulsante "Riprendi la compilazione".</li>
+<li><strong>Dati della tua agenzia memorizzati</strong>: nome, email e telefono si compilano da soli ogni volta.</li>
+</ul></div>
+<div class="guida-sec"><h4>Compilazione assistita</h4><ul>
+<li><strong>Contratto di locazione digitale</strong> (sezione 2, non serve firmato): caricalo e il form si precompila da solo — cliente o azienda, proprietario, indirizzo immobile, dati catastali, data inizio, sede legale. Riconosce i diversi prestampati delle agenzie. Se hai solo la scansione, ti proponiamo un link per trasformarla in PDF con testo in 30 secondi.</li>
+<li><strong>Codice fiscale → data di nascita automatica</strong> (modulo acqua).</li>
+<li><strong>Privato o Azienda</strong>: la scelta adatta da sola tutti i campi e le sezioni (incluso uso acqua domestico/non domestico).</li>
+<li><strong>Proprietario in affitto scritto una volta sola</strong>: viene riportato in automatico dove serve.</li>
+<li><strong>Pulsante "Compila con dati di prova"</strong> in fondo: per vedere il form completo in 2 secondi.</li>
+</ul></div>
+<div class="guida-sec"><h4>POD e PDR senza stress</h4><ul>
+<li><strong>POD luce</strong>: 1ª scelta il POD dalla bolletta; in alternativa basta il <strong>codice cliente di 9 cifre</strong> sul display del contatore.</li>
+<li><strong>PDR gas</strong>: dalla bolletta, dal display (contatore elettronico), dal tagliandino (analogico) — oppure allega una <strong>foto del contatore</strong> e risaliamo noi al PDR.</li>
+</ul></div>
+<div class="guida-sec"><h4>Acqua ViAcqua</h4><ul>
+<li><strong>Modulo precompilato generato automaticamente</strong> e allegato alla mail della pratica (arriva a voi e all'agenzia).</li>
+<li><strong>Voltura o riattivazione</strong>: i campi obbligatori si adattano da soli.</li>
+<li>Se manca qualcosa un <strong>popup te lo dice</strong>: completi i dati o procedi comunque e scrivi i mancanti a mano sul modulo.</li>
+<li>Contratto in affitto con registrazione in corso? C'è il flag apposito: il modulo lo indica al posto delle date.</li>
+</ul></div>
+<div class="guida-sec"><h4>Controlli intelligenti</h4><ul>
+<li><strong>Pannello giallo dei mancanti</strong>: ti dice sempre cosa manca, aggiornato in tempo reale.</li>
+<li><strong>Invio eccezionale</strong> per i casi urgenti: la pratica parte comunque con l'elenco automatico di ciò che va integrato.</li>
+<li><strong>Controlli di formato</strong> (IBAN, CAP, POD/PDR) prima dell'invio: niente pratiche respinte per errori di battitura.</li>
+</ul></div>
+</div>
+</details>
 
 <h2><span class="stepnum">1</span>Referente agenzia</h2>
 <div class="grid">
@@ -113,7 +156,7 @@ h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px
       <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
     </div>
   </div>
-  <div><label>Data inizio possesso / rogito</label><input type="date" name="dataIngresso" id="dataIngresso"></div>
+  <div><label>Data inizio possesso / rogito <span class="req">*</span></label><input type="date" name="dataIngresso" id="dataIngresso"></div>
 </div>
 <h2><span class="stepnum">3</span>Forniture richieste</h2>
 <p class="hint" style="margin:0 0 14px">Puoi scegliere una sola fornitura oppure entrambe. Se luce e gas hanno situazioni diverse, seleziona l'operazione corretta per ciascuna.</p>
@@ -377,6 +420,7 @@ if(!document.querySelector('input[name="civico"]')||!clean(document.querySelecto
 if(!document.querySelector('input[name="comune"]')||!clean(document.querySelector('input[name="comune"]').value))m.push('Comune');
 if(!document.querySelector('input[name="provincia"]')||!clean(document.querySelector('input[name="provincia"]').value))m.push('Provincia');
 if(!document.querySelector('input[name="cap"]')||!clean(document.querySelector('input[name="cap"]').value))m.push('CAP');
+if(!document.querySelector('input[name="dataIngresso"]')||!clean(document.querySelector('input[name="dataIngresso"]').value))m.push('Data inizio possesso / rogito');
 if(!document.querySelector('input[name="titoloImmobile"]:checked'))m.push('Titolo di possesso immobile');
 if(!document.querySelector('input[name="metodoPagamento"]:checked'))m.push('Metodo di pagamento');
 if(luce){const t=document.querySelector('input[name="tipoLuce"]:checked');if(!t)m.push('Tipo operazione luce');if(t&&t.value==='Voltura'&&(!opL||!clean(opL.value)))m.push('Fornitore attualmente attivo per la luce');if(t&&t.value==='Voltura'&&magisLuceV()&&!pickedFiles.bollettaLuce.length)m.push('Bolletta luce (obbligatoria per permanenza su Magis)');if((!podEl||!clean(podEl.value))&&!pickedFiles.bollettaLuce.length)m.push('POD oppure bolletta luce');}
@@ -388,6 +432,51 @@ if((document.querySelector('input[name="titoloImmobile"]:checked')||{}).value===
 
 return m;}
 function aggiornaMancanti(){const p=$('mancantiPreview');if(!$('invioEccezionale').checked){p.style.display='none';return}const m=elencoMancanti();p.style.display='block';p.innerHTML=m.length?'<strong>La mail segnalerà questi elementi da integrare:</strong><br>• '+m.join('<br>• '):'<strong>Non risultano elementi mancanti.</strong>';}
+function pulisciEvidenza(){document.querySelectorAll('.campo-mancante').forEach(x=>x.classList.remove('campo-mancante'));}
+function evidenziaMancanti(){
+  pulisciEvidenza();
+  const ids=[];const luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,biz=businessOn(),acq=!!$('acqua')&&$('acqua').checked;
+  const vuoto=id=>{const el=$(id);return !el||!clean(el.value);};
+  if(biz){
+    if(!pickedFiles.documento.length)ids.push('documento');
+    if(!pickedFiles.visura.length)ids.push('visura');
+    ['aziendaCliente','piva','sedeLegale','rappresentante','cfRappresentante','telefonoReferente','emailAmministrazione','pecAziendale','codiceSdi'].forEach(id=>{if(vuoto(id))ids.push(id);});
+    if(luce&&!document.querySelector('input[name="tensione"]:checked'))ids.push('tensione');
+    if(luce&&vuoto('potenzaAttuale'))ids.push('potenzaAttuale');
+  }else{
+    if(!pickedFiles.documento.length)ids.push('documento');
+    ['cliente','telefonoCliente','emailCliente','codiceFiscale'].forEach(id=>{if(vuoto(id))ids.push(id);});
+    if(!document.querySelector('input[name="residenzaFornitura"]:checked'))ids.push('residenzaFornitura');
+  }
+  ['via','civico','comune','provincia','cap','dataIngresso'].forEach(id=>{if(vuoto(id))ids.push(id);});
+  if(!document.querySelector('input[name="titoloImmobile"]:checked'))ids.push('titoloImmobile');
+  if(!document.querySelector('input[name="metodoPagamento"]:checked'))ids.push('metodoPagamento');
+  if(luce){if(!document.querySelector('input[name="tipoLuce"]:checked'))ids.push('tipoLuce');if(vuoto('operatoreLuce')&&document.querySelector('input[name="tipoLuce"]:checked')&&document.querySelector('input[name="tipoLuce"]:checked').value==='Voltura')ids.push('operatoreLuce');if(!pickedFiles.bollettaLuce.length&&vuoto('pod'))ids.push('pod','bollettaLuce');}
+  if(gas){if(!document.querySelector('input[name="tipoGas"]:checked'))ids.push('tipoGas');if(vuoto('operatoreGas')&&document.querySelector('input[name="tipoGas"]:checked')&&document.querySelector('input[name="tipoGas"]:checked').value==='Voltura')ids.push('operatoreGas');if(!pickedFiles.bollettaGas.length&&vuoto('pdr'))ids.push('pdr','bollettaGas');}
+  if(acq&&!luce&&!gas)ids.push('luce','gas');
+  if(acq){
+    if(!document.querySelector('input[name="tipoAcqua"]:checked'))ids.push('tipoAcqua');
+    if(!biz){if(vuoto('acqNatoA'))ids.push('acqNatoA');if(vuoto('acqDataNascita'))ids.push('acqDataNascita');}
+    if(vuoto('acqFoglio')||vuoto('acqMappale'))ids.push('acqFoglio','acqMappale');
+    if(vuoto('acqMatricola'))ids.push('acqMatricola');
+    if(!document.querySelector('input[name="usoAcqua"]:checked'))ids.push('usoAcqua');
+    const ta=document.querySelector('input[name="tipoAcqua"]:checked');
+    if(ta&&ta.value==='Voltura'){if(vuoto('acqPrecedente'))ids.push('acqPrecedente');if(vuoto('acqLettura'))ids.push('acqLettura');if(vuoto('acqDataLettura'))ids.push('acqDataLettura');}
+    const loc=(document.querySelector('input[name="titoloImmobile"]:checked')||{}).value==='Locazione';
+    if(loc){if(!$('acqRegInCorso')?.checked&&vuoto('acqDataReg'))ids.push('acqDataReg');if(vuoto('acqPropNome'))ids.push('acqPropNome');if(vuoto('acqPropCF'))ids.push('acqPropCF');}
+  }
+  ids.forEach(id=>{
+    const el=$(id);if(!el)return;
+    if(el.type==='radio'){document.querySelectorAll('input[name="'+el.name+'"]').forEach(r=>{r.classList.add('campo-mancante');const c=r.closest('.radiocard');if(c)c.classList.add('campo-mancante');});}
+    else if(el.type==='file'){const fb=el.closest('.filebox');(fb||el).classList.add('campo-mancante');}
+    else el.classList.add('campo-mancante');
+  });
+  if(ids.length){
+    const first=$(ids[0]);
+    if(first){const target=first.closest('.radiocard')||first;try{target.scrollIntoView({behavior:'smooth',block:'center'});}catch(_){try{target.scrollIntoView();}catch(_2){}}}
+  }
+}
+document.addEventListener('input',e=>{const el=e.target;if(!el||!el.classList)return;el.classList.remove('campo-mancante');if(el.closest)el.closest('.campo-mancante')&&el.closest('.campo-mancante').classList.remove('campo-mancante');});
 $('invioEccezionale').addEventListener('change',aggiornaMancanti);document.querySelectorAll('input,select,textarea').forEach(x=>x.addEventListener('change',aggiornaMancanti));
 $('invioEccezionale').addEventListener('change',()=>{const w=$('invioEccezWarn');if(w)w.style.display=$('invioEccezionale').checked?'block':'none';});
 (function(){const ids=['agenzia','referente','emailAgenzia','telefonoAgenzia'],key='ddm_agenzia_v1';let saved={};
@@ -402,7 +491,7 @@ const nowYY=new Date().getFullYear()%100,cc=yy>nowYY?1900:2000;
 const dt=new Date(cc+yy,mi,g);if(dt.getFullYear()!==cc+yy||dt.getMonth()!==mi||dt.getDate()!==g)return;
 dn.value=(cc+yy)+'-'+String(mi+1).padStart(2,'0')+'-'+String(g).padStart(2,'0');});})();
 function updateCounts(){const map=[['documento','cntDocumento','Documenti'],['bollettaLuce','cntBollettaLuce','Bolletta luce'],['bollettaGas','cntBollettaGas','Bolletta gas'],['bollettaAcqua','cntBollettaAcqua','Bolletta acqua'],['contrattoPdf','cntContratto','Contratto locazione'],['fotoContatoreAcqua','cntFotoContatoreAcqua','Foto contatore acqua'],['attoPossesso','cntAttoPossesso','Atto di possesso'],['ibanDoc','cntIbanDoc','IBAN da allegato'],['visura','cntVisura','Visura camerale']];for(const [id,cid,label] of map){const c=$(cid);if(c)c.textContent=pickedFiles[id].length?label+': '+pickedFiles[id].length+' file selezionati':'';}}
-['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','contrattoPdf','ibanDoc','visura'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
+['documento','bollettaLuce','bollettaGas','bollettaAcqua','fotoContatoreAcqua','attoPossesso','ibanDoc','visura'].forEach(id=>{const el=$(id);if(el)el.addEventListener('change',e=>mergePickedFiles(id,e.target.files));});
 updateCounts();
 
 document.querySelectorAll('.attach-toggle').forEach(btn=>btn.addEventListener('click',()=>{const box=$(btn.dataset.target);if(!box)return;box.classList.toggle('show');btn.textContent=box.classList.contains('show')?'Nascondi foto/PDF':'Aggiungi foto/PDF';}));
@@ -688,8 +777,12 @@ async function buildViacquaPdf(tipo){
   const inp=$('contrattoPdf');if(!inp)return;
   function setV(id,v){const el=$(id);if(!el||!v)return;el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));}
   function setRad(name,val){const r=document.querySelector('input[name="'+name+'"][value="'+val+'"]');if(r&&!r.disabled){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}}
-  function iso(d){const p=d.split('/');if(p.length!==3)return '';let y=p[2];if(y.length===2)y=(parseInt(y,10)>(new Date().getFullYear()%100)?19:20)+y;return y+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');}
-  const RE_PERSONA=/([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙàèéìòù']+(?:\s+[A-Za-zÀÈÉÌÒÙàèéìòù']+){1,4})\s+nat[oa](?:\s+a\s+|\s+il\s+)(?:[^,]*?\s+)?(?:il\s+)?([\d/]{4,10})\s*,\s*(?:codice fiscale|cod\.?\s*fisc\.?|c\.?\s?f\.?)\s*[:.]?\s*([A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z])/gi;
+  function iso(d){d=d.trim();const MESI={gennaio:'01',febbraio:'02',marzo:'03',aprile:'04',maggio:'05',giugno:'06',luglio:'07',agosto:'08',settembre:'09',ottobre:'10',novembre:'11',dicembre:'12'};
+    const mm=d.match(/^(\d{1,2})\s+([a-z]+)\s+(\d{2,4})$/i);
+    if(mm&&MESI[mm[2].toLowerCase()]){let y=mm[3];if(y.length===2)y=(parseInt(y,10)>(new Date().getFullYear()%100)?19:20)+y;return y+'-'+MESI[mm[2].toLowerCase()]+'-'+mm[1].padStart(2,'0');}
+    const p=d.split('/');if(p.length!==3)return '';let y=p[2];if(y.length===2)y=(parseInt(y,10)>(new Date().getFullYear()%100)?19:20)+y;return y+'-'+p[1].padStart(2,'0')+'-'+p[0].padStart(2,'0');}
+  const RE_PERSONA=/([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙàèéìòù']+(?:\s+[A-Za-zÀÈÉÌÒÙàèéìòù']+){1,4})\s+nat[oa]\s+(?:a[d]?\s+[^,]*?(?:il\s+)?|il\s+)([\d./]{4,10})\s*[,\-–]?\s*(?:codice fiscale|cod\.?\s*fisc\.?|c\.?\s?f\.?)\s*[:.]?\s*([A-Z]{3}\s?[A-Z]{3}\s?\d{2}\s?[A-Z]\s?\d{2}\s?[A-Z]\s?\d{3}\s?[A-Z])/gi;
+  const RE_PERSONA2=/([A-ZÀÈÉÌÒÙ][A-Za-zÀÈÉÌÒÙàèéìòù']+(?:\s+[A-Za-zÀÈÉÌÒÙàèéìòù']+){1,4})\s+nat[oa]\s+il\s+([\d./]{4,10})\s+(?:a|ad)\s+[^,]*?,\s*(?:codice fiscale|cod\.?\s*fisc\.?|c\.?\s?f\.?)\s*[:.]?\s*([A-Z]{3}\s?[A-Z]{3}\s?\d{2}\s?[A-Z]\s?\d{2}\s?[A-Z]\s?\d{3}\s?[A-Z])/gi;
   const RE_SOCNOME=/((?:[A-Za-zÀÈÉÌÒÙàèéìòù0-9'&.\-]+(?:\s+|[',])){1,7}(?:S\.?R\.?L\.?|S\.?P\.?A\.?|S\.?N\.?C\.?|S\.?a\.?S\.?|S\.?C\.?R\.?L\.?))\b/i;
   const RE_PIVA=/(?:p\.?\s*i\.?v\.?a\.?|partita\s+iva|cod\.?\s*fisc\.?|codice fiscale)\s*[:.]?\s*((?:IT)?\d{11})\b/i;
   const RE_MARK=/concede in locazione|concede in affitto|d[àa]\s+in\s+locazione|d[àa]\s+in\s+affitto|locazione a favore(?: di)|affitto a favore(?: di)|in favore di/i;
@@ -697,21 +790,33 @@ async function buildViacquaPdf(tipo){
     let best=null;
     let m;RE_PERSONA.lastIndex=0;
     while((m=RE_PERSONA.exec(chunk))){
-      if(!best||m.index<best.idx)best={idx:m.index,tipo:'pf',nome:m[1].trim(),cf:m[3]};
+      if(!best||m.index<best.idx)best={idx:m.index,tipo:'pf',nome:m[1].trim(),cf:m[3].replace(/\s+/g,'')};
       if(RE_PERSONA.lastIndex===m.index)RE_PERSONA.lastIndex++;
+    }
+    RE_PERSONA2.lastIndex=0;
+    while((m=RE_PERSONA2.exec(chunk))){
+      if(!best||m.index<best.idx)best={idx:m.index,tipo:'pf',nome:m[1].trim(),cf:m[3].replace(/\s+/g,'')};
+      if(RE_PERSONA2.lastIndex===m.index)RE_PERSONA2.lastIndex++;
     }
     const ms=chunk.match(RE_SOCNOME);
     if(ms){
       const idxSoc=chunk.indexOf(ms[1]);
-      const mp=chunk.slice(idxSoc,idxSoc+400).match(RE_PIVA)||chunk.match(RE_PIVA);
+      const segS=chunk.slice(idxSoc,idxSoc+400);const mp=segS.match(RE_PIVA)||segS.match(/\b(\d{11})\b/)||chunk.match(RE_PIVA);
       if(mp&&(!best||idxSoc<best.idx)){
         let nomeSoc=ms[1].replace(/\s+/g,' ').trim();
-        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|soc\.?|società|sig\.?)\s+/i;
-        while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
+        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|e|soc\.?|società|sig\.?|conduttore|locatore)\s+/i;
+        nomeSoc=nomeSoc.replace(/^\d+\s+/,'');while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
         best={idx:idxSoc,tipo:'soc',nome:nomeSoc,cf:mp[1].replace(/^IT/i,'')};
       }
     }
     return best;
+  }
+  function estraiSedeUltima(chunk){
+    if(!chunk)return '';
+    const re=/(?:con\s+sede(?:\s+legale)?\s+(?:in|a)|indirizzo)\s+(.{5,150}?)(?=\s*,?\s*(?:c\.?\s?f\.?\b|cod(?:ice)?\s*fisc|p\.?\s*i\.?v\.?a|partita\s+iva|rappresentat|nella\s+persona|in\s+persona|di\s+seguito|\bREA\b|numero\s+di\s+iscrizione)|\.\s|,\s*\(\s*(?:Locatore|Conduttore)\s*\)|$)/gi;
+    let m,last='';
+    while((m=re.exec(chunk)))last=m[1].replace(/[.,\s]+$/,'').trim();
+    return last;
   }
   function tutteEntita(chunk){
     const arr=[];
@@ -723,19 +828,21 @@ async function buildViacquaPdf(tipo){
       const mp=seg.match(RE_PIVA)||seg.match(/\b(\d{11})\b/);
       if(mp){
         let nomeSoc=ms[1].replace(/\s+/g,' ').trim();
-        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|e|soc\.?|società|sig\.?)\s+/i;
-        while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
+        const STOP=/^(?:concede|in|locazione|affitto|al|alla|allo|ai|agli|delle?|del|la|il|lo|e|soc\.?|società|sig\.?|conduttore|locatore)\s+/i;
+        nomeSoc=nomeSoc.replace(/^\d+\s+/,'');while(STOP.test(nomeSoc))nomeSoc=nomeSoc.replace(STOP,'');
         arr.push({idx,tipo:'soc',nome:nomeSoc,cf:mp[1].replace(/^IT/i,'')});
       }
     }
     let mp2;RE_PERSONA.lastIndex=0;
-    while((mp2=RE_PERSONA.exec(chunk)))arr.push({idx:mp2.index,tipo:'pf',nome:mp2[1].trim(),cf:mp2[3]});
+    while((mp2=RE_PERSONA.exec(chunk)))arr.push({idx:mp2.index,tipo:'pf',nome:mp2[1].trim(),cf:mp2[3].replace(/\s+/g,'')});
+    RE_PERSONA2.lastIndex=0;
+    while((mp2=RE_PERSONA2.exec(chunk)))arr.push({idx:mp2.index,tipo:'pf',nome:mp2[1].trim(),cf:mp2[3].replace(/\s+/g,'')});
     arr.sort((a,b)=>a.idx-b.idx);
     return arr;
   }
   inp.addEventListener('change',async()=>{
     const f=inp.files&&inp.files[0];if(!f)return;
-    mergePickedFiles('contrattoPdf',[f]);updateCounts();
+    pickedFiles.contrattoPdf=[f];updateCounts();
     const esito=$('contrattoEsito');
     try{
       if(typeof pdfjsLib==='undefined'){esito.style.display='block';esito.innerHTML='<strong style="color:#b42318">Lettore PDF non caricato: ricarica la pagina (Ctrl+F5).</strong>';return;}
@@ -746,12 +853,12 @@ async function buildViacquaPdf(tipo){
       let txt='';
       for(let i=1;i<=doc.numPages;i++){const pg=await doc.getPage(i);const tc=await pg.getTextContent();txt+=tc.items.map(x=>x.str).join(' ')+'\n';}
       doc.destroy();
-      const t=txt.replace(/\s+/g,' ');
+      let t=txt.replace(/\s+/g,' ');t=t.replace(/([A-Z]{3})\s+([A-Z]{3})\s+(\d{2})\s+([A-Z])\s+(\d{2})\s+([A-Z])\s+(\d{3})\s+([A-Z])/g,'$1$2$3$4$5$6$7$8');
       if(t.length<300){esito.innerHTML='<strong style="color:#b42318">PDF senza testo leggibile (scansione).</strong> Per farlo riconoscere: <strong>1.</strong> <a href="https://www.ilovepdf.com/it/ocr-pdf" target="_blank" rel="noopener" style="color:#0b4f7d;font-weight:700">apri iLovePDF OCR (clicca qui)</a> e carica il contratto → scarica il file con il testo riconosciuto → <strong>2. ricaricalo qui</strong> (sovrascrivi). Il file originale resta comunque allegato alla pratica.';return;}
-      let sm=t.match(RE_MARK),sp=sm?sm.index:-1,cond=null,loc=null,mi=null,mFog=null,mMap=null,mSub=null,mCat=null,mDal=null,ditta=null,tpl='';
+      let sm=t.match(RE_MARK),sp=sm?sm.index:-1,cond=null,loc=null,mi=null,mFog=null,mMap=null,mSub=null,mCat=null,mDal=null,ditta=null,chunkCond='',tpl='';
       if(/PARTE\s+LOCATRICE/i.test(t)&&/PARTE\s+CONDUTTRICE/i.test(t)){
         tpl='Prestampato "uso diverso da abitazione"';
-        const iL=t.search(/PARTE\s+LOCATRICE/i),iC=t.search(/PARTE\s+CONDUTTRICE/i),iI=t.search(/DESCRIZIONE\s+DELL'IMMOBILE/i);
+        const iL=t.search(/PARTE\s+LOCATRICE/i),iC=t.search(/PARTE\s+CONDUTTRICE/i),iI=t.search(/DESCRIZIONE\s+DELL'IMMOBILE/i);chunkCond=t.slice(iC,iI>0?iI:undefined);
         loc=entita(t.slice(iL,iC));
         const chunkC=t.slice(iC,iI>0?iI:undefined);
         cond=entita(chunkC);
@@ -762,7 +869,7 @@ async function buildViacquaPdf(tipo){
         mCat=t.match(/cat\.\s*([A-D])\s*\/\s*(\d)/i);
         mDal=t.match(/(?:a partire dal|dal)\s+(\d{2}\/\d{2}\/\d{4})/i);
       }else if(/di seguito\s+Locatore/i.test(t)&&/di seguito\s+Conduttore/i.test(t)){
-        tpl='Locazione commerciale ("di seguito Locatore/Conduttore")';
+        tpl='Locazione commerciale ("di seguito Locatore/Conduttore")';const iDC=t.search(/di seguito\s+Conduttore/i);chunkCond=t.slice(0,iDC>0?iDC:undefined);
         const ents=tutteEntita(t);
         loc=ents.filter(x=>x.tipo==='soc')[0]||ents[0]||null;
         cond=ents.filter(x=>x.tipo==='soc')[1]||ents[1]||null;
@@ -774,17 +881,30 @@ async function buildViacquaPdf(tipo){
         mFog=t.match(/(?:al\s+)?foglio\s+(\d{1,4})/i);mMap=t.match(/mappale\s+(\d{1,5})/i);mSub=t.match(/\bsub\s+(\d{1,4})\b/i);
         mCat=t.match(/categoria\s*([A-D])\s*\/?\s*(\d)/i)||t.match(/cat\.\s*([A-D])\s*\/\s*(\d)/i);
         mDal=t.match(/(?:dal|decorre dal|ha inizio dal)\s+(\d{2}\/\d{2}\/\d{4})/i);
+      }else if(/\(\s*Locatore\s*\)/i.test(t)&&/\(\s*Conduttore\s*\)/i.test(t)){
+        tpl='Contratto con etichette "(Locatore)/(Conduttore)"';
+        const iL=t.search(/\(\s*Locatore\s*\)/i),iC=t.search(/\(\s*Conduttore\s*\)/i);chunkCond=t.slice(iL,iC);
+        loc=entita(t.slice(0,iL));
+        cond=entita(t.slice(iL,iC));
+        const m4=t.match(/sit[oa] in via\s+([^,]+?)\s*,?\s*(\d+[\/A-Za-z]?)\s+in\s+([A-ZÀÈÉÌÒÙ][^(,]+)/i);
+        if(m4)mi=[0,m4[3].trim(),'via',m4[1].trim(),m4[2]];
+        mFog=t.match(/(?:\bfoglio\b|\bfg\.?)\s*[:.]?\s*(\d{1,4})/i);mMap=t.match(/(?:m\s*\.\s*n\.?|mapp(?:\.?\s*le\b|ale(?:\/particella)?)|particella(?:\s+censuaria)?)\s*[:.]?\s*n?\.?\s*(\d{1,5})/i);
+        mSub=t.match(/\bsub(?:alterno)?\s*[-:.]?\s*n?\.?\s*(\d{1,4})\b/i);
+        mCat=t.match(/cat(?:egoria)?\.?\s*[:/]?\s*([A-D])\s*\/\s*(\d)/i);
+        mDal=t.match(/(?:dal|ha inizio (?:dal|il)|decorre dal)\s+(\d{1,2}\/[\d./]{4,9})/i);
       }else{
         cond=sp>=0?entita(t.slice(sp)):null;
         loc=sp>0?entita(t.slice(0,sp)):(cond?null:null);
-        mi=t.match(/(?:unit[àa] immobiliare posta in|immobile sit[oa] in|immobile posto in|immobile ubicato in|ubicat[oa]? in|sit[oa]? in)\s+(.{2,60}?)\s+(via|piazza|viale|corso|vicolo|contrada|galleria)\s+([^,.]+?)\s+n\.?\s*°?\s*\.?\s*(\d+)/i);
-        mFog=t.match(/foglio\s*[:.]?\s*(\d{1,4})/i);mMap=t.match(/(?:m\s*\.\s*n\.?|mappale(?:\/particella)?|particella(?:\s+censuaria)?)\s*[:.]?\s*n?\.?\s*(\d{1,5})/i);
-        mSub=t.match(/\bsub(?:alterno)?\s*[:.]?\s*n?\.?\s*(\d{1,4})\b/i);
+        chunkCond=t.slice(sp>=0?sp:0);
+        mi=t.match(/(?:unit[àa] immobiliare posta in|immobile sit[oa] in|immobile posto in|immobile ubicato in|ubicat[oa]? in|sit[oa]? in comun[ae] di|sit[oa]? in)\s+(.{2,60}?)\s+(via|piazza|viale|corso|vicolo|contrada|galleria|strada)\s+([^,.]+?)\s+n\.?\s*[°o.]?\s*\.?\s*(\d+)/i);
+        mFog=t.match(/(?:\bfoglio\b|\bfg\.?)\s*[:.]?\s*(\d{1,4})/i);mMap=t.match(/(?:m\s*\.\s*n\.?|mapp(?:\.?\s*le\b|ale(?:\/particella)?)|particella(?:\s+censuaria)?)\s*[:.]?\s*n?\.?\s*(\d{1,5})/i);
+        mSub=t.match(/\bsub(?:alterno)?\s*[-:.]?\s*n?\.?\s*(\d{1,4})\b/i);
         mCat=t.match(/cat(?:egoria)?\.?\s*[:/]?\s*([A-D])\s*\/\s*(\d)/i);
-        mDal=t.match(/(?:dal|ha inizio (?:dal|il)|decorre dal|inizio il)\s+(\d{2}\/\d{2}\/\d{2,4})/i);
+        mDal=t.match(/(?:dal|ha inizio (?:dal|il)|decorre dal|inizio il)\s+(\d{1,2}\s*\/\s*[\d./]{4,9}|\d{1,2}\s+(?:gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre)\s+\d{2,4})/i);
       }
       const ok=[],no=[];
       setRad('titoloImmobile','Locazione');
+      const pulisciComune=s=>s.replace(/^comune di\s*/i,'').replace(/\s*\([A-Z]{2,3}\)\s*/g,' ').replace(/,?\s*in\s*$/i,'').replace(/\s+/g,' ').trim();
       if(cond){
         cond.nome=cond.nome.split(/\s+titolare\b/i)[0].trim();
         if(ditta){
@@ -794,6 +914,14 @@ async function buildViacquaPdf(tipo){
         }else if(cond.tipo==='soc'){setRad('tipoCliente','Business');setV('aziendaCliente',cond.nome);setV('piva',cond.cf);ok.push('<strong>Cliente (conduttore):</strong> '+cond.nome+' (P.IVA '+cond.cf+')');}
         else if(!businessOn()){setV('cliente',cond.nome);setV('codiceFiscale',cond.cf);ok.push('<strong>Cliente (conduttore):</strong> '+cond.nome);}
         else ok.push('<strong>Conduttore:</strong> '+cond.nome);
+        if(cond.tipo==='soc'||ditta){
+          let sd=estraiSedeUltima(chunkCond);
+          if(!sd&&sp>0)sd=estraiSedeUltima(t.slice(0,sp));
+          if(sd){setV('sedeLegale',sd);ok.push('<strong>Sede legale:</strong> '+sd);}
+        }else if(cond&&/titolare\s+della\s+(?:D\.?I\.?|Ditta)/i.test(t)){
+          const sd=estraiSedeUltima(sp>0?t.slice(0,sp):t);
+          if(sd){setV('sedeLegale',sd);ok.push('<strong>Sede legale (ditta):</strong> '+sd);}
+        }
       }else no.push('cliente');
       if(loc){
         loc.nome=loc.nome.split(/\s+titolare\b/i)[0].trim();
@@ -801,10 +929,11 @@ async function buildViacquaPdf(tipo){
         ok.push('<strong>Proprietario (locatore):</strong> '+loc.nome);
       }else no.push('proprietario');
       if(mi){
-        setV('comune',mi[1].trim().toUpperCase());
+        const com=pulisciComune(mi[1]);
+        setV('comune',com.toUpperCase());
         setV('via',(mi[2]+' '+mi[3]).toUpperCase());
         setV('civico',mi[4]);
-        ok.push('<strong>Sede di fornitura:</strong> '+(mi[2]+' '+mi[3]).toUpperCase()+' '+mi[4]+', '+mi[1].trim());
+        ok.push('<strong>Sede di fornitura:</strong> '+(mi[2]+' '+mi[3]).toUpperCase()+' '+mi[4]+', '+com);
       }else no.push('indirizzo immobile');
       if(mFog){
         setV('acqFoglio',mFog[1]);setV('acqMappale',mMap?mMap[1]:'');
@@ -825,6 +954,52 @@ async function buildViacquaPdf(tipo){
       esito.innerHTML='<strong style="color:#b42318">Errore nella lettura del PDF: '+String(x&&x.message||x)+'</strong>';
     }
   });
+})();
+(function(){
+  const KEY='ddm_bozza_v1';
+  const form=$('volturaForm');if(!form)return;
+  function idbOpen(cb){const req=indexedDB.open('ddm_bozza',1);req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains('files'))db.createObjectStore('files');};req.onsuccess=e=>cb(e.target.result);req.onerror=()=>cb(null);}
+  function idbSaveFiles(){idbOpen(db=>{if(!db)return;const tx=db.transaction('files','readwrite');const st=tx.objectStore('files');st.clear();for(const id in pickedFiles){if(pickedFiles[id].length)st.put(pickedFiles[id].map(f=>({name:f.name,type:f.type,blob:f})),id);}});}
+  function idbLoadFiles(cb){idbOpen(db=>{if(!db||!db.objectStoreNames.contains('files')){cb({});return;}const tx=db.transaction('files','readonly');const st=tx.objectStore('files');const out={};const cr=st.openCursor();cr.onsuccess=e=>{const c=e.target.result;if(c){out[c.key]=c.value.map(x=>{try{return new File([x.blob],x.name,{type:x.type});}catch(_){return x.blob;}});c.continue();}else cb(out);};cr.onerror=()=>cb({});});}
+  function idbClear(){idbOpen(db=>{if(!db)return;const tx=db.transaction('files','readwrite');tx.objectStore('files').clear();});}
+  function saveBozza(){
+    try{
+      const data={quando:new Date().toISOString(),dati:Object.fromEntries(new FormData(form).entries())};
+      localStorage.setItem(KEY,JSON.stringify(data));
+      idbSaveFiles();
+    }catch(_){}
+  }
+  let tmr=null;
+  form.addEventListener('input',()=>{clearTimeout(tmr);tmr=setTimeout(saveBozza,800);});
+  form.addEventListener('change',()=>{clearTimeout(tmr);tmr=setTimeout(saveBozza,800);});
+  function clearBozza(){try{localStorage.removeItem(KEY);}catch(_){}idbClear();}
+  window.ddmClearBozza=clearBozza;
+  // ripristino all'avvio
+  let salvata=null;
+  try{salvata=JSON.parse(localStorage.getItem(KEY)||'null');}catch(_){salvata=null;}
+  const bar=$('bozzaBar');
+  if(!salvata||!salvata.dati||Object.keys(salvata.dati).length===0)return;
+  if(bar){bar.style.display='block';const bd=$('bozzaData');if(bd)bd.textContent=new Date(salvata.quando).toLocaleString('it-IT');}
+  $('bozzaRiprendi').addEventListener('click',()=>{
+    const d=salvata.dati;
+    Object.entries(d).forEach(([k,v])=>{
+      const els=form.querySelectorAll('[name="'+k+'"]');
+      if(!els.length)return;
+      if(els[0].type==='radio'){els.forEach(r=>r.checked=r.value===v);}
+      else if(els[0].type==='checkbox'){els[0].checked=true;}
+      else els[0].value=v;
+    });
+    idbLoadFiles(files=>{
+      for(const id in files)if(pickedFiles.hasOwnProperty(id))pickedFiles[id]=files[id];
+      updateCounts();
+      updateBusinessMode();updateAcquaMode();updateUsoAcqua();updateExtraFields();updateTensioneReq();if(typeof updateMagisHints==='function')updateMagisHints();
+      aggiornaMancanti();
+      const w=$('invioEccezWarn');if(w)w.style.display=$('invioEccezionale').checked?'block':'none';
+      good('Bozza ripristinata: controlla i dati e gli allegati, poi invia.');
+    });
+    if(bar)bar.style.display='none';
+  });
+  $('bozzaIgnora').addEventListener('click',()=>{clearBozza();if(bar)bar.style.display='none';});
 })();
 $('volturaForm').addEventListener('submit',async e=>{
 e.preventDefault(); const f=e.currentTarget;
@@ -1025,12 +1200,14 @@ try{
   $('operatoreLuceBox').style.display='none';
   $('operatoreGasBox').style.display='none';
   updateMagisHints();
+  if(window.ddmClearBozza)window.ddmClearBozza();
   good('Richiesta inviata. Controlla la ricezione delle email configurate.');
 }catch(x){
+  evidenziaMancanti();
   err(x.message);
 }finally{
   $('submitBtn').disabled=false;
-  $('submitBtn').textContent='Invia richiesta di voltura';
+  $('submitBtn').textContent='Invia la pratica';
 }
 });
 </script></body></html>
