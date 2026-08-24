@@ -409,6 +409,8 @@ function updateExtraFields(){
   if($('residenzaAltBox')) $('residenzaAltBox').style.display = resSel==='No' ? 'block' : 'none';
   if($('residenzaManualeBox')) $('residenzaManualeBox').style.display = (resSel==='No' && resMod==='Inserita manualmente') ? 'block' : 'none';
   if($('ibanChoiceBox')) $('ibanChoiceBox').style.display = pay==='IBAN' ? 'block' : 'none';
+  const ibEl=$('iban');
+  if(pay!=='IBAN'&&ibEl&&ibEl.value){ibEl.value='';}
 }
 bindRadioToggle('residenzaFornitura',updateExtraFields);
 bindRadioToggle('residenzaModalita',updateExtraFields);
@@ -669,7 +671,7 @@ async function buildViacquaPdf(tipo){
     setVal('acqComponenti',String(RI(1,5)));
     if(!biz)setRadio('residenzaFornitura','Sì');
     setRadio('metodoPagamento','IBAN');
-    const cfTest='IT'+RI(10,99)+'X0542811101'+RI(10000000000,99999999999);
+    const cfTest='IT60X05428111010000000'+String(RI(10000,99999));
     setVal('iban',cfTest.slice(0,27));
     setVal('note','Dati di prova generati automaticamente per il test.');
     good('Dati di prova inseriti: controlla e invia (documenti da allegare a mano).');
@@ -728,7 +730,7 @@ try{
   }
   if(!paySel) throw Error('Seleziona il metodo di pagamento desiderato.');
   if(paySel==='IBAN' && !iban && !pickedFiles.ibanDoc.length && !forzato) throw Error('Inserisci l’IBAN oppure allega una foto/PDF dove sia visibile.');
-  if(iban && !/^IT[0-9A-Z]{25}$/.test(iban) && !forzato) throw Error('L’IBAN deve avere 27 caratteri e iniziare con IT.');
+  if(paySel==='IBAN' && iban && !/^IT[0-9A-Z]{25}$/.test(iban) && !forzato) throw Error('L’IBAN deve avere 27 caratteri e iniziare con IT.');
 
   let tipoLuce='', tipoGas='', opLuce='', opGas='';
   const pod=clean(podEl?.value).toUpperCase().replace(/[\s-]+/g,''), pdr=clean(pdrEl?.value).replace(/[\s-]+/g,'');
