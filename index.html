@@ -254,6 +254,7 @@ h2 .stepnum{background:var(--navy);color:#fff;border-radius:999px;min-width:22px
 
 <div class="privacy"><strong>Privacy:</strong> assicurati di aver consegnato al cliente l'informativa privacy; i dati inseriti vengono usati esclusivamente per gestire questa richiesta.</div>
 
+<div style="display:flex;gap:8px;margin-top:14px"><button type="button" id="btnTestFill" style="background:#fff;color:#52687b;border:1px dashed #aebdca">Compila con dati di prova (demo)</button></div>
 <button type="submit" id="submitBtn">Invia la pratica</button>
 <div id="status" role="alert"></div>
 </form></section></main>
@@ -535,8 +536,8 @@ async function buildViacquaPdf(tipo){
     T('FOGLIO',catastro[0]);T('MAPPALEPARTICELLA',catastro[1]);T('SUBALTERNO',catastro[2]);T('TIPO',catastro[3]);
     C('1',titolo==='Acquisto');C('2',titolo==='Locazione');
     if(titolo==='Locazione'){
-      T('nellimmobile di proprietà di',clean($('acqPropNome')?.value));
-      T('cod fiscalePIVA del proprietario',clean($('acqPropCF')?.value));
+      T('di',clean($('acqPropNome')?.value));
+      T('piva/cf',clean($('acqPropCF')?.value));
       if($('acqRegInCorso')?.checked)T('con atto registrato','IN CORSO DI REGISTRAZIONE',6.5);
       else{const dr=clean($('acqDataReg')?.value);T('con atto registrato',dr?dr.split('-').reverse().join('/'):'');T('n atto registrato',clean($('acqNumReg')?.value));}
     }
@@ -583,6 +584,98 @@ async function buildViacquaPdf(tipo){
   for(let i=0;i<arr.length;i+=CH){bin+=String.fromCharCode.apply(null,arr.subarray(i,i+CH));}
   return btoa(bin);
 }
+(function(){
+  const btn=$('btnTestFill');if(!btn)return;
+  const R=a=>a[Math.floor(Math.random()*a.length)];
+  const RI=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+  function setVal(id,v){const el=$(id);if(!el)return;el.value=v;el.dispatchEvent(new Event('input',{bubbles:true}));el.dispatchEvent(new Event('change',{bubbles:true}));}
+  function setRadio(name,val){const r=document.querySelector('input[name="'+name+'"][value="'+val+'"]');if(r&&!r.disabled){r.checked=true;r.dispatchEvent(new Event('change',{bubbles:true}));}}
+  function setSvc(id,on){const el=$(id);if(el&&el.checked!==on){el.checked=on;el.dispatchEvent(new Event('change',{bubbles:true}));}}
+  const NOMI=['Anna','Marco','Giulia','Paolo','Sara','Luca'];
+  const COGN=['Bianchi','Ferrari','Esposito','Colombo','Rinaldi','Marino'];
+  const CITTA=['VICENZA','ARZIGNANO','SCHIO','THIENE','BASSANO DEL GRAPPA'];
+  const FORN=['Enel Energia','Edison','Sorgenia','Magis (ex Aim Agsm)','A2A'];
+  btn.addEventListener('click',()=>{
+    const biz=Math.random()<0.3;
+    setRadio('tipoCliente',biz?'Business':'Domestico');
+    setVal('agenzia',R(['Immobiliare','Case','Estate','Casa'])+' '+R(['Rossi','Bianchi','Verdi'])+' Srl');
+    setVal('referente','Mario '+R(COGN));
+    setVal('emailAgenzia','agenzia'+RI(1,999)+'@test.it');
+    setVal('telefonoAgenzia','349'+RI(1000000,9999999));
+    if(biz){
+      setVal('aziendaCliente',R(['Alfa','Beta','Gamma','Delta'])+' Servizi Srl');
+      setVal('piva',String(RI(10000000000,99999999999)));
+      setVal('sedeLegale','VIA ROMA '+RI(1,50)+', 36100 VICENZA (VI)');
+      setVal('rappresentante',R(NOMI)+' '+R(COGN));
+      setVal('cfRappresentante','RSSMRA85M01H501Z');
+      setVal('telefonoReferente','333'+RI(1000000,9999999));
+      setVal('emailAmministrazione','amm'+RI(1,999)+'@test.it');
+      setVal('pecAziendale','pec'+RI(1,999)+'@pec.test.it');
+      setVal('codiceSdi','ABCDEFG');
+    }else{
+      setVal('cliente',R(NOMI)+' '+R(COGN));
+      setVal('telefonoCliente','347'+RI(1000000,9999999));
+      setVal('emailCliente','cliente'+RI(1,999)+'@test.it');
+      setVal('codiceFiscale','RSSMRA8'+RI(1,9)+'M01H501Z');
+    }
+    setVal('via',R(['VIA GIOTTO','CORSO ITALIA','VIA DANTE ALIGHIERI','VIALE ROMA']));
+    setVal('civico',String(RI(1,120)));
+    setVal('comune',R(CITTA));
+    setVal('provincia','VI');
+    setVal('cap','36100');
+    const loc=Math.random()<0.5;
+    setRadio('titoloImmobile',loc?'Locazione':'Acquisto');
+    setVal('dataIngresso','2026-01-'+String(RI(10,28)));
+    // LUCE
+    setSvc('luce',true);
+    const tl=R(['Voltura','Subentro']);
+    setRadio('tipoLuce',tl);
+    if(tl==='Voltura')setVal('operatoreLuce',R(FORN));
+    setVal('pod','IT001E'+RI(100000000000,999999999999));
+    if(biz){setVal('potenzaAttuale',R(['3,3','6,6','11'])+' kW');setRadio('tensione',R(['220','380']));}
+    // GAS
+    const gasOn=Math.random()<0.7;
+    setSvc('gas',gasOn);
+    if(gasOn){
+      const tg=R(['Voltura','Subentro']);
+      setRadio('tipoGas',tg);
+      if(tg==='Voltura')setVal('operatoreGas',R(FORN));
+      setVal('pdr',String(RI(10000000000000,99999999999999)));
+    }
+    // ACQUA
+    setSvc('acqua',true);
+    const ta=R(['Voltura','Attivazione']);
+    setRadio('tipoAcqua',ta);
+    if(!biz)setVal('acqNatoA',R(CITTA));
+    setVal('acqMatricola',String(RI(100000,999999)));
+    if(ta==='Voltura'){
+      setVal('acqPrecedente',R(NOMI)+' '+R(COGN));
+      setVal('acqLettura',String(RI(40,300)));
+      setVal('acqDataLettura','2026-01-'+String(RI(10,28)));
+    }else{
+      setVal('acqPrecAtt',Math.random()<0.7?R(NOMI)+' '+R(COGN):'');
+    }
+    setVal('acqFoglio',String(RI(1,60)));
+    setVal('acqMappale',String(RI(1,40))+'/'+RI(1,9));
+    setVal('acqSubalterno',String(RI(1,25)));
+    setVal('acqTipo',R(['E/1','E/2','C/6']));
+    if(loc){
+      setVal('acqPropNome',R(NOMI)+' '+R(COGN));
+      setVal('acqPropCF','RSSMRA85M01H501Z');
+      const inc=Math.random()<0.4;
+      const fl=$('acqRegInCorso');if(fl){fl.checked=inc;fl.dispatchEvent(new Event('change',{bubbles:true}));}
+      if(!inc){setVal('acqDataReg','2026-02-'+String(RI(1,28)));setVal('acqNumReg',String(RI(1000,9999))+'/'+RI(20,30)+'/'+RI(100,999));}
+    }
+    setVal('acqComponenti',String(RI(1,5)));
+    if(!biz)setRadio('residenzaFornitura','Sì');
+    setRadio('metodoPagamento','IBAN');
+    const cfTest='IT'+RI(10,99)+'X0542811101'+RI(10000000000,99999999999);
+    setVal('iban',cfTest.slice(0,27));
+    setVal('note','Dati di prova generati automaticamente per il test.');
+    good('Dati di prova inseriti: controlla e invia (documenti da allegare a mano).');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+})();
 $('volturaForm').addEventListener('submit',async e=>{
 e.preventDefault(); const f=e.currentTarget;
 try{
