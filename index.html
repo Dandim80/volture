@@ -57,7 +57,7 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 .hintlist li{margin:2px 0}
 .steps-hero{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .steps-hero span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);border-radius:999px;padding:4px 10px;font-size:.74rem;font-weight:650}
-@media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px;flex-direction:column;align-items:flex-start;gap:5px}.brand{font-size:.92rem;line-height:1.2}.tag{font-size:.72rem;line-height:1.2;color:#c8e2fa}.header-right{margin-left:0;width:100%}.phone{width:100%;justify-content:center}}</style>
+@media(max-width:760px){.grid,.subgrid{grid-template-columns:1fr}.full{grid-column:auto}.card{padding:10px}.hero{padding:12px}.hero h1{font-size:1.18rem}.hero p{font-size:.82rem}.service{padding:8px}.radiocard{padding:7px}.filebox,.choice,.privacy,.notice{padding:7px 8px}header{padding:8px 10px;flex-direction:column;align-items:flex-start;gap:5px}.brand{font-size:.92rem;line-height:1.2}.tag{font-size:.72rem;line-height:1.2;color:#c8e2fa}.header-right{margin-left:0;width:100%}.phone{width:100%;justify-content:center}#contrattoBox>div{flex:1 1 100%;min-width:260px}#bloccoResidenzaDom .inline-choice{flex-direction:column}div[style*="border:2px solid var(--blue)"]{flex-direction:column;padding:8px}}</style>
 </head>
 <body><div id="gateAccesso" style="position:fixed;inset:0;background:linear-gradient(135deg,#102a43,#164e7a);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px">
 <div style="background:#fff;border-radius:12px;padding:24px 22px;max-width:340px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.35)">
@@ -134,11 +134,11 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 <h2><span class="stepnum">2</span>Cliente e immobile</h2>
 <div class="sec-box">
 <div class="grid">
-  <div class="full" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+  <div class="full" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
     <div style="font-weight:700;font-size:.84rem;color:#102a43;white-space:nowrap">Tipologia cliente:</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <label class="radiocard" style="flex:0 1 auto"><input type="radio" name="tipoCliente" value="Domestico" checked><span><span class="rtitle">Cliente privato</span></span></label>
-      <label class="radiocard" style="flex:0 1 auto"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
+    <div style="display:flex;gap:4px;flex-wrap:wrap">
+      <label class="radiocard" style="flex:1 1 auto;padding:6px 8px"><input type="radio" name="tipoCliente" value="Domestico" checked><span><span class="rtitle">Cliente privato</span></span></label>
+      <label class="radiocard" style="flex:1 1 auto;padding:6px 8px"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
     </div>
   </div>
   <div class="full" id="contrattoBox" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
@@ -185,8 +185,8 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
     <div style="flex:2 1 0" class="choice">
       <label style="margin-bottom:3px">Titolo di possesso immobile <span class="req">*</span></label>
       <div class="inline-choice" role="radiogroup" aria-label="Titolo di possesso immobile" style="display:flex;gap:8px;flex-wrap:wrap">
-        <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Locazione" required><span><span class="rtitle">Entra in locazione</span></span></label>
-        <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
+      <label class="radiocard" style="flex:1 1 0;padding:6px 8px"><input type="radio" name="titoloImmobile" value="Locazione" required><span><span class="rtitle">Entra in locazione</span></span></label>
+      <label class="radiocard" style="flex:1 1 0;padding:6px 8px"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
       </div>
     </div>
   </div>
