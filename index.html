@@ -123,28 +123,33 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 
 <h2><span class="stepnum">1</span>Referente agenzia</h2>
 <div class="sec-box">
-<div class="grid">
-<div><label>Nome agenzia <span class="req">*</span></label><input name="agenzia" id="agenzia" required autocomplete="organization"></div>
-<div><label>Referente</label><input name="referente" id="referente" autocomplete="name"><p class="hint">Facoltativo. Si ricorda per le prossime pratiche.</p></div>
-<div><label>Email agenzia <span class="req">*</span></label><input type="email" name="emailAgenzia" id="emailAgenzia" required autocomplete="email"><p class="hint" style="color:#087f5b;font-weight:600">I dati agenzia restano salvati nel browser per le prossime pratiche.</p></div>
-<div><label>Telefono</label><input type="tel" name="telefonoAgenzia" id="telefonoAgenzia" autocomplete="tel"><p class="hint">Facoltativo.</p></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end">
+  <div style="flex:2 1 180px"><label>Nome agenzia <span class="req">*</span></label><input name="agenzia" id="agenzia" required autocomplete="organization"></div>
+  <div style="flex:1 1 140px"><label>Referente</label><input name="referente" id="referente" autocomplete="name"></div>
+  <div style="flex:2 1 180px"><label>Email agenzia <span class="req">*</span></label><input type="email" name="emailAgenzia" id="emailAgenzia" required autocomplete="email"></div>
+  <div style="flex:1 1 140px"><label>Telefono</label><input type="tel" name="telefonoAgenzia" id="telefonoAgenzia" autocomplete="tel"></div>
 </div>
+<p class="hint" style="margin:4px 0 0;font-size:.72rem">Referente e telefono facoltativi. Email e nome agenzia salvati per le prossime pratiche.</p>
 </div>
 <h2><span class="stepnum">2</span>Cliente e immobile</h2>
 <div class="sec-box">
 <div class="grid">
-  <div class="full choice">
-    <label style="margin-bottom:6px">Tipologia cliente</label>
-    <div class="inline-choice" role="radiogroup" aria-label="Tipologia cliente">
-      <label class="radiocard"><input type="radio" name="tipoCliente" value="Domestico" checked><span><span class="rtitle">Cliente privato</span></span></label>
-      <label class="radiocard"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
+  <div class="full" style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+    <div style="font-weight:700;font-size:.84rem;color:#102a43;white-space:nowrap">Tipologia cliente:</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap">
+      <label class="radiocard" style="flex:0 1 auto"><input type="radio" name="tipoCliente" value="Domestico" checked><span><span class="rtitle">Cliente privato</span></span></label>
+      <label class="radiocard" style="flex:0 1 auto"><input type="radio" name="tipoCliente" value="Business"><span><span class="rtitle">Azienda / Partita IVA</span></span></label>
     </div>
-    <p class="hint">Seleziona "Azienda / Partita IVA" per modificare i campi anagrafici in quelli aziendali.</p>
   </div>
-  <div class="full" id="contrattoBox">
-    <label>Contratto di locazione digitale (PDF) <span style="font-weight:400;font-size:.73rem;color:#52687b">— facoltativo</span></label>
-    <div class="filebox"><input type="file" id="contrattoPdf" accept=".pdf,application/pdf"><p class="hint"><strong>Non serve il contratto firmato</strong>: basta il file digitale preparato in agenzia. Serve solo a <strong>precompilare automaticamente i dati</strong> (cliente o azienda, proprietario, indirizzo immobile, catastali, data inizio). <strong>Il contratto digitale viene riconosciuto subito: è la scelta preferibile.</strong> Se invece carichi una scansione, ti proporremo un link per trasformarla in PDF con testo in 30 secondi e ricaricarla. <strong>Verifica sempre i dati proposti.</strong> Il file resta allegato alla pratica.</p><p class="hint" id="cntContratto"></p></div>
-    <div id="contrattoEsito" class="hint" style="display:none;margin-top:6px;padding:8px 10px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:7px;line-height:1.5"></div>
+  <div class="full" id="contrattoBox" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <div style="flex:0 1 340px;min-width:300px">
+      <label>Contratto digitale (PDF) <span style="font-weight:400;font-size:.73rem;color:#52687b">— facoltativo</span></label>
+      <div class="filebox" style="padding:6px 8px"><input type="file" id="contrattoPdf" accept=".pdf,application/pdf" style="padding:4px 0"><p class="hint" id="cntContratto"></p></div>
+      <div id="contrattoEsito" class="hint" style="display:none;margin-top:4px;padding:6px 8px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:7px;line-height:1.5"></div>
+    </div>
+    <div style="flex:1 1 auto;font-size:.78rem;color:#256794;line-height:1.25;white-space:nowrap;font-weight:600">
+      Carica il contratto digitale che hai preparato senza le firme dei clienti per recuperare più dati possibili dal contratto digitale.
+    </div>
   </div>
   <div class="full" id="bloccoDomestico"><div class="grid">
   <div><label>Nome e cognome cliente <span class="req">*</span></label><input name="cliente" id="cliente" autocomplete="name"><p class="hint">Obbligatorio.</p></div>
@@ -175,14 +180,16 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
   <div><label>Provincia <span class="req">*</span></label><input name="provincia" id="provincia" maxlength="2" placeholder="Es. MI" style="text-transform:uppercase" autocomplete="address-level1"><p class="hint">Sigla a 2 lettere.</p></div>
   <div><label>CAP <span class="req">*</span></label><input name="cap" id="cap" inputmode="numeric" maxlength="5" placeholder="Es. 20056" autocomplete="postal-code"><p class="hint">5 cifre.</p></div>
   </div>
-  <div class="full choice">
-    <label style="margin-bottom:6px">Titolo di possesso immobile <span class="req">*</span></label>
-    <div class="inline-choice" role="radiogroup" aria-label="Titolo di possesso immobile" style="display:flex;gap:8px;flex-wrap:wrap">
-      <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Locazione" required><span><span class="rtitle">Entra in locazione</span></span></label>
-      <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
+  <div class="full" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;border:2px solid var(--blue);background:#f0f8ff;border-radius:10px;padding:10px 12px">
+    <div style="flex:1 1 220px"><label>Inizio possesso / rogito <span class="req">*</span></label><input type="date" name="dataIngresso" id="dataIngresso"></div>
+    <div style="flex:2 1 0" class="choice">
+      <label style="margin-bottom:3px">Titolo di possesso immobile <span class="req">*</span></label>
+      <div class="inline-choice" role="radiogroup" aria-label="Titolo di possesso immobile" style="display:flex;gap:8px;flex-wrap:wrap">
+        <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Locazione" required><span><span class="rtitle">Entra in locazione</span></span></label>
+        <label class="radiocard" style="flex:1 1 0"><input type="radio" name="titoloImmobile" value="Acquisto"><span><span class="rtitle">Ha acquistato l’immobile</span></span></label>
+      </div>
     </div>
   </div>
-  <div><label>Data inizio possesso / rogito <span class="req">*</span></label><input type="date" name="dataIngresso" id="dataIngresso"></div>
 </div>
 </div>
 <h2><span class="stepnum">3</span>Forniture richieste</h2>
@@ -281,12 +288,11 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 <h2 id="titoloResidenza"><span class="stepnum">4</span>Residenza e pagamento</h2>
 <div class="sec-box">
 <div class="grid">
-  <div class="full" id="bloccoResidenzaDom">
-  <div class="full choice">
-    <label style="margin-bottom:6px">Il cliente metterà la residenza presso questo indirizzo? <span class="req">*</span></label>
-    <div class="inline-choice" role="radiogroup" aria-label="Residenza presso indirizzo fornitura">
-      <label class="radiocard"><input type="radio" name="residenzaFornitura" value="Sì" required><span><span class="rtitle">Sì, metterà la residenza qui</span></span></label>
-      <label class="radiocard"><input type="radio" name="residenzaFornitura" value="No"><span><span class="rtitle">No, non metterà la residenza qui</span></span></label>
+  <div class="full choice" id="bloccoResidenzaDom">
+    <div style="font-size:.82rem;font-weight:700;margin-bottom:4px;color:#102a43">Residenza presso questo indirizzo? <span class="req">*</span></div>
+    <div class="inline-choice" role="radiogroup" aria-label="Residenza presso indirizzo fornitura" style="display:flex;gap:6px;flex-wrap:wrap">
+      <label class="radiocard" style="flex:1 1 0"><input type="radio" name="residenzaFornitura" value="Sì" required><span><span class="rtitle">Sì, metterà la residenza qui</span></span></label>
+      <label class="radiocard" style="flex:1 1 0"><input type="radio" name="residenzaFornitura" value="No"><span><span class="rtitle">No, non metterà la residenza qui</span></span></label>
     </div>
   </div>
   <div class="full choice" id="residenzaAltBox" style="display:none">
@@ -1664,4 +1670,12 @@ try{
   $('submitBtn').textContent='Invia la pratica';
 }
 });
-</script></body></html>
+</script>
+<script>
+const comuniProv={"Milano":"MI","Roma":"RM","Napoli":"NA","Torino":"TO","Palermo":"PA","Genova":"GE","Bologna":"BO","Firenze":"FI","Bari":"BA","Catania":"CT","Venezia":"VE","Verona":"VR","Messina":"ME","Taranto":"TA","Reggio Calabria":"RC","Cagliari":"CA","Perugia":"PG","Modena":"MO","Parma":"PR","Pescara":"PE","Potenza":"PZ","Reggio Emilia":"RE","Trento":"TN","Trieste":"TS","Brescia":"BS","Prato":"PO","Monza":"MB","Ravenna":"RA","Ferrara":"FE","Rimini":"RN","Livorno":"LI","Lucca":"LU","Pistoia":"PT","Arezzo":"AR","Grosseto":"GR","Siena":"SI","Terni":"TR","Rieti":"RI","Viterbo":"VT","Latina":"LT","Frosinone":"FR","Isernia":"IS","Campobasso":"CB","Cremona":"CR","Mantova":"MN","Pavia":"PV","Lodi":"LO","Como":"CO","Lecco":"LC","Sondrio":"SO","Bergamo":"BG","Varese":"VA","Novara":"NO","Asti":"AT","Alessandria":"AL","Cuneo":"CN","Imperia":"IM","Savona":"SV","La Spezia":"SP","Cremona":"CR","Piacenza":"PC"};
+['comune'].forEach(id=>{const el=document.querySelector('#'+id);if(!el)return;el.addEventListener('input',()=>{const v=el.value.trim();const p=el.closest('.sec-box')||document;const prov=p.querySelector('#provincia');if(!prov)return;for(const k in comuniProv){if(k.toLowerCase()===v.toLowerCase()){prov.value=comuniProv[k];prov.style.color='#087f5b';return;}}prov.value='';prov.style.color='inherit';});});
+Object.assign(comuniProv,{"Venezia":"VE","Mestre":"VE","Chioggia":"VE","Jesolo":"VE","Murano":"VE","Burano":"VE","Marghera":"VE","Portogruaro":"VE","San Donà di Piave":"VE","Cavallino-Treporti":"VE","Mira":"VE","Spinea":"VE","Noale":"VE","San Biagio di Callalta":"VE","Mosè":"VE","Scorzè":"VE","Martellago":"VE","Cavarzere":"VE","Caorle":"VE","Eraclea":"VE","Treporti":"VE","Fossalta di Piave":"VE","San Michele al Tagliamento":"VE","Concordia Sagittaria":"VE","San Stino di Livenza":"VE","San Vito di Leguzzano":"VE","Porte Grandi":"VE","Treviso":"TV","Mogliano Veneto":"TV","Conegliano":"TV","Vittorio Veneto":"TV","Montebelluna":"TV","Castelfranco Veneto":"TV","Paese":"TV","Silea":"TV","Preganziol":"TV","Mareno di Piave":"TV","Pieve di Soligo":"TV","Oderzo":"TV","Merenzo":"TV","Cessalto":"TV","San Biagio di Callalta":"TV","San Trovaso":"TV","Verona":"VR","San Giovanni Lupatoto":"VR","Sona":"VR","Pescantina":"VR","Negrar":"VR","Soave":"VR","Valpolicella":"VR","Bardolino":"VR","Lazise":"VR","Peschiera del Garda":"VR","Malcesine":"VR","Torbole":"VR","San Bonifacio":"VR","Vigasio":"VR","Lavagno":"VR","Grezzana":"VR","Mozzecane":"VR","Arcole":"VR","San Pietro in Cariano":"VR","Calmasino":"VR","Caprino Veronese":"VR","Sambonifacio":"VR","Montagnana":"VR","Oppeano":"VR","Bovolone":"VR","Salizzole":"VR","Legnano":"VR","Portogruaro":"VR","Borgo Panigale":"VR","Vicenza":"VI","Bassano del Grappa":"VI","Schio":"VI","Montecchio Maggiore":"VI","Arzignano":"VI","Thiene":"VI","Valdagno":"VI","Malo":"VI","Brogliano":"VI","Rosso":"VI","Caldogno":"VI","Noventa Vicentina":"VI","Altavilla Vicentina":"VI","Buglio":"VI","Chiampo":"VI","Fiume Veneto":"VI","Montecchio Precalcino":"VI","Romano d'Ezzelino":"VI","Tezze sul Brenta":"VI","Asiago":"VI","Enego":"VI","Conco":"VI","Fara Vicentino":"VI","Rotzo":"VI","Velo d'Astico":"VI","Padova":"PD","Piove di Sacco":"PD","Abano Terme":"PD","Altavilla Terme":"PD","Cittadella":"PD","Noventa Padovana":"PD","Selvazzano Dentro":"PD","Vigonovo":"PD","Este":"PD","Monselice":"PD","Bagnoli di Sopra":"PD","Legnaro":"PD","Due Carrare":"PD","Ponte San Nicolò":"PD","Rubano":"PD","Meolo":"PD","Saonara":"PD","Piazzola sul Brenta":"PD","San Giorgio in Bosco":"PD","Campodarsego":"PD","Sacro di Piove":"PD","Mossano":"PD","Rovigo":"RO","Adria":"RO","Porto Tolle":"RO","Lendinara":"RO","Badia Polesine":"RO","Taglio di Po":"RO","Polesella":"RO","Occhiobello":"RO","Villadose":"RO","Loria":"RO","San Giovanni Lupatoto":"RO","Boara Pisani":"RO","Belluno":"BL","Sedico":"BL","Longarone":"BL","Ponte nelle Alpi":"BL","Alpago":"BL","Mel":"BL","Belluno":"BL","Auronzo di Cadore":"BL","Cortina d'Ampezzo":"BL","Pieve di Cadore":"BL","San Vito di Cadore":"BL","Borca di Cadore":"BL","Zoldo Alto":"BL","Puos d'Alpago":"BL","Fortogna":"BL","Seren del Grappa":"BL","Vittorio Veneto":"BL"}); Object.assign(comuniProv,{"Calcio":"PD","Camerio":"PD","Cartura":"PD","Cassella":"PD","Cavarzere":"VE","Chiampo":"VI","Cona":"PD","Dueville":"VI","Gambellara":"VI","Grancona":"VI","Isola Vicentina":"VI","Lonigo":"VI","Montebello":"VI","Montegalda":"PD","Montegrotto Terme":"PD","Noventa Padovana":"PD","Orgiano":"VI","Piazzola sul Brenta":"PD","Sambonifacio":"VI","Sossano":"VI","Torrebelvicino":"VI","Valdagno":"VI","Velo d'Astico":"VI","Vigonovo":"PD","Villaga":"VI","Zanè":"VI"});
+Object.assign(comuniProv,{"Cordignano":"VI","Costo":"VI","Chiuppano":"VI","Colceresa":"VI","Fara":"VI","Fontaniva":"VI","Longare":"VI","Montebederetano":"VI","Longare":"VI","Montebello":"VI","Albaredo":"VI","Timoni":"VI","Alonte":"VI","Davero":"VI","Montecchio Precalcino":"VI","Salcedo":"VI","Grancona":"VI","Cordignano":"VI","Colceresa":"VI","Fara":"VI","Fontaniva":"VI","Longare":"VI","Montebederetano":"VI","Montebello":"VI","Salcedo":"VI","Sossano":"VI","Grancona":"VI","Albaredo":"VI","Timoni":"VI","Alonte":"VI","Davero":"VI","Breganze":"VI","Olmito":"VI","Torrebelvicino":"VI","Costabissara":"VI","Montebello":"VI","Vigo di Fiera":"VI","Cornedo Vicentino":"VI","Isola Vicentina":"VI","Monteviale":"VI","Brendola":"VI","Nanto":"VI","Savagnano":"VI","Arcugnano":"VI","Orgiano":"VI","Villaga":"VI","Zanè":"VI","Calcio":"PD","Camerio":"PD","Cartura":"PD","Cassella":"PD","Cavarzere":"VE","Chiampo":"VI","Cona":"PD","Dueville":"VI","Gambellara":"VI","Grancona":"VI","Isola Vicentina":"VI","Lonigo":"VI","Montebello":"VI","Montegalda":"PD","Montegrotto Terme":"PD","Noventa Padovana":"PD","Orgiano":"VI","Piazzola sul Brenta":"PD","Sambonifacio":"VI","Sossano":"VI","Torrebelvicino":"VI","Valdagno":"VI","Velo d'Astico":"VI","Vigonovo":"PD","Villaga":"VI","Zanè":"VI"});
+Object.assign(comuniProv,{"Agugliaro":"VI","Albettone":"VI","Alonte":"VI","Altavilla Vicentina":"VI","Altissimo":"VI","Arcugnano":"VI","Arsiero":"VI","Arzignano":"VI","Asiago":"VI","Asigliano Veneto":"VI","Barbarano Vicentino":"VI","Bassano del Grappa":"VI","Bolzano Vicentino":"VI","Breganze":"VI","Brendola":"VI","Bressanvido":"VI","Brogliano":"VI","Caldogno":"VI","Caltrano":"VI","Calvene":"VI","Camisano Vicentino":"VI","Campiglia dei Berici":"VI","Campolongo sul Brenta":"VI","Carrè":"VI","Cartigliano":"VI","Cassola":"VI","Castegnero":"VI","Castelgomberto":"VI","Chiampo":"VI","Chiuppano":"VI","Cismon del Grappa":"VI","Cogollo del Cengio":"VI","Conco":"VI","Cornedo Vicentino":"VI","Costabissara":"VI","Creazzo":"VI","Crespadoro":"VI","Dueville":"VI","Enego":"VI","Fara Vicentino":"VI","Foza":"VI","Gallio":"VI","Gambellara":"VI","Gambugliano":"VI","Grancona":"VI","Grisignano di Zocco":"VI","Grumolo delle Abbadesse":"VI","Isola Vicentina":"VI","Laghi":"VI","Lastebasse":"VI","Longare":"VI","Lonigo":"VI","Lugo di Vicenza":"VI","Lusiana":"VI","Malo":"VI","Marano Vicentino":"VI","Marostica":"VI","Mason Vicentino":"VI","Molvena":"VI","Montebello Vicentino":"VI","Montecchio Maggiore":"VI","Montecchio Precalcino":"VI","Monte di Malo":"VI","Montegalda":"VI","Montegaldella":"VI","Monteviale":"VI","Monticello Conte Otto":"VI","Montorso Vicentino":"VI","Mossano":"VI","Mussolente":"VI","Nanto":"VI","Nogarole Vicentino":"VI","Nove":"VI","Noventa Vicentina":"VI","Orgiano":"VI","Pedemonte":"VI","Pianezze":"VI","Piovene Rocchette":"VI","Pojana Maggiore":"VI","Posina":"VI","Pove del Grappa":"VI","Pozzoleone":"VI","Quinto Vicentino":"VI","Recoaro Terme":"VI","Roana":"VI","Romano d'Ezzelino":"VI","Rosà":"VI","Rossano Veneto":"VI","Rotzo":"VI","Salcedo":"VI","Sandrigo":"VI","San Germano dei Berici":"VI","San Nazario":"VI","San Pietro Mussolino":"VI","Santorso":"VI","San Vito di Leguzzano":"VI","Sarcedo":"VI","Sarego":"VI","Schiavon":"VI","Schio":"VI","Solagna":"VI","Sossano":"VI","Sovizzo":"VI","Tezze sul Brenta":"VI","Thiene":"VI","Tonezza del Cimone":"VI","Torrebelvicino":"VI","Torri di Quartesolo":"VI","Trissino":"VI","Valdagno":"VI","Valdastico":"VI","Valli del Pasubio":"VI","Valstagna":"VI","Velo d'Astico":"VI","Vicenza":"VI","Villaga":"VI","Villaverla":"VI","Zanè":"VI","Zermeghedo":"VI","Zovencedo":"VI","Zugliano":"VI","Calcio":"PD","Camerio":"PD","Cartura":"PD","Cassella":"PD","Cavarzere":"VE","Chiampo":"VI","Cona":"PD","Dueville":"VI","Gambellara":"VI","Grancona":"VI","Isola Vicentina":"VI","Lonigo":"VI","Montebello":"VI","Montegalda":"PD","Montegrotto Terme":"PD","Noventa Padovana":"PD","Orgiano":"VI","Piazzola sul Brenta":"PD","Sambonifacio":"VI","Sossano":"VI","Torrebelvicino":"VI","Valdagno":"VI","Velo d'Astico":"VI","Vigonovo":"PD","Villaga":"VI","Zanè":"VI"});
+</script>
+</body></html>
