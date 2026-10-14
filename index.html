@@ -3872,13 +3872,18 @@ if(_notaCf)fields.note=[clean(fields.note),_notaCf.trim()].filter(Boolean).join(
       }finally{clearTimeout(timeout23);}
       try{esito23=JSON.parse(testo23);}catch(_){esito23=null;}
       if(esito23&&esito23.ok===true)break;   // CONFERMA DIRETTA: json {ok:true,id}
+      // RISPOSTA AMBIGUA DA REDIRECT: {"ok":false,"error":"endpoint DDM Volture"} e' la risposta del doGet
+      // dopo il redirect 302 del POST: il POST e' stato eseguito (le email partono) ma il browser segue
+      // il redirect e riceve il JSON del doGet al posto della conferma. NON e' un rifiuto del server:
+      // si prosegue col canale di conferma dedicato, con ripiego sull'esito parziale.
+      if(esito23&&String(esito23.error||'')==='endpoint DDM Volture'){esito23={ok:true,id:'',confermaParziale:true};break;}
       if(esito23){ultimoErrore23=Error('Invio rifiutato dal server'+(esito23.error?': '+String(esito23.error).slice(0,140):'.'));break;}
       // Risposta NON-JSON: su Apps Script il POST viene risposto con un redirect 302->echo e a
       // volte torna una pagina HTML con 404 (anche in modo intermittente, lato Google).
       // NON e una conferma e NON e un errore certo: lo decidiamo col polling qui sotto.
       if(String(testo23||'').indexOf('endpoint DDM Volture')>=0)_vecchioEsito23={parziale:true,incerta:false};
       else if(status23===404&&/<\s*html/i.test(testo23||''))_vecchioEsito23={parziale:true,incerta:(precheckVivo23!=='vivo')};
-      else ultimoErrore23=Error('Risposta non riconosciuta dal server (HTTP '+status23+').');
+      else { ultimoErrore23=Error('Risposta non riconosciuta dal server (HTTP '+status23+').'); if(tent23<_maxTent23)continue; }
       break;
     }catch(e){
       ultimoErrore23=e;esito23=null;
@@ -3898,7 +3903,7 @@ if(_notaCf)fields.note=[clean(fields.note),_notaCf.trim()].filter(Boolean).join(
   // Se il canale non esiste (backend non ancora aggiornato) si ripiega sull'esito dedotto dal POST.
   let conferma23=null,backendVecchio=false;
   if(esito23&&esito23.ok===true){
-    conferma23={stato:'inviata',id:esito23.id||'',duplicato:!!esito23.duplicato};
+    conferma23={stato:'inviata',id:esito23.id||'',duplicato:!!esito23.duplicato,nonCerto:!!esito23.confermaParziale};
   }else{
       _barSet(60,'Attendo conferma del server','La pratica è in elaborazione — non chiudere la pagina…','#b26a00');
       const _t1=Date.now();
