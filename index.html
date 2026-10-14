@@ -127,19 +127,20 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 <li><strong>I dati della tua agenzia si scrivono una volta sola</strong> (nome, email, telefono): da lì in poi si inseriscono da soli a ogni pratica.</li>
 </ul></div>
 <div class="guida-sec"><h4>2 · Il contratto lavora per te</h4><ul>
-<li><strong>Carica il contratto di locazione digitale</strong> (sezione 2 — non serve quello firmato, basta quello preparato in agenzia): il form legge e compila da solo cliente o azienda, proprietario, indirizzo dell'immobile, dati catastali, data di inizio e sede legale.</li>
+<li><strong>Carica il contratto di locazione</strong> (sezione 2 — anche senza firme, basta quello preparato in agenzia) <strong>oppure l’avvenuta stipula del notaio</strong>: il form legge e compila da solo cliente o azienda, proprietario, indirizzo dell'immobile, dati catastali, data di inizio e sede legale.</li>
 <li><strong>Riconosce i diversi prestampati</strong> in circolazione e viene aggiornato per le nuove agenzie.</li>
-<li>Hai solo la scansione cartacea? <strong>Un link ti porta a trasformarla in PDF leggibile in 30 secondi</strong>, poi la ricarichi qui.</li>
+<li>Hai solo la scansione o una foto del contratto? <strong>Caricala direttamente: ci pensa l’OCR</strong> a leggerla nel browser, nessuna conversione necessaria.</li>
 <li><strong>Importante:</strong> verifica sempre i dati proposti — il form ti fa risparmiare tempo, la responsabilità resta tua.</li>
 </ul></div>
 <div class="guida-sec"><h4>3 · Una scelta, tutto si adatta</h4><ul>
 <li><strong>Privato o Azienda</strong>: con un click si adattano da soli i campi anagrafici, le sezioni e persino l'uso dell'acqua (domestico/non domestico).</li>
 <li><strong>Proprietario in affitto scritto una volta sola</strong>: viene riportato in automatico in tutti i punti dove serve.</li>
 <li><strong>Codice fiscale del cliente → data di nascita automatica</strong> (modulo acqua): un campo in meno da digitare.</li>
-<li>Vuoi vederlo all'opera subito? <strong>Pulsante "Compila con dati di prova"</strong> in fondo al form.</li>
+<li>Vuoi vederlo all'opera subito? <button type="button" id="btnTestFill" style="background:none;border:none;padding:0;margin:0;color:#52687b;font-size:inherit;font-weight:700;text-decoration:underline;cursor:pointer">Compila con dati di prova</button> &mdash; riempie il form con dati di esempio coerenti per provare tutto il flusso.</li>
 </ul></div>
 <div class="guida-sec"><h4>4 · POD e PDR senza telefonate al cliente</h4><ul>
 <li><strong>POD luce</strong>: 1ª scelta dalla bolletta; in alternativa basta il <strong>codice cliente di 9 cifre</strong> che vedi sul display del contatore.</li>
+<li><strong>Distributori luce e gas</strong> si compilano da soli dal comune di fornitura: controllali, ma di solito sono già quelli giusti.</li>
 <li><strong>PDR gas</strong>: dalla bolletta; dal display (contatore elettronico — premi un pulsante); dal tagliandino (contatore analogico).</li>
 <li>Non trovi il PDR da nessuna parte? <strong>Allega la foto del contatore</strong>: risaliamo noi al PDR dalla matricola.</li>
 </ul></div>
@@ -183,7 +184,7 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
   <div class="full" id="contrattoBox" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
     <div style="flex:0 1 340px;min-width:300px">
       <label>Contratto di locazione / Avvenuta stipula notarile (PDF / Word) <span style="font-weight:400;font-size:.73rem;color:#52687b">— facoltativo</span></label>
-      <div class="filebox" style="padding:6px 8px"><input type="file" id="contrattoPdf" accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword" style="padding:4px 0"><p class="hint" id="cntContratto"></p></div>
+      <div class="filebox" style="padding:6px 8px"><input type="file" id="contrattoPdf" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,image/jpeg,image/png,image/webp" style="padding:4px 0"><p class="hint" id="cntContratto"></p></div>
       <div id="contrattoEsito" class="hint" style="display:none;margin-top:4px;padding:6px 8px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:7px;line-height:1.5"></div>
     </div>
     <div style="flex:1 1 auto;min-width:240px;background:#ecfdf3;border:1.5px solid var(--ok);border-radius:9px;padding:8px 10px;line-height:1.35"><strong style="color:var(--ok);font-size:.86rem">Carica qui il contratto di Locazione (anche senza firme) o l’Avvenuta Stipula del Notaio, il form cercherà di recuperare i dati da solo!</strong></div>
@@ -432,7 +433,6 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
 
 <div class="privacy"><strong>Privacy:</strong> assicurati di aver consegnato al cliente l'informativa privacy; i dati inseriti vengono usati esclusivamente per gestire questa richiesta. La bozza locale viene conservata per massimo 30 giorni e i dati agenzia per massimo 180 giorni.</div>
 
-<div style="display:flex;gap:8px;margin-top:14px"><button type="button" id="btnTestFill" style="background:#fff;color:#52687b;border:1px dashed #aebdca">Compila con dati di prova (demo)</button></div>
  <button type="submit" id="submitBtn">Invia la pratica</button>
 <div id="invioBarBox" style="display:none;margin-top:12px;padding:10px 12px;background:#f7fafc;border:1px solid #d9e2ec;border-radius:9px">
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.84rem;color:#102a43">
@@ -598,7 +598,7 @@ const cc9=s.match(/(?:CODICE\s*CLIENTE|COD\.\s*CLT\.?|CLIENTE)\s*[:.=]?\s*([0-9O
 return '';}
 function _ddmEstraiPdr23(t){const s=String(t||'').toUpperCase().replace(/\s+/g,' ');const m=s.match(/(?:P\s*\.?\s*D\s*\.?\s*R\s*\.?|PUNTO DI RICONSEGNA)[^0-9OIL]{0,80}?((?:[0-9OIL][\s._|\/\-–—]?){14})(?![0-9OIL]|\s+[0-9OIL])/i);if(!m){const alt23=_ddmEstraiMatricola23(t);return (alt23&&/^[A-Z0-9]{8,12}$/.test(alt23))?alt23:'';}const n=m[1].replace(/[^\dOIL]/gi,'').replace(/O/g,'0').replace(/[IL]/g,'1');return /^\d{14}$/.test(n)?n:'';}
 function _ddmEstraiMatricola23(t){const s=String(t||'').toUpperCase();const m=s.match(/(?:MATR(?:ICOL[OA]|\.)|M(?:A|À)[IL1T]?RICOL[AA])(?:\s*\([^)]*\))?\s*(?:N[.°º]?\s*)?(?:DEL\s+)?(?:CONTATORE\s*)?[:=\-–—]?\s*((?:[0-9A-Z]{4,22})(?:[\s._|\/\-–—]+[0-9A-Z]{2,8}){0,3})/i);if(!m)return '';let v=m[1].trim().split(/\s+(?:CODICE|C\.?\s*F\.?|IN\s+VIA|VIA|INDIRIZZO|MATRICOLA|CONTATORE|LETTURA|DATA|IMPORTO|DESCRIZIONE|PADRE|MADRE)\b/i)[0];v=v.replace(/[^A-Z0-9]/g,'');return /^[A-Z0-9]{5,22}$/.test(v)?v:'';}
-function _ddmFileConsentito23(id,f){const ext=String(f.name||'').split('.').pop().toLowerCase(),type=String(f.type||'').toLowerCase();const bill=['pdf','jpg','jpeg','png'].includes(ext),contract=id==='contrattoPdf'&&['pdf','doc','docx'].includes(ext);const typeOk=!type||(bill?['application/pdf','image/jpeg','image/png'].includes(type):['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(type));return (bill||contract)&&typeOk&&Number(f.size||0)<=MAX_FILE;}
+function _ddmFileConsentito23(id,f){const ext=String(f.name||'').split('.').pop().toLowerCase(),type=String(f.type||'').toLowerCase();const bill=['pdf','jpg','jpeg','png'].includes(ext),contract=id==='contrattoPdf'&&['pdf','doc','docx','jpg','jpeg','png','webp'].includes(ext);const typeOk=!type||(bill?['application/pdf','image/jpeg','image/png'].includes(type):['application/pdf','application/msword','application/vnd.openxmlformats-officedocument.wordprocessingml.document'].includes(type));return (bill||contract)&&typeOk&&Number(f.size||0)<=MAX_FILE;}
 function _ddmDebug23(id,txt){try{const sec=document.getElementById(id==='bollettaLuce'?'serviceLuce':(id==='bollettaGas'?'serviceGas':'serviceAcqua'));const pre=sec?sec.querySelector('.ocr-debug-bolletta pre'):null;if(!pre)return;pre.textContent=((pre.textContent?pre.textContent+'\n---\n':'')+String(txt||'')).slice(0,12000);const det=pre.closest('details');if(det)det.open=true;}catch(_){} }
 async function leggiBolletta23(id,file,runToken){
   const tipo=id==='bollettaLuce'?'luce':(id==='bollettaGas'?'gas':'acqua');
@@ -2150,6 +2150,21 @@ async function buildEtraPdf(tipo){
   });
 })();
 (function(){
+async function _ocrImmagine23(file){
+  if(typeof Tesseract==='undefined')throw Error('OCR non caricato: ricarica la pagina (Ctrl+F5).');
+  const url=URL.createObjectURL(file);
+  try{
+    const img=await new Promise(function(res,rej){const im=new Image();im.onload=function(){res(im);};im.onerror=function(){rej(Error('Immagine non leggibile'));};im.src=url;});
+    const scale=Math.min(1.6,2000/Math.max(1,img.naturalWidth||2000));
+    const cv=document.createElement('canvas');cv.width=Math.round((img.naturalWidth||1600)*scale);cv.height=Math.round((img.naturalHeight||1200)*scale);
+    const ctx=cv.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(img,0,0,cv.width,cv.height);
+    const pooled=(window._ocrPool||[]).pop();let wk=pooled;
+    try{if(!wk)wk=await Tesseract.createWorker('ita');await wk.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}
+    const res=await wk.recognize(cv);
+    (window._ocrPool=window._ocrPool||[]).push(wk);
+    return String((res.data&&res.data.text)||'').replace(/\s+/g,' ');
+  }finally{try{URL.revokeObjectURL(url);}catch(_){}}
+}
 const inp=$('contrattoPdf');if(!inp)return;let contrattoRun=0;
   // During contract analysis the automatic values are written; any field edited BY HAND
   // by the agent is protected and never overwritten (agent's choice wins).
@@ -2520,9 +2535,11 @@ function entita(chunk){
      try{
       esito.style.display='block';esito.textContent='Lettura del contratto...';
       const name=(f.name||'').toLowerCase();
-      const isDocx=name.endsWith('.docx')||f.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const isDocx=name.endsWith('.docx')||f.type==='application/vnd.openxmlformats-officedocument.wordprocessingml.document';
       const isDoc=name.endsWith('.doc')||f.type==='application/msword';
       let txt='';
+      const isImg=/^image\//.test(f.type||'')||/\.(?:jpe?g|png|webp)$/i.test(name);
+if(isImg){esito.innerHTML='<strong>Riconoscimento in corso (OCR nel browser della foto/scansione)…</strong>';const _t=await _ocrImmagine23(f);if(run!==contrattoRun)return;txt=(_t||'').replace(/\s+/g,' ');globalThis._txtBase23=txt;globalThis._pageTxts23=[txt];wireOcr23();await analizza23(txt);return;}
       if(isDocx){
         if(typeof mammoth==='undefined'){esito.innerHTML='<strong style="color:#b42318">Lettore Word non caricato: ricarica la pagina (Ctrl+F5).</strong>';return;}
         const buf=await f.arrayBuffer();
