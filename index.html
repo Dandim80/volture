@@ -1002,6 +1002,15 @@ function updateTariMode(){
   });
   
   if(typeof aggiornaGestoreTariAuto==='function')aggiornaGestoreTariAuto();
+if(typeof window.ddmMirrorTari23==='function')window.ddmMirrorTari23();
+window.ddmMirrorTari23=function(){ try{
+  ['Foglio','Mappale','Sub'].forEach(function(k){
+    var a=$('acq'+(k==='Sub'?'Subalterno':k)),b=$('tariAbit'+k);
+    if(a&&b){ if(!clean(b.value)&&clean(a.value))b.value=a.value; else if(!clean(a.value)&&clean(b.value))a.value=b.value; }
+  });
+  var at=$('acqTipo'),bt=$('tariAbitCat');
+  if(at&&bt){ if(!clean(bt.value)&&clean(at.value))bt.value=at.value; else if(!clean(at.value)&&clean(bt.value))at.value=bt.value; }
+}catch(_){}};
   if(typeof aggiornaRecapitoTariAuto==='function')aggiornaRecapitoTariAuto();
   if(typeof aggiornaMancanti==='function')aggiornaMancanti();
 }
@@ -4664,7 +4673,12 @@ if(loc)_genCf23(loc,'acqPropNome','acqPropCF','Codice fiscale proprietario');
        if(mMap)setV('acqMappale',mMap[1]);
        if(mSub)setV('acqSubalterno',mSub[1]);
        if(mCat){(function(){var all23=[],re23=/\b(?:cat(?:egoria)?\.?)\s*[:=.\-]?\s*([A-Z])\s*[\/\\\-]?\s*(\d)\b/gi,mm23;while((mm23=re23.exec(t)))all23.push(mm23);var aA23=all23.find(function(x){return x[1]==='A';});if(aA23&&aA23[0]!==mCat[0])mCat=aA23;})();setV('acqTipo',mCat[1]+'/'+mCat[2]+(mCat[3]?'/'+mCat[3]:''));}
-       if(mFog||mMap||mSub||mCat){const parts=[];if(mFog)parts.push('foglio '+mFog[1]);if(mMap)parts.push('mappale '+mMap[1]);if(mSub)parts.push('sub '+mSub[1]);if(mCat)parts.push('cat. '+mCat[1]+'/'+mCat[2]+(mCat[3]?'/'+mCat[3]:''));ok.push('<strong>Catastali:</strong> '+parts.join(' · '));}else no.push('dati catastali');
+       if(mFog&&!clean($('tariAbitFoglio')?.value))setV('tariAbitFoglio',mFog[1]);
+if(mMap&&!clean($('tariAbitMappale')?.value))setV('tariAbitMappale',mMap[1]);
+if(mSub&&!clean($('tariAbitSub')?.value))setV('tariAbitSub',mSub[1]);
+if(mCat&&!clean($('tariAbitCat')?.value))setV('tariAbitCat',mCat[1]+'/'+mCat[2]+(mCat[3]?'/'+mCat[3]:''));
+
+if(mFog||mMap||mSub||mCat){const parts=[];if(mFog)parts.push('foglio '+mFog[1]);if(mMap)parts.push('mappale '+mMap[1]);if(mSub)parts.push('sub '+mSub[1]);if(mCat)parts.push('cat. '+mCat[1]+'/'+mCat[2]+(mCat[3]?'/'+mCat[3]:''));ok.push('<strong>Catastali:</strong> '+parts.join(' · '));}else no.push('dati catastali');
 if(mDal){const dataIso=iso(mDal[1]);if(dataIso){setV('dataIngresso',dataIso);ok.push('<strong>'+(tpl==='Avvenuta stipula (documento notarile)'?'Data del rogito notarile':'Inizio locazione')+':</strong> '+mDal[1]);}else no.push(tpl==='Avvenuta stipula (documento notarile)'?'data del rogito notarile':'data inizio possesso');}else no.push(tpl==='Avvenuta stipula (documento notarile)'?'data del rogito notarile':'data inizio possesso');
       const realiNo23=no;
       esito.innerHTML=(tpl?'<strong>Prestampato riconosciuto:</strong> '+tpl+'<br>':'')+
@@ -5329,6 +5343,7 @@ e.preventDefault(); const f=e.currentTarget;
      try{
        const _tg=($('tariGestore')||{}).value||'Magis';
        const _tt=($('tariTipo')||{}).value||'Domestico';
+       try{if(window.ddmMirrorTari23)window.ddmMirrorTari23();}catch(_){}
        const b64T=_tg==='Etra'?await buildEtraTariPdf():(_tg==='AgnoChiampo'?await buildAgnoPdf():(_tg==='AltoVicentino'?await buildAltoPdf():(_tg==='Soraris'?await buildSorarisPdf():(_tg==='TARI NOVENTA'?await buildNoventaPdf():(_tg==='TARI LONIGO'?await buildLonigoPdf():(_tg==='TARI ASIGLIANO'?await buildAsiglianoPdf():(_tg==='TARI ALONTE'?await buildAlonteDoc():(_tg==='TARI CAMPIGLIA'?await buildCampigliaPdf():(_tg==='TARI ARCUGNANO'?await buildArcugnanoPdf():await buildTariPdf())))))))));
        attachments.push({name:(_tg==='Etra'?'Modulo_ETRA_TARI_':(_tg==='AgnoChiampo'?'Modulo_AGNO_TARI_':(_tg==='AltoVicentino'?'Modulo_ALTO_TARI_':(_tg==='TARI NOVENTA'?'Modulo_NOVENTA_TARI_':(_tg==='TARI LONIGO'?'Modulo_LONIGO_TARI_':(_tg==='TARI ASIGLIANO'?'Modulo_ASIGLIANO_TARI_':(_tg==='TARI ALONTE'?'Alonte_TARI_ISTRUZIONI_Portale_':(_tg==='TARI CAMPIGLIA'?'Modulo_CAMPIGLIA_TARI_':(_tg==='TARI ARCUGNANO'?'Modulo_ARCUGNANO_TARI_':(_tg==='Soraris'?'Modulo_SORARIS_TARI_':'Modulo_MAGIS_TARI_'))))))))))+(_tt==='NonDomestico'?'NonDomestico':'Domestico')+'.pdf',data:b64T,type:'application/pdf'});
        tariGenerato=true;
