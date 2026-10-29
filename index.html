@@ -105,7 +105,7 @@ input.campo-mancante,label.campo-mancante,.radiocard.campo-mancante,.filebox.cam
   <input type="password" id="gatePassword" aria-label="Password di accesso" placeholder="Password" style="text-align:center;margin-bottom:10px" autocomplete="current-password">
   <button type="button" id="gateEntra" style="width:100%">Accedi</button>
   <p id="gateErr" style="display:none;color:#b42318;font-size:.78rem;font-weight:650;margin:8px 0 0">Accesso non riuscito. Contatta DDM Soluzioni.</p>
-  <p style="font-size:.7rem;color:#8aa0b2;margin:12px 0 0">Accesso riservato — agenzie partner DDM Soluzioni.<br>La tua email viene salvata solo su questo dispositivo; la password non viene mai salvata.</p>
+  <p style="font-size:.7rem;color:#8aa0b2;margin:12px 0 0">Accesso riservato — agenzie partner DDM Soluzioni.<br>Vuoi anche tu avere un accesso per gestire velocemente luce, gas, acqua, tari dei tuoi clienti? Contattaci al <a href="tel:3346395727" style="color:#cfe3f5;text-decoration:underline">334.6395727</a></p>
 </div>
 </div>
 <noscript><div style="position:fixed;inset:0;background:#fff;z-index:1001;display:flex;align-items:center;justify-content:center;padding:20px;text-align:center;font-family:sans-serif">Per usare il form è necessario abilitare JavaScript.</div></noscript>
@@ -2019,6 +2019,9 @@ const TARI_MAPPA={
     ['supAbb',129,376,1],['catUt',144,355.5,1],['attivita',267,335,1],
     ['foglio',145,293.5,1],['mappale',295,293.5,1],['sub',406,293.5,1],
     ['titoloNum',480,248.5,1],['usoNum',530,237.5,1],['assenzaNum',520,226.5,1],
+    // PAG 2: dati proprietario (in caso di locazione)
+    ['propFull',152,177,1],['propCF2',388,177,1],
+    ['propDitta',232,137,1],['propPiva',406,137,1],
     // PAG 4: luogo e data
     ['luogoData',141,132,3]
   ]
@@ -2882,6 +2885,11 @@ async function buildSorarisPdf(){
   const sR=parseInt(oR,10),sN=parseInt(oN,10);
   const telCli=biz?(clean($('telefonoReferente')?.value)||clean($('telefonoCliente')?.value)):clean($('telefonoCliente')?.value);
   const emCli=biz?(clean($('emailAmministrazione')?.value)||clean($('emailCliente')?.value)):clean($('emailCliente')?.value);
+  /* DATI PROPRIETARIO (solo locazione): persona fisica o società secondo il CF/P.IVA */
+  const pnP=(titolo==='Locazione'?(clean($('acqPropNome')?.value)||'').trim().toUpperCase():'');
+  const pcP=(titolo==='Locazione'?(clean($('acqPropCF')?.value)||'').trim().toUpperCase():'');
+  const propSoc=/^(?:IT)?\d{11}$/.test(pcP);
+  const _pp=(!propSoc&&pnP&&window.ddmNomeCognome23)?window.ddmNomeCognome23(pnP,pcP):null;
   const V={
     comU:comune.toUpperCase(),
     tickDom:(tipo!=='NonDomestico')?'X':'',tickNonDom:(tipo==='NonDomestico')?'X':'',
@@ -2889,7 +2897,7 @@ async function buildSorarisPdf(){
     natoA:(clean($('acqNatoA')?.value)||'').toUpperCase(),
     nascita:dNascita,cf:cf.toUpperCase(),
     via:via.toUpperCase(),civico:civico,cap:clean($('cap')?.value),
-    qualita:biz?'LEGALE RAPPRESENTANTE':'TITOLARE',
+    qualita:biz?'LEGALE RAPPRESENTANTE':'',   // privato: campo vuoto (l'utente non è un rappresentante)
     ragSoc:az,
     attivita:(clean($('tariAttivita')?.value)||'').toUpperCase(),
     sedeCom:biz?comune.toUpperCase():'',sedeVia:biz?via.toUpperCase():'',sedeCiv:biz?civico:'',sedeCap:biz?clean($('cap')?.value):'',
@@ -2900,7 +2908,7 @@ async function buildSorarisPdf(){
     tel:telCli,tel2:telCli,
     email:emCli,
     pec:biz?(clean($('pecAziendale')?.value)||'').toUpperCase():'',
-    tickFatEmail:emCli?'X':'',
+    tickFatEmail:'X',   // fattura di cortesia sempre via e-mail
     dIng:dIng,
     tickRogito:titolo==='Acquisto'?'X':'',rogData:titolo==='Acquisto'?dIng:'',
     tickLocaz:titolo==='Locazione'?'X':'',locazData:titolo==='Locazione'?dIng:'',
@@ -2912,6 +2920,9 @@ async function buildSorarisPdf(){
     titoloNum:titolo==='Acquisto'?'1':(titolo==='Locazione'?'3':''),
     usoNum:(tipo==='NonDomestico')?'3':'1',
     assenzaNum:clean($('acqFoglio')?.value)?'':'3',
+    propFull:propSoc?'':(_pp?(_pp.cognome+' '+_pp.nome).trim():pnP),
+    propCF2:pcP,
+    propDitta:propSoc?pnP:'',propPiva:propSoc?pcP:'',
     luogoData:comune.toUpperCase()+((comune&&prov)?' ('+prov.toUpperCase()+')':'')+', '+og+'/'+om+'/'+oa
   };
   const form=doc.getForm();
