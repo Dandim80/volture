@@ -546,7 +546,7 @@ Seleziona tipologia e gestore: il sistema genera il modulo del gestore o del Com
 </div>
 </div>
 </div></details>
-<details class="v20-section"><summary><span class="stepnum">5</span>Documenti</summary><div class="v20-body">
+<details class="v20-section" open><summary><span class="stepnum">5</span>Documenti</summary><div class="v20-body">
 <h2><span class="stepnum">5</span>Documenti</h2>
 <div class="sec-box">
 <p class="hint" style="margin:0 0 8px">Allega qui i documenti della pratica. Per ogni voce puoi caricare più file PDF o foto (anche più foto dello stesso documento); le immagini vengono compresse automaticamente prima dell'invio.</p>
@@ -1291,6 +1291,14 @@ function aggiornaMancanti(){
    (eccezz?'':'<br><br><span style="font-weight:600;color:#b42318">Completa i punti sopra. Se è un caso estremo, spunta "Invio eccezionale" per inviare comunque.</span>');
 }
 function pulisciEvidenza(){document.querySelectorAll('.campo-mancante').forEach(x=>x.classList.remove('campo-mancante'));}
+document.addEventListener('change',function(e){
+ var t=e.target;if(!t||t.type!=='radio'||!t.name)return;
+ var esc=(window.CSS&&CSS.escape)?CSS.escape(t.name):String(t.name).replace(/[^A-Za-z0-9_-]/g,'\\$&');
+ document.querySelectorAll('input[name="'+esc+'"]').forEach(function(r){
+  r.classList.remove('campo-mancante');
+  var c=r.closest('.radiocard');if(c)c.classList.remove('campo-mancante');
+ });
+});
 function evidenziaMancanti(senzaScroll){
   pulisciEvidenza();
   const ids=[];const luce=!!$('luce')&&$('luce').checked,gas=!!$('gas')&&$('gas').checked,biz=businessOn(),acq=!!$('acqua')&&$('acqua').checked;
