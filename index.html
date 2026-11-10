@@ -1293,7 +1293,7 @@ function aggiornaMancanti(){
 function pulisciEvidenza(){document.querySelectorAll('.campo-mancante').forEach(x=>x.classList.remove('campo-mancante'));}
 document.addEventListener('change',function(e){
  var t=e.target;if(!t||t.type!=='radio'||!t.name)return;
- var esc=(window.CSS&&CSS.escape)?CSS.escape(t.name):String(t.name).replace(/[^A-Za-z0-9_-]/g,'\\$&');
+ var esc=(window.CSS&&window.CSS.escape)?window.CSS.escape(t.name):String(t.name).replace(/[^A-Za-z0-9_-]/g,'\\$&');
  document.querySelectorAll('input[name="'+esc+'"]').forEach(function(r){
   r.classList.remove('campo-mancante');
   var c=r.closest('.radiocard');if(c)c.classList.remove('campo-mancante');
@@ -4891,7 +4891,23 @@ async function eseguiOcr23(btn){
     if(!soloVoltura)return '<span style="color:#8a9aa8">—</span>';
     return r.magis?'<span style="color:#b26a00;font-weight:700">Già Magis</span>':'No';
   }
-  function vistaLocale(){
+  window.ddmRipristinaDati23=function(dati){ try{
+  var form=document.getElementById('volturaForm'); if(!form||!dati)return false;
+  Object.keys(dati).forEach(function(k){
+    if(k==='servizi'||k.indexOf('chk_')===0)return;
+    var els=form.querySelectorAll('[name="'+((window.CSS&&window.CSS.escape)?window.CSS.escape(k):k)+'"]'); if(!els.length)return;
+    if(els[0].type==='radio'){els.forEach(function(r){r.checked=(r.value===dati[k]);});}
+    else if(els[0].type==='checkbox'){els[0].checked=true;}
+    else {els[0].value=dati[k]||'';}
+  });
+  ['luce','gas','acqua'].forEach(function(id){var c=document.getElementById(id);if(!c)return;
+    if(dati['chk_'+id]!==undefined){c.checked=true;return;}
+    var sv=String(dati.servizi||'').toLowerCase(); if(sv.indexOf(id)>=0)c.checked=true;});
+  try{window._tariTipoManuale=true;}catch(_){} try{window._tariGestoreManuale=true;}catch(_){} try{window._tariNucleoManuale=true;}catch(_){}
+  ['updateBusinessMode','updateAcquaMode','updateUsoAcqua','updateExtraFields','updateTensioneReq','updateGasDatiContatore','updateMagisHints','updateTariMode','aggiornaGestoreTariAuto','aggiornaRecapitoTariAuto','rimostraBoxesOperatori','rimostraServizi','updateCounts','aggiornaMancanti','ddmApriSezioniCompilate','marcaFonteCf23','pulisciEvidenza'].forEach(function(nm){try{var fn=window[nm];if(typeof fn==='function')fn();}catch(_){}});
+  return true;
+}catch(_){return false;}};
+function vistaLocale(){
     const arr=leggiLocal();
     if(!arr.length)return '<p style="color:#52687b">Nessuna pratica salvata su questo dispositivo.</p>';
     let h='<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:.82rem">'+
@@ -4900,11 +4916,11 @@ async function eseguiOcr23(btn){
       const d=r.data?new Date(r.data).toLocaleDateString('it-IT'):'';
       h+='<tr style="border-bottom:1px solid #eee">'+
         '<td style="padding:6px;white-space:nowrap">'+esc(d)+'</td>'+
-        '<td style="padding:6px">'+esc(r.cliente)+'</td>'+
+        '<td style="padding:6px">'+esc(r.cliente)+(r.ripristino?' <strong>[2° invio]</strong>':'')+'</td>'+
         '<td style="padding:6px;white-space:nowrap">'+esc(_serv23(r))+'</td>'+
         '<td style="padding:6px;white-space:nowrap">'+esc(_tipo23(r))+'</td>'+
         '<td style="padding:6px;white-space:nowrap">'+_magis23(r)+'</td>'+
-        '<td style="padding:6px"><button data-del="'+esc(r.id)+'">Elimina</button></td></tr>';
+        '<td style="padding:6px">'+(r.dati?'<button data-rip=\"'+esc(r.id)+'\">Ripristina dati</button> ':'')+'<button data-del="'+esc(r.id)+'">Elimina</button></td></tr>';
     });
     h+='</table></div>';
     return h;
@@ -4961,6 +4977,18 @@ async function eseguiOcr23(btn){
       '<p style="font-size:.75rem;color:#52687b;margin:0 0 6px">Solo per comodità: restano su questo browser/PC (max '+LOCAL_MAX+' pratiche, '+LOCAL_GG+' giorni). Non sostituisce l\'archivio condiviso.</p>'+vistaLocale();
     b.innerHTML=html;
     b.querySelectorAll('button[data-del]').forEach(function(bt){bt.onclick=function(){eliminaLocale(bt.getAttribute('data-del'));vistaMie();};});
+b.querySelectorAll('button[data-rip]').forEach(function(bt){bt.onclick=function(){
+  var id=bt.getAttribute('data-rip');
+  var rec=leggiLocal().filter(function(x){return x&&x.id===id;})[0];
+  if(!rec||!rec.dati){alert('Snapshot dei dati non disponibile per questa pratica.');return;}
+  if(window.ddmRipristinaDati23&&window.ddmRipristinaDati23(rec.dati)){
+    window.ddmRipristinoSecondoInvio23=true;
+    try{box.style.display='none';}catch(_){}
+    try{window.scrollTo({top:0,behavior:'smooth'});}catch(_){}
+    try{good('Dati ripristinati dalla pratica del '+new Date(Number(rec.ts)).toLocaleDateString('it-IT')+' di '+rec.cliente+'. Controlla i campi e riallega i documenti: all\u2019invio verra segnalato che si tratta di un SECONDO INVIO.');}catch(_){}
+    try{window.ddmRipristinoTs23=Number(rec.ts)||Date.now();}catch(_){}
+  }else{alert('Ripristino non riuscito.');}
+};});
   }
   async function vistaTutte(){
     const b=corpo('<p>Caricamento...</p>');
@@ -5034,7 +5062,9 @@ async function eseguiOcr23(btn){
         dataIngresso:g('dataIngresso'),acqMatricola:g('acqMatricola'),acqFoglio:g('acqFoglio'),
         acqMappale:g('acqMappale'),acqSubalterno:g('acqSubalterno'),note:g('note')
       };
-      salvaLocale(rec);
+      try{const _fr=document.getElementById('volturaForm');if(_fr){const _fd=new FormData(_fr);rec.dati=Object.fromEntries(_fd.entries());['luce','gas','acqua'].forEach(function(id){const c=document.getElementById(id);if(c&&c.checked)rec.dati['chk_'+id]='1';});}}catch(_){}
+try{if(window.ddmRipristinoSecondoInvio23)rec.ripristino='SI';}catch(_){}
+salvaLocale(rec);
       if(!S.attivo||!configurato()){console.log('Storico locale: pratica salvata su questo dispositivo.');return;}
       const j=await api('salvaPratica',{cliente:rec.cliente,tipoOp:tipoOp,luce:luce,gas:gas,acqua:acqua,magis:isMagis,hasIban:!!g('iban'),agenzia:rec.agenzia,fornitoreLuce:rec.operatoreLuce,fornitoreGas:rec.operatoreGas});
       console.log('Tracciamento: pratica',j.id,'provvigione EUR',j.importo,j.motivo?('('+j.motivo+')'):'');
@@ -5494,7 +5524,8 @@ if(_notaCf)fields.note=[clean(fields.note),_notaCf.trim()].filter(Boolean).join(
   const _t0=Date.now();
   const _fmtT=function(ms){const s=Math.floor(ms/1000);return s<60?(s+' s'):(Math.floor(s/60)+' min '+(s%60)+' s');};
   const _chiaveReq23=(function(){let s='';try{const a=new Uint8Array(10);(window.crypto||window.msCrypto).getRandomValues(a);for(let i=0;i<a.length;i++)s+=('0'+a[i].toString(16)).slice(-2);}catch(_){s=Math.random().toString(16).slice(2);}return (s+Date.now().toString(36)).toUpperCase().slice(0,28);})();
-  const payload={token:'3iMn0WlVbR4wYcNsHhJ1p5UarKd89e2Pv7OkDyjumBT6zSIQ',idRichiesta:_chiaveReq23,fields,attachments};
+  try{if(window.ddmRipristinoSecondoInvio23){fields.ripristino='S\u00CC';fields.note=(clean(fields.note)?clean(fields.note)+' — ':'')+'⚠ SECONDO INVIO: dati ripristinati dal pannello Le mie pratiche (pratica del '+(function(){try{return new Date(Number(window.ddmRipristinoTs23)).toLocaleDateString('it-IT');}catch(_){return '?'}})()+'); verificare se duplicato della precedente';}}catch(_){}
+const payload={token:'3iMn0WlVbR4wYcNsHhJ1p5UarKd89e2Pv7OkDyjumBT6zSIQ',idRichiesta:_chiaveReq23,fields,attachments};
   const corpoInvio23=JSON.stringify(payload);
   const _btn23=$('submitBtn');if(_btn23){_btn23.disabled=true;_btn23.dataset.testoPrima=_btn23.textContent;_btn23.textContent='Invio in corso...';}
   _barMostra();_barSet(3,'Preparazione della richiesta','Sto raggruppando i dati e gli allegati…','#087f5b');
@@ -5618,7 +5649,7 @@ if(_notaCf)fields.note=[clean(fields.note),_notaCf.trim()].filter(Boolean).join(
     _barSet(100,'Esito NON confermato','ID '+_chiaveReq23+' — non reinviare: controlla la mail entro 15 minuti o contatta DDM comunicando questo ID.','#b42318');
     throw Error('INVIO NON CONFERMATO (ID '+_chiaveReq23+'): la richiesta potrebbe essere comunque partita. NON rinviare: attendi la mail di conferma (controlla anche lo spam) oppure contatta DDM comunicando questo ID.');
   }
-  try{if(window.DDM_TRACK&&(DDM_TRACK.S.attivo||(function(){try{return !!localStorage.getItem('ddm_agent_email');}catch(_){return false;}})()))DDM_TRACK.salvaDaForm();}catch(_){}
+  try{if(window.DDM_TRACK&&(DDM_TRACK.S.attivo||(function(){try{return !!localStorage.getItem('ddm_agent_email');}catch(_){return false;}})()))DDM_TRACK.salvaDaForm();}catch(_){}try{window.ddmRipristinoSecondoInvio23=false;window.ddmRipristinoTs23=0;}catch(_){}
 
   f.reset();
   try{window.ddmPulisciManual&&window.ddmPulisciManual();}catch(_){}
