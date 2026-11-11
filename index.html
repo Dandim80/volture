@@ -232,12 +232,12 @@ if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded"
     </div>
   </div>
   <div class="full" id="contrattoBox" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+    <div style="flex:1 1 100%;background:#ecfdf3;border:1.5px solid var(--ok);border-radius:9px;padding:8px 10px;line-height:1.35"><strong style="color:var(--ok);font-size:.86rem">Carica qui il contratto di Locazione (anche senza firme) o l’Avvenuta Stipula del Notaio: il form recupera i dati da solo!</strong> <span style="font-size:.78rem;color:#0b4f7d">💡 Il riconoscimento è <strong>più veloce con il file Word senza firme e scansioni</strong>: il testo viene letto subito, senza OCR. Con PDF o pagine scansionate serve l’OCR e ci vuole più tempo. Sono supportati anche i file <strong>.doc</strong> (oltre a .docx).</span></div>
     <div style="flex:0 1 340px;min-width:300px">
       <label>Contratto di locazione / Avvenuta stipula notarile (PDF / Word) <span style="font-weight:400;font-size:.73rem;color:#52687b">— facoltativo</span></label>
       <div class="filebox" style="padding:6px 8px"><input type="file" id="contrattoPdf" accept=".pdf,.docx,.doc,.jpg,.jpeg,.png,.webp,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword,image/jpeg,image/png,image/webp" style="padding:4px 0"><p class="hint" id="cntContratto"></p></div>
       <div id="contrattoEsito" class="hint" style="display:none;margin-top:4px;padding:6px 8px;background:#eef7ff;border:1px solid #bfd4e6;border-radius:7px;line-height:1.5"></div>
     </div>
-    <div style="flex:1 1 auto;min-width:240px;background:#ecfdf3;border:1.5px solid var(--ok);border-radius:9px;padding:8px 10px;line-height:1.35"><strong style="color:var(--ok);font-size:.86rem">Carica qui il contratto di Locazione (anche senza firme) o l’Avvenuta Stipula del Notaio, il form cercherà di recuperare i dati da solo!</strong></div>
     <div id="conduttoreUnitBox" style="flex:1 1 100%;margin-top:2px"></div>
   </div>
   <div class="full" id="bloccoDomestico"><div class="row-4">
@@ -559,7 +559,7 @@ Seleziona tipologia e gestore: il sistema genera il modulo del gestore o del Com
 </div>
 </div>
 </div></details>
-<div class="choice" style="margin-top:18px;border-color:#e7b65d;background:#fffaf0"><label style="font-weight:500;margin:0;display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="invioEccezionale" id="invioEccezionale" style="width:auto;margin-top:4px"> <span><strong>Invio eccezionale con dati/documenti da integrare</strong><br><small>Usa solo se non è possibile recuperare subito tutte le informazioni. La richiesta verrà inviata comunque e la mail riporterà automaticamente l’elenco di ciò che manca.</small></span></label><p id="invioEccezWarn" style="display:none;margin:10px 0 0;padding:8px 10px;background:#fdecea;border:1px solid #b42318;border-radius:7px;color:#b42318;font-weight:700;font-size:.82rem">ATTENZIONE: con l'invio eccezionale la pratica arriva comunque con l'elenco dei dati e documenti mancanti, che vanno completati a breve. Usalo solo quando non è possibile recuperare subito le informazioni.</p></div><div id="mancantiPreview" class="hint" style="display:none;margin:10px 0 0;padding:10px 12px;background:#fff7e6;border-radius:8px"></div>
+<div class="choice" id="invioEccezionaleBox" style="margin-top:18px;border-color:#e7b65d;background:#fffaf0;display:none"><label style="font-weight:500;margin:0;display:flex;gap:9px;align-items:flex-start"><input type="checkbox" name="invioEccezionale" id="invioEccezionale" style="width:auto;margin-top:4px"> <span><strong>Invio eccezionale con dati/documenti da integrare</strong><br><small>Usa solo se non è possibile recuperare subito tutte le informazioni. La richiesta verrà inviata comunque e la mail riporterà automaticamente l’elenco di ciò che manca.</small></span></label><p id="invioEccezWarn" style="display:none;margin:10px 0 0;padding:8px 10px;background:#fdecea;border:1px solid #b42318;border-radius:7px;color:#b42318;font-weight:700;font-size:.82rem">ATTENZIONE: con l'invio eccezionale la pratica arriva comunque con l'elenco dei dati e documenti mancanti, che vanno completati a breve. Usalo solo quando non è possibile recuperare subito le informazioni.</p></div><div id="mancantiPreview" class="hint" style="display:none;margin:10px 0 0;padding:10px 12px;background:#fff7e6;border-radius:8px"></div>
 
 <div class="privacy"><strong>Privacy:</strong> assicurati di aver consegnato al cliente l'informativa privacy; i dati inseriti vengono usati esclusivamente per gestire questa richiesta. La bozza locale viene conservata per massimo 30 giorni e i dati agenzia per massimo 180 giorni.</div>
 
@@ -774,7 +774,9 @@ async function leggiBolletta23(id,file,runToken){
         ctx.putImageData(dati,0,0);
          const pooled=(window._ocrPool||[]).pop();let wk=pooled;
          try{if(!wk)wk=await Tesseract.createWorker('ita');await wk.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}
-         try{const res=await wk.recognize(cv);txt=(res.data.text||'').replace(/\s+/g,' ');window._ocrPool=window._ocrPool||[];window._ocrPool.push(wk);}catch(e){try{if(wk&&wk.terminate)await wk.terminate();}catch(_){}throw e;}
+         if(!wk||!wk.recognize)throw Error('Motore OCR non disponibile: ricarica la pagina (Ctrl+F5) e riprova.');
+         let res=null;try{res=await Promise.race([wk.recognize(cv),new Promise(function(_,rj){setTimeout(function(){rj(new Error('OCR tempo scaduto: riprova.'));},180000);})]);}catch(e){try{wk.terminate();}catch(_2){}throw e;}
+         txt=(res.data&&res.data.text||'').replace(/\s+/g,' ');window._ocrPool=window._ocrPool||[];window._ocrPool.push(wk);
       }finally{try{URL.revokeObjectURL(url);}catch(_){}}
     }else{
       if(typeof pdfjsLib==='undefined') throw Error('Libreria PDF non caricata: ricarica la pagina (Ctrl+F5).');
@@ -802,7 +804,7 @@ async function leggiBolletta23(id,file,runToken){
         const prog23=()=>{const pct=totale?Math.round(done*100/totale):100;if(bar){bar.style.display='block';bar.querySelector('.ocr-progress-fill').style.width=pct+'%';bar.querySelector('.ocr-progress-txt').textContent='OCR '+tipo+': '+done+' di '+totale+' letture'+(failed?' · '+failed+' errori':'');}};
         const ocrUna23=async function(rot,pag){
           const tmp=await doc.getPage(pag);
-          try{const baseVp=tmp.getViewport({scale:1,rotation:rot}),scale=Math.min(1.6,1600/Math.max(1,baseVp.width),2400/Math.max(1,baseVp.height)),vp=tmp.getViewport({scale,rotation:rot});const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;const cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;await tmp.render({canvasContext:cx,viewport:vp}).promise;const dati=cx.getImageData(0,0,cv.width,cv.height);for(let p=0;p<dati.data.length;p+=4){let grey=(dati.data[p]*.3+dati.data[p+1]*.59+dati.data[p+2]*.11);grey=Math.max(0,Math.min(255,Math.round((grey-128)*1.35+128)));dati.data[p]=dati.data[p+1]=dati.data[p+2]=grey;}cx.putImageData(dati,0,0);const pooled=(window._ocrPool||[]).pop();let wk=pooled;try{if(!wk)wk=await Tesseract.createWorker('ita');await wk.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}const res=await wk.recognize(cv);const out={text:res.data.text||'',confidence:res.data.confidence||0};window._ocrPool=window._ocrPool||[];window._ocrPool.push(wk);return out;}catch(e){try{if(wk&&wk.terminate)await wk.terminate();}catch(_){}throw e;}finally{try{tmp.cleanup();}catch(_){}}
+          try{const baseVp=tmp.getViewport({scale:1,rotation:rot}),scale=Math.min(1.6,1600/Math.max(1,baseVp.width),2400/Math.max(1,baseVp.height)),vp=tmp.getViewport({scale,rotation:rot});const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;const cx=cv.getContext('2d');cx.imageSmoothingEnabled=false;await tmp.render({canvasContext:cx,viewport:vp}).promise;const dati=cx.getImageData(0,0,cv.width,cv.height);for(let p=0;p<dati.data.length;p+=4){let grey=(dati.data[p]*.3+dati.data[p+1]*.59+dati.data[p+2]*.11);grey=Math.max(0,Math.min(255,Math.round((grey-128)*1.35+128)));dati.data[p]=dati.data[p+1]=dati.data[p+2]=grey;}cx.putImageData(dati,0,0);const pooled=(window._ocrPool||[]).pop();let wk=pooled;try{if(!wk)wk=await Tesseract.createWorker('ita');await wk.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}if(!wk||!wk.recognize)throw Error('Motore OCR non disponibile: ricarica la pagina (Ctrl+F5) e riprova.');let res=null;try{res=await Promise.race([wk.recognize(cv),new Promise(function(_,rj){setTimeout(function(){rj(new Error('OCR tempo scaduto: riprova.'));},180000);})]);}catch(e){try{wk.terminate();}catch(_2){}throw e;}const out={text:(res.data&&res.data.text)||'',confidence:(res.data&&res.data.confidence)||0};window._ocrPool=window._ocrPool||[];window._ocrPool.push(wk);return out;}catch(e){try{if(wk&&wk.terminate)await wk.terminate();}catch(_){}throw e;}finally{try{tmp.cleanup();}catch(_){}}
         };
         prog23();
         const worker=async function(){while(tasks.length&&runOk()){const tk=tasks.shift();try{const result=await ocrUna23(tk.rot,tk.pag);if(!pageTexts[tk.pag])pageTexts[tk.pag]=[];pageTexts[tk.pag].push(result.text||'');done++;refresh();}catch(_){failed++;}prog23();}};
@@ -1254,6 +1256,7 @@ if(biz){
   if(!document.querySelector('input[name="codiceFiscale"]')||!clean(document.querySelector('input[name="codiceFiscale"]').value))m.push('Codice fiscale cliente');
   if(!document.querySelector('input[name="residenzaFornitura"]:checked'))m.push('Indicazione residenza');
 }
+if(!document.querySelector('input[name="agenzia"]')||!clean(document.querySelector('input[name="agenzia"]').value))m.push('Nome agenzia');
 if(!document.querySelector('input[name="via"]')||!clean(document.querySelector('input[name="via"]').value))m.push('Via immobile / fornitura');
 if(!document.querySelector('input[name="civico"]')||!clean(document.querySelector('input[name="civico"]').value))m.push('Civico');
 if(!document.querySelector('input[name="comune"]')||!clean(document.querySelector('input[name="comune"]').value))m.push('Comune');
@@ -1285,7 +1288,7 @@ function aggiornaMancanti(){
   const p=$('mancantiPreview');if(!p)return;
   const eccezz=!!($('invioEccezionale')&&$('invioEccezionale').checked);
   const m=elencoMancanti();
-  if(!m.length){p.style.display='none';return;}
+  if(!m.length){p.style.display='none';try{const _bx23=$('invioEccezionaleBox');if(_bx23)_bx23.style.display=eccezz?'':'none';}catch(_){}return;}
   p.style.display='block';
   p.innerHTML='<strong>'+(eccezz?'La mail segnalerà questi elementi da integrare:':'Dati/documenti mancanti per inviare la pratica:')+'</strong><br>• '+m.join('<br>• ')+
    (eccezz?'':'<br><br><span style="font-weight:600;color:#b42318">Completa i punti sopra. Se è un caso estremo, spunta "Invio eccezionale" per inviare comunque.</span>');
@@ -1314,7 +1317,7 @@ function evidenziaMancanti(senzaScroll){
     ['cliente','telefonoCliente','emailCliente','codiceFiscale'].forEach(id=>{if(vuoto(id))ids.push(id);});
     if(!document.querySelector('input[name="residenzaFornitura"]:checked'))ids.push('residenzaFornitura');
   }
-  ['via','civico','comune','provincia','cap','dataIngresso'].forEach(id=>{if(vuoto(id))ids.push(id);});if($('componenteStoricaBox')&&$('componenteStoricaBox').style.display!=='none'&&vuoto('componenteStorica'))ids.push('componenteStorica');
+  ['agenzia','via','civico','comune','provincia','cap','dataIngresso'].forEach(id=>{if(vuoto(id))ids.push(id);});if($('componenteStoricaBox')&&$('componenteStoricaBox').style.display!=='none'&&vuoto('componenteStorica'))ids.push('componenteStorica');
   if(!document.querySelector('input[name="titoloImmobile"]:checked'))ids.push('titoloImmobile');
   if(!document.querySelector('input[name="metodoPagamento"]:checked'))ids.push('metodoPagamento');
   if(luce){if(!document.querySelector('input[name="tipoLuce"]:checked'))ids.push('tipoLuce');if(vuoto('operatoreLuce')&&document.querySelector('input[name="tipoLuce"]:checked')&&document.querySelector('input[name="tipoLuce"]:checked').value==='Voltura')ids.push('operatoreLuce');if(!pickedFiles.bollettaLuce.length&&vuoto('pod'))ids.push('pod','bollettaLuce');}
@@ -3722,7 +3725,8 @@ async function _ocrImmagine23(file){
     const ctx=cv.getContext('2d');ctx.imageSmoothingEnabled=false;ctx.drawImage(img,0,0,cv.width,cv.height);
     const pooled=(window._ocrPool||[]).pop();let wk=pooled;
     try{if(!wk)wk=await Tesseract.createWorker('ita');await wk.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}
-    const res=await wk.recognize(cv);
+    if(!wk||!wk.recognize)throw Error('Motore OCR non disponibile: ricarica la pagina (Ctrl+F5) e riprova.');
+    let res=null;try{res=await Promise.race([wk.recognize(cv),new Promise(function(_,rj){setTimeout(function(){rj(new Error('OCR tempo scaduto: riprova.'));},180000);})]);}catch(e){try{wk.terminate();}catch(_2){}throw e;}
     (window._ocrPool=window._ocrPool||[]).push(wk);
     return String((res.data&&res.data.text)||'').replace(/\s+/g,' ');
   }finally{try{URL.revokeObjectURL(url);}catch(_){}}
@@ -4108,8 +4112,35 @@ if(isImg){esito.innerHTML='<strong>Riconoscimento in corso (OCR nel browser dell
         const res=await mammoth.extractRawText({arrayBuffer:buf});
         txt=res.value||'';globalThis._pageTxts23=[txt];
       }else if(isDoc){
-        esito.innerHTML='<strong style="color:#b42318">Formato .doc legacy non supportato.</strong> Salva il contratto come <strong>.docx</strong> (Word → "Salva con nome" → Formato: Documento Word) oppure esportalo in <strong>PDF</strong> e ricaricalo qui.';
-        return;
+        const buf=await f.arrayBuffer();
+        const u8=new Uint8Array(buf);
+        let bin='';const CH=32768;
+        for(let q=0;q<u8.length;q+=CH)bin+=String.fromCharCode.apply(null,u8.subarray(q,Math.min(u8.length,q+CH)));
+        if(bin.slice(0,5)==='{\\rtf'){
+          // RTF travestito da .doc: si tolgono i comandi RTF e si recuperano le lettere accentate
+          const MAP={'e0':'à','e8':'è','e9':'é','ec':'ì','f2':'ò','f9':'ù','c0':'À','c8':'È','c9':'É','cc':'Ì','d2':'Ò','d9':'Ù'};
+          txt=bin.replace(/\\'([0-9a-fA-F]{2})/g,function(_,h){return MAP[h.toLowerCase()]||' ';}).replace(/\\[a-zA-Z]+-?[0-9]* ?/g,' ').replace(/[{}]/g,' ').replace(/\s+/g,' ');
+        }else{
+          // .doc binario (Word vecchio): si tengono solo le sequenze di caratteri leggibili
+          txt=bin.replace(/[^\x20-\x7E\xA0-\xFF\n\r]/g,'\n');
+        }
+        const RE23=/[A-Za-z0-9ÀÈÉÌÒÙàèéìòù°'"@.,;:!?()\-\/ ]{6,}/g;
+        let runs=txt.match(RE23)||[];
+        txt=runs.join(' ').replace(/\s+/g,' ');
+        let NL23=txt.replace(/[^A-Za-z]/g,'').length;
+        if(NL23<400){
+          // secondo tentativo: alcuni .doc salvano il testo a 16 bit (UTF-16LE)
+          let u2='';for(let q=0;q+1<u8.length;q+=2)u2+=String.fromCharCode(u8[q]|(u8[q+1]<<8));
+          const runs2=u2.replace(/[^\x20-\x7E\xA0-\xFF\n\r]/g,'\n').match(RE23)||[];
+          const t2=runs2.join(' ').replace(/\s+/g,' ');
+          if(t2.replace(/[^A-Za-z]/g,'').length>NL23){txt=t2;NL23=txt.replace(/[^A-Za-z]/g,'').length;}
+        }
+        if(NL23<400){
+          esito.innerHTML='<strong style="color:#b42318">Non riesco a leggere il testo dal file .doc (formato Word vecchio, vuoto o protetto).</strong> Salva come <strong>.docx</strong> (Word → "Salva con nome" → Formato: Documento Word) oppure esportalo in <strong>PDF</strong> e ricaricalo qui.';
+          return;
+        }
+        esito.innerHTML='<strong style="color:#087f5b">File .doc letto in modalità compatibile: analisi del testo...</strong>';
+        globalThis._pageTxts23=[txt];
       }else{
         if(typeof pdfjsLib==='undefined'){esito.innerHTML='<strong style="color:#b42318">Lettore PDF non caricato: ricarica la pagina (Ctrl+F5).</strong>';return;}
         const buf=await f.arrayBuffer();
@@ -4766,7 +4797,7 @@ async function eseguiOcr23(btn){
       const nW=Math.min(3,Math.max(1,scans.length));
       const coda=scans.slice();
       let n=0;
-      const lanciaWorker=async()=>{const pw=(window._ocrPool||[]).pop();const w=pw||await Tesseract.createWorker('ita');try{await w.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}return w;};
+      const lanciaWorker=async()=>{const pw=(window._ocrPool||[]).pop();const w=pw||await Tesseract.createWorker('ita');try{await w.setParameters({tessedit_pageseg_mode:'6'});}catch(_){}if(!w||!w.recognize)throw Error('Motore OCR non disponibile: ricarica la pagina (Ctrl+F5) e riprova.');return w;};
       const processa=async(wk,pn)=>{
         const pg=await doc.getPage(pn);const vp=pg.getViewport({scale:1.6});
         const cv=document.createElement('canvas');cv.width=vp.width;cv.height=vp.height;
@@ -4775,13 +4806,13 @@ async function eseguiOcr23(btn){
         const dati=cv.getContext('2d').getImageData(0,0,cv.width,cv.height);
         for(let p=0;p<dati.data.length;p+=4){let grey=(dati.data[p]*0.3+dati.data[p+1]*0.59+dati.data[p+2]*0.11);grey=Math.max(0,Math.min(255,Math.round((grey-128)*1.35+128)));dati.data[p]=dati.data[p+1]=dati.data[p+2]=grey;}
         ctx.putImageData(dati,0,0);
-        const res=await wk.recognize(cv);
+        let res=null;try{res=await Promise.race([wk.recognize(cv),new Promise(function(_,rj){setTimeout(function(){rj(new Error('OCR tempo scaduto: riprova.'));},180000);})]);}catch(e){try{wk.terminate();}catch(_2){}throw e;}
         merged[pn-1]='\n'+(res.data.text||'');
         n++;try{btn&&(btn.textContent='OCR in corso... pagine fatte '+n+'/'+scans.length);}catch(_){}try{__ocrBarraC23('OCR in corso: '+n+' di '+scans.length+' pagine',Math.round(n*100/scans.length));}catch(_){}
         return res;
       };
       const workers=await Promise.all(Array.from({length:Math.min(nW,scans.length)},()=>lanciaWorker()));
-      const job=async()=>{while(coda.length){const pn=coda.shift();const wk=workers.pop();if(!wk){coda.unshift(pn);await new Promise(r=>setTimeout(r,400));continue;}try{await processa(wk,pn);}finally{workers.push(wk);}}};
+      const job=async()=>{while(coda.length){const pn=coda.shift();const wk=workers.pop();if(!wk){coda.unshift(pn);await new Promise(r=>setTimeout(r,400));continue;}try{await processa(wk,pn);}catch(_pe23){throw _pe23;}finally{workers.push(wk);}}};
       await Promise.all(Array.from({length:Math.min(3,scans.length)},(_,i)=>job()));
       if(workers.length){try{window._ocrPool=window._ocrPool||[];window._ocrPool.push(workers[0]);}catch(_){}}
       await Promise.all(workers.slice(1).map(w=>w.terminate && w.terminate()));
@@ -4895,6 +4926,7 @@ async function eseguiOcr23(btn){
   var form=document.getElementById('volturaForm'); if(!form||!dati)return false;
   Object.keys(dati).forEach(function(k){
     if(k==='servizi'||k.indexOf('chk_')===0)return;
+    if(k==='invioEccezionale')return;
     var els=form.querySelectorAll('[name="'+((window.CSS&&window.CSS.escape)?window.CSS.escape(k):k)+'"]'); if(!els.length)return;
     if(els[0].type==='radio'){els.forEach(function(r){r.checked=(r.value===dati[k]);});}
     else if(els[0].type==='checkbox'){els[0].checked=true;}
@@ -4903,6 +4935,7 @@ async function eseguiOcr23(btn){
   ['luce','gas','acqua'].forEach(function(id){var c=document.getElementById(id);if(!c)return;
     if(dati['chk_'+id]!==undefined){c.checked=true;return;}
     var sv=String(dati.servizi||'').toLowerCase(); if(sv.indexOf(id)>=0)c.checked=true;});
+  try{var _ec23=document.getElementById('invioEccezionale');if(_ec23)_ec23.checked=false;}catch(_){} try{var _bx23=document.getElementById('invioEccezionaleBox');if(_bx23)_bx23.style.display='none';}catch(_){}
   try{window._tariTipoManuale=true;}catch(_){} try{window._tariGestoreManuale=true;}catch(_){} try{window._tariNucleoManuale=true;}catch(_){}
   ['updateBusinessMode','updateAcquaMode','updateUsoAcqua','updateExtraFields','updateTensioneReq','updateGasDatiContatore','updateMagisHints','updateTariMode','aggiornaGestoreTariAuto','aggiornaRecapitoTariAuto','rimostraBoxesOperatori','rimostraServizi','updateCounts','aggiornaMancanti','ddmApriSezioniCompilate','marcaFonteCf23','pulisciEvidenza'].forEach(function(nm){try{var fn=window[nm];if(typeof fn==='function')fn();}catch(_){}});
   return true;
@@ -5209,6 +5242,7 @@ else els[0].value=v;
       aggiornaMancanti();
       const w=$('invioEccezWarn');if(w)w.style.display=$('invioEccezionale').checked?'block':'none';
       try{window.ddmBloccaEmailAgenzia&&window.ddmBloccaEmailAgenzia();}catch(_){}
+      try{var _ec23=document.getElementById('invioEccezionale');if(_ec23)_ec23.checked=false;}catch(_){} try{var _bx23=document.getElementById('invioEccezionaleBox');if(_bx23)_bx23.style.display='none';}catch(_){}
       good('Bozza ripristinata: controlla i dati e gli allegati, poi invia.');
     });
 if(bar)bar.style.display='none';
@@ -5243,7 +5277,7 @@ e.preventDefault(); const f=e.currentTarget;
    if(!ENDPOINT || ENDPOINT.startsWith('INCOLLA') || ENDPOINT.startsWith('INSERISCI') || !/^https:\/\/script\.google\.com\/macros\/s\//.test(ENDPOINT)) throw Error('Configurazione non completata: inserisci l\'URL del Web App Apps Script nel file index_v26.html (riga ENDPOINT).');
    const invioEl=$('invioEccezionale');
    const forzato=!!invioEl&&invioEl.checked;
-   if(!forzato&&!f.checkValidity()){const _inv23=f.querySelectorAll(':invalid').length;f.reportValidity();err('Prima di inviare completa i '+_inv23+' campi evidenziati in rosso sul form (bordo rosso e tooltip sul campo).');return}
+   if(!forzato&&!f.checkValidity()){const _inv23=f.querySelectorAll(':invalid').length;f.reportValidity();try{evidenziaMancanti();}catch(_){}err('Prima di inviare completa i '+_inv23+' campi evidenziati in rosso sul form (bordo rosso e tooltip sul campo). L\u2019elenco completo dei dati mancanti è nel riquadro qui sotto.');return}
    const luce=!!$('luce')&&$('luce').checked, gas=!!$('gas')&&$('gas').checked, acqua=!!$('acqua')&&$('acqua').checked;
   const podEl=$('pod'), pdrEl=$('pdr'), opLEl=$('operatoreLuce'), opGEl=$('operatoreGas');
   const biz=businessOn();
@@ -5252,9 +5286,10 @@ e.preventDefault(); const f=e.currentTarget;
    if(!forzato&&clean($('acqPropCF')?.value)&&!cfOrPivaValido23(clean($('acqPropCF').value)))throw Error('Il codice fiscale/P.IVA del proprietario non è valido.');
   if(!forzato && mancanti.length){
     evidenziaMancanti();
+    try{const _bx23=$('invioEccezionaleBox');if(_bx23)_bx23.style.display='';}catch(_){}
     const p=$('mancantiPreview');
-    if(p){p.style.display='block';p.innerHTML='<strong>Dati mancanti da integrare:</strong><br>• '+mancanti.join('<br>• ')+'<br><br><span style="font-weight:600;color:#b42318">Per inviare comunque spunta il flag <strong>Invio eccezionale</strong>.</span>';}
-    throw Error('Per inviare normalmente completa: '+mancanti.join('; ')+'. Se è un caso estremo, spunta il flag di invio eccezionale.');
+    if(p){p.style.display='block';p.innerHTML='<strong>Dati mancanti da integrare:</strong><br>• '+mancanti.join('<br>• ')+'<br><br><span style="font-weight:600;color:#b42318">Se non puoi recuperare i dati, usa l\u2019opzione <strong>Invio eccezionale</strong> che ora appare sopra.</span>';}
+    throw Error('Per inviare normalmente completa: '+mancanti.join('; ')+'. Se è un caso estremo e non puoi recuperare i dati, usa l\u2019opzione Invio eccezionale che ora appare sopra.');
   }
   const resSel=document.querySelector('input[name="residenzaFornitura"]:checked')?.value||'';
   const resMod=document.querySelector('input[name="residenzaModalita"]:checked')?.value||'';
