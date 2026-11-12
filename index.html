@@ -1291,7 +1291,7 @@ function aggiornaMancanti(){
   if(!m.length){p.style.display='none';try{const _bx23=$('invioEccezionaleBox');if(_bx23)_bx23.style.display=eccezz?'':'none';}catch(_){}return;}
   p.style.display='block';
   p.innerHTML='<strong>'+(eccezz?'La mail segnalerà questi elementi da integrare:':'Dati/documenti mancanti per inviare la pratica:')+'</strong><br>• '+m.join('<br>• ')+
-   (eccezz?'':'<br><br><span style="font-weight:600;color:#b42318">Completa i punti sopra. Se è un caso estremo, spunta "Invio eccezionale" per inviare comunque.</span>');
+   (eccezz?'':'<br><br><span style="font-weight:600;color:#b42318">Completa i punti mancanti. Se vuoi proseguire comunque, clicca su INVIA PRATICA, apparirà \"Invio eccezionale\" per inviare comunque con i dati o doc mancanti. Usala solo se strettamente necessario.</span>');
 }
 function pulisciEvidenza(){document.querySelectorAll('.campo-mancante').forEach(x=>x.classList.remove('campo-mancante'));}
 document.addEventListener('change',function(e){
